@@ -21,6 +21,8 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
+#include <string>
+
 #define BOOST_BIND_GLOBAL_PLACEHOLDERS
 
 #define VERSION_MAJOR @VERSION_MAJOR@
