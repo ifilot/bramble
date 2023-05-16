@@ -223,7 +223,7 @@ void CNA::write_analysis(const std::string& filename) {
         const auto& element = this->state->get_elements()[i];
 
         outfile << boost::format("%04i  %2s  %12.6f  %12.6f  %12.6f  %6s  %12s  %s\n")
-            % (i+1) % element % atompos(i,0) % atompos(i,1) % atompos(i,2)
+            % (i+1) % element % atompos[0] % atompos[1] % atompos[2]
             % this->pl->get_pattern(this->fingerprints[i]).get_color()
             % this->pl->identify_pattern(this->fingerprints[i]) % this->fingerprints[i];
     }

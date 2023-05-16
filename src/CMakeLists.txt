@@ -36,7 +36,7 @@ execute_process(
 # prepare configuration file
 SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "1")
-SET(VERSION_MICRO "0")
+SET(VERSION_MICRO "1")
 configure_file(config.h.in ../src/config.h @ONLY)
 
 # Enable release build
