@@ -1,0 +1,50 @@
+ #*************************************************************************
+ #   CMakeLists.txt  --  This file is part of BRAMBLE.                    *
+ #                                                                        *
+ #   Author: Ivo Filot <i.a.w.filot@tue.nl>                               *
+ #                                                                        *
+ #   BRAMBLE is free software: you can redistribute it and/or modify      *
+ #   it under the terms of the GNU General Public License as published    *
+ #   by the Free Software Foundation, either version 3 of the License,    *
+ #   or (at your option) any later version.                               *
+ #                                                                        *
+ #   BRAMBLE is distributed in the hope that it will be useful,           *
+ #   but WITHOUT ANY WARRANTY; without even the implied warranty          *
+ #   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.              *
+ #   See the GNU General Public License for more details.                 *
+ #                                                                        *
+ #   You should have received a copy of the GNU General Public License    *
+ #   along with this program.  If not, see http://www.gnu.org/licenses/.  *
+ #                                                                        *
+ #*************************************************************************/
+
+#######################################################
+# define tests
+#######################################################
+SET(TESTS
+    test_basic
+    test_geo
+    test_xyz
+    test_error
+    test_poscar
+    test_cna
+    )
+
+foreach(testexec ${TESTS})
+    add_executable(${testexec} ${testexec}.cpp)
+    target_link_libraries(${testexec}
+                          bramblesources
+                          ${Boost_LIBRARIES}
+                          ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+                          )
+    target_include_directories(${testexec} PRIVATE ${Boost_INCLUDE_DIRS})
+    add_test(NAME ${testexec} COMMAND ${testexec} --run_test=${testexec} --catch_system_error=yes)
+    message("Adding test: ${testexec}")
+endforeach()
+
+#######################################################
+# add testinput files
+#######################################################
+configure_file(data/co_np.xyz co_np.xyz COPYONLY)
+configure_file(data/POSCAR POSCAR COPYONLY)
+configure_file(../../patterns/patterns.json patterns.json COPYONLY)

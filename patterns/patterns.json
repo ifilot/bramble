@@ -1,0 +1,423 @@
+{
+   "patterns":
+   {
+      "unknown":
+      {
+         "label": "Unknown",
+         "fingerprint": "",
+         "color": "7b7b7b"
+      },
+      "fcc_bulk":
+      {
+         "label": "FCC bulk",
+         "fingerprint": "12(4,2,1)",
+         "color": "0b3d05",
+         "file": "fcc.am"
+      },
+      "fcc111":
+      {
+         "label": "FCC(111)",
+         "fingerprint": "3(4,2,1)6(3,1,1)",
+         "color": "49ade1",
+         "file": "fcc111.am"
+      },
+      "fcc100":
+      {
+         "label": "FCC(100)",
+         "fingerprint": "4(4,2,1)4(2,1,1)",
+         "color": "2f8323"
+      },
+      "fcc100_111_kink":
+      {
+         "label": "FCC(100)/FCC(111) Kink",
+         "fingerprint": "1(4,2,1)4(2,1,1)",
+         "color": "4dab40"
+      },
+      "fcc211_edge":
+      {
+         "label": "FCC(211) Edge",
+         "fingerprint": "2(4,2,1)2(3,1,1)3(2,1,1)",
+         "color": "bb3bbd"
+      },
+      "fcc012_a":
+      {
+         "label": "FCC(012)",
+         "fingerprint": "1(4,2,1)2(3,1,1)2(2,1,1)1(2,0,0)",
+         "color": "3a3d77"
+      },
+      "fcc012_b":
+      {
+         "label": "FCC(012)",
+         "fingerprint": "4(4,2,1)2(3,1,1)2(2,1,1)1(2,0,0)",
+         "color": "419e97"
+      },
+      "fcc123":
+      {
+         "label": "FCC(123)",
+         "fingerprint": "2(4,2,1)4(3,1,1)1(2,1,1)1(2,0,0)",
+         "color": "610f80"
+      },
+      "b5_hill":
+      {
+         "label": "B5 Hill",
+         "fingerprint": "2(4,2,2)2(3,2,2)4(3,1,1)",
+         "color": "b84f09"
+      },
+      "b5_ridge":
+      {
+         "label": "B5 Ridge",
+         "fingerprint": "5(4,2,1)4(3,1,1)1(2,1,1)",
+         "color": "e18649"
+      },
+      "a5_hill":
+      {
+         "label": "A5 Hill",
+         "fingerprint": "7(4,2,1)4(3,1,1)",
+         "color": "d40b48"
+      },
+      "a5_ridge":
+      {
+         "label": "A5 Ridge",
+         "fingerprint": "1(4,2,1)4(3,1,1)2(2,0,0)",
+         "color": "ec4578"
+      },
+      "hcp":
+      {
+         "label": "HCP bulk",
+         "fingerprint": "6(4,2,2)6(4,2,1)",
+         "color": "cd1212",
+         "file": "hcp.am"
+      },
+      "hcp1121_a":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,3,3)1(4,2,2)1(3,2,2)1(3,1,1)1(2,1,1)2(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_b":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "2(4,2,2)1(4,2,1)2(3,2,2)1(3,1,1)1(3,0,0)1(2,1,1)1(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_c":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,3,3)4(4,2,2)2(4,2,1)2(3,1,1)1(2,1,1)1(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_d":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(5,4,4)1(4,3,3)4(4,2,2)3(4,2,1)1(3,2,2)1(3,1,1)1(3,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_e":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,3,3)2(4,2,2)1(4,2,1)2(3,1,1)1(3,0,0)1(2,1,1)1(2,0,0)1(1,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_f":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "3(4,2,2)2(4,2,1)1(3,2,2)3(3,1,1)1(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_g":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "3(4,2,2)4(4,2,1)1(3,2,2)2(3,1,1)1(3,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_h":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,2,2)1(4,2,1)1(3,2,2)2(3,1,1)1(3,0,0)1(2,1,1)1(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_i":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,2,2)1(3,2,2)1(3,1,1)1(2,1,1)2(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_j":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(4,3,3)2(4,2,2)2(2,1,1)2(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp1121_k":
+      {
+         "label": "HCP(11-21)",
+         "fingerprint": "1(5,4,4)1(4,3,3)4(4,2,2)1(4,2,1)1(3,2,2)2(3,1,1)1(2,0,0)",
+         "color": "a72424"
+      },
+      "hcp010_a":
+      {
+         "label": "HCP(010)",
+         "fingerprint": "2(4,2,2)2(2,1,1)2(1,0,0)",
+         "color": "df60a2"
+      },
+      "hcp010_b":
+      {
+         "label": "HCP(010)",
+         "fingerprint": "2(4,2,2)4(4,2,1)2(3,2,2)2(2,1,1)",
+         "color": "df60a2"
+      },
+      "hcp011_a":
+      {
+         "label": "HCP(011)",
+         "fingerprint": "2(4,2,2)1(4,2,1)2(3,1,1)1(2,1,1)2(2,0,0)",
+         "color": "c7d520"
+      },
+      "hcp011_b":
+      {
+         "label": "HCP(011)",
+         "fingerprint": "2(4,2,2)2(4,2,1)2(3,2,2)2(3,1,1)1(2,1,1)",
+         "color": "c7d520"
+      },
+      "hcp012":
+      {
+         "label": "HCP(012)",
+         "fingerprint": "2(4,2,2)3(4,2,1)4(3,1,1)1(2,1,1)",
+         "color": "e6411b"
+      },
+      "hcp013":
+      {
+         "label": "HCP(013)",
+         "fingerprint": "4(4,2,2)3(4,2,1)4(3,1,1)",
+         "color": "f31d2c"
+      },
+      "hcp031":
+      {
+         "label": "HCP(031)",
+         "fingerprint": "2(4,2,2)2(4,2,1)4(3,1,1)2(3,0,0)",
+         "color": "1d4ff3"
+      },
+      "hcp101":
+      {
+         "label": "HCP(101)",
+         "fingerprint": "4(3,1,1)2(2,1,1)",
+         "color": "4182c7"
+      },
+      "hcp110":
+      {
+         "label": "HCP(110)",
+         "fingerprint": "1(4,2,2)1(3,2,2)2(3,1,1)1(3,0,0)2(2,0,0)",
+         "color": "003684"
+      },
+      "hcp112":
+      {
+         "label": "HCP(112)",
+         "fingerprint": "1(4,2,2)1(4,2,1)1(3,2,2)1(3,1,1)2(2,1,1)1(2,0,0)",
+         "color": "007661"
+      },
+      "hcp113":
+      {
+         "label": "HCP(113)",
+         "fingerprint": "2(4,2,2)2(4,2,1)2(3,1,1)2(2,1,1)1(2,0,0)",
+         "color": "004d3f"
+      },
+      "hcp120_a":
+      {
+         "label": "HCP(120)",
+         "fingerprint": "1(4,2,2)1(3,2,2)2(2,1,1)1(1,0,0)",
+         "color": "90b300"
+      },
+      "hcp120_b":
+      {
+         "label": "HCP(120)",
+         "fingerprint": "2(4,2,2)2(3,1,1)1(3,0,0)2(2,0,0)1(1,0,0)",
+         "color": "90b300"
+      },
+      "hcp121":
+      {
+         "label": "HCP(121)",
+         "fingerprint": "2(4,2,2)1(4,2,1)3(3,1,1)1(3,0,0)2(2,0,0)",
+         "color": "9e6a28"
+      },
+      "hcp125":
+      {
+         "label": "HCP(125)",
+         "fingerprint": "1(4,2,2)2(4,2,1)1(3,2,2)1(3,1,1)3(2,1,1)",
+         "color": "9b8f00"
+      },
+      "hcp131":
+      {
+         "label": "HCP(131)",
+         "fingerprint": "2(4,2,2)1(3,1,1)1(2,1,1)2(2,0,0)1(1,0,0)",
+         "color": "9e4428"
+      },
+      "hcp213":
+      {
+         "label": "HCP(213)",
+         "fingerprint": "2(3,1,1)1(2,1,1)2(2,0,0)",
+         "color": "9e445a"
+      },
+      "hcp515":
+      {
+         "label": "HCP(515)",
+         "fingerprint": "1(4,2,2)1(3,2,2)3(3,1,1)2(2,1,1)",
+         "color": "9e042b"
+      },
+      "bcc":
+      {
+         "label": "BCC bulk",
+         "fingerprint": "8(6,6,3)6(4,4,2)",
+         "color": "ffffff"
+      },
+      "bcc001_a":
+      {
+         "label": "BCC(001)",
+         "fingerprint": "4(5,4,4)1(4,4,2)4(2,1,1)",
+         "color": "ffffff"
+      },
+      "bcc001_b":
+      {
+         "label": "BCC(001)",
+         "fingerprint": "4(6,6,3)4(5,4,4)5(4,4,2)",
+         "color": "ffffff"
+      },
+      "bcc011":
+      {
+         "label": "BCC(011)",
+         "fingerprint": "2(6,6,3)2(4,4,2)4(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc012_a":
+      {
+         "label": "BCC(012)",
+         "fingerprint": "2(5,4,4)1(4,4,2)2(4,3,3)3(2,1,1)",
+         "color": "ffffff"
+      },
+      "bcc012_b":
+      {
+         "label": "BCC(012)",
+         "fingerprint": "2(6,6,3)2(5,4,4)2(4,4,2)2(4,3,3)2(3,2,2)1(2,1,1)",
+         "color": "ffffff"
+      },
+      "bcc111_a":
+      {
+         "label": "BCC(111)",
+         "fingerprint": "1(6,6,3)6(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc111_b":
+      {
+         "label": "BCC(111)",
+         "fingerprint": "1(6,6,3)3(5,4,4)3(4,4,2)3(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc111_c":
+      {
+         "label": "BCC(111)",
+         "fingerprint": "4(6,6,3)3(5,4,4)3(4,4,2)3(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc112_a":
+      {
+         "label": "BCC(112)",
+         "fingerprint": "1(6,6,3)1(4,4,2)2(4,3,3)4(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc112_b":
+      {
+         "label": "BCC(112)",
+         "fingerprint": "3(6,6,3)2(5,4,4)3(4,4,2)2(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc113_a":
+      {
+         "label": "BCC(113)",
+         "fingerprint": "1(5,4,4)1(4,4,2)2(4,3,3)1(3,2,2)2(2,1,1)",
+         "color": "ffffff"
+      },
+      "bcc113_b":
+      {
+         "label": "BCC(113)",
+         "fingerprint": "1(6,6,3)3(5,4,4)1(4,4,2)3(3,2,2)2(2,1,1)",
+         "color": "ffffff"
+      },
+      "bcc122_a":
+      {
+         "label": "BCC(122)",
+         "fingerprint": "1(6,6,3)1(5,4,4)2(4,4,2)2(4,3,3)3(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc122_b":
+      {
+         "label": "BCC(122)",
+         "fingerprint": "2(6,6,3)2(5,4,4)3(4,4,2)2(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      },
+      "bcc124":
+      {
+         "label": "BCC(124)",
+         "fingerprint": "1(6,6,3)1(5,4,4)1(4,4,2)2(4,3,3)3(3,2,2)1(2,1,1)",
+         "color": "ffffff"
+      },
+      "sc":
+      {
+         "label": "SC bulk",
+         "fingerprint": "6(0,0,0)",
+         "color": "ffffff"
+      },
+      "sc001":
+      {
+         "label": "SC(001)",
+         "fingerprint": "5(0,0,0)",
+         "color": "ffffff"
+      },
+      "sc011":
+      {
+         "label": "SC(011)",
+         "fingerprint": "4(0,0,0)",
+         "color": "ffffff"
+      },
+      "sc111":
+      {
+         "label": "SC(111)",
+         "fingerprint": "6(6,7,3)6(4,3,3)",
+         "color": "ffffff"
+      },
+      "sc112_a":
+      {
+         "label": "SC(112)",
+         "fingerprint": "1(6,7,3)4(5,5,3)1(4,4,2)2(3,2,2)1(2,1,1)",
+         "color": "ffffff"
+      },
+      "sc112_b":
+      {
+         "label": "SC(112)",
+         "fingerprint": "3(6,7,3)2(5,5,3)1(4,4,2)2(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      },
+      "sc123_a":
+      {
+         "label": "SC(123)",
+         "fingerprint": "2(5,5,3)4(4,4,2)1(2,1,1)",
+         "color": "ffffff"
+      },
+      "sc123_b":
+      {
+         "label": "SC(123)",
+         "fingerprint": "2(6,7,3)2(5,5,3)2(4,4,2)1(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      },
+      "sc135":
+      {
+         "label": "SC(135)",
+         "fingerprint": "4(5,5,3)2(4,4,2)2(2,1,1)",
+         "color": "ffffff"
+      },
+      "sc223":
+      {
+         "label": "SC(223)",
+         "fingerprint": "4(6,7,3)2(5,5,3)3(4,3,3)2(3,2,2)",
+         "color": "ffffff"
+      }
+   }
+}
+
