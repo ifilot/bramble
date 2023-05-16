@@ -21,7 +21,7 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-#define BOOST_BIND_GLOBAL_PLACEHOLDERS
+#include "config.h"
 
 #include <iostream>
 #include <string>

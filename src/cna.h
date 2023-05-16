@@ -21,11 +21,12 @@
 #ifndef _CNA_H
 #define _CNA_H
 
+#include "config.h"
+
 #include <memory>
 #include <vector>
 #include <iostream>
 
-#include "config.h"
 #include "math.h"
 #include "state.h"
 #include "patterns.h"

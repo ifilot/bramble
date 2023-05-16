@@ -21,6 +21,8 @@
 #ifndef _GEOMETRY_READER
 #define _GEOMETRY_READER
 
+#include "config.h"
+
 #include <iostream>
 #include <string>
 #include <vector>

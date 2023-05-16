@@ -21,6 +21,8 @@
 #ifndef _PATTERN_H
 #define _PATTERN_H
 
+#include "config.h"
+
 #include <iostream>
 #include <unordered_map>
 #include <filesystem>
