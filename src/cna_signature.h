@@ -21,6 +21,8 @@
 #ifndef _CNA_SIGNATURE
 #define _CNA_SIGNATURE
 
+#define BOOST_BIND_GLOBAL_PLACEHOLDERS
+
 #include <memory>
 #include <vector>
 #include <iostream>
