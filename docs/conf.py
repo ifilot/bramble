@@ -31,7 +31,6 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.autosectionlabel',
     'sphinx_rtd_theme',
-    'sphinxcontrib.tikz'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
