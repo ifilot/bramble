@@ -66,21 +66,39 @@ void GeometryReader::read_geo(const std::string& filename,
     std::string line;
     while(getline(file,line)) {
         boost::algorithm::trim_all(line); // trim leading, trailing and middle spaces
-        replace(line.begin(), line.end(), '\t', ' '); // trim middle tabs to single space
         lines.push_back(line);
     }
 
     std::vector<std::string> pieces; // temporary storage of split file line as string vector
-    // find how many atoms are in the file
-    int nr_atoms;
-    for(unsigned int i=lines.size(); i>0; --i) {
-        if(!lines[i].empty()) {
-            nr_atoms = i-2; // minus 3 for the first 3 rows, which contain no atoms (but then +1 becuase that works)
-            break;
-        }
-    }
+
+    // read unitcell edge lengths
+    boost::split(pieces,lines[1],boost::is_any_of("\t "));
+    double x = boost::lexical_cast<double>(pieces[0]);
+    double y = boost::lexical_cast<double>(pieces[1]);
+    double z = boost::lexical_cast<double>(pieces[2]);
+    Vec3 cell_lengths(x,y,z);
+
+    // read unitcell angles and convert to radians
+    static const double twopi = boost::math::constants::two_pi<double>();
+    boost::split(pieces,lines[2],boost::is_any_of("\t "));
+    double a = boost::lexical_cast<double>(pieces[0]) * twopi / 360.0;
+    double b = boost::lexical_cast<double>(pieces[1]) * twopi / 360.0;
+    double c = boost::lexical_cast<double>(pieces[2]) * twopi / 360.0;
+    Vec3 angles(a,b,c);
+
+    // build unit cell matrix
+    // source: http://gisaxs.com/index.php/Unit_cell
+    double M00 = x;
+    double M10 = y * std::cos(c);
+    double M11 = y * std::sin(c);
+    double M20 = z * std::cos(b);
+    double M21 = z * (std::cos(a) - std::cos(b) * std::cos(c)) / std::sin(c);
+    double _t = (std::cos(a) - std::cos(b) * std::cos(c)) / std::sin(c);
+    double M22 = z * std::sqrt(1 - std::cos(b) * std::cos(b) - _t*_t);
+    this->unitcell << M00, 0.0, 0.0, M10, M11, 0.0, M20, M21, M22;
 
     // get elements and atom positions
+    unsigned int nr_atoms = lines.size() - 4;
     this->elements.resize(nr_atoms);
     this->atom_positions.resize(nr_atoms);
     for(unsigned int i=0; i<nr_atoms; ++i) {
@@ -91,21 +109,12 @@ void GeometryReader::read_geo(const std::string& filename,
         }
     }
 
+    // center structure if requested
     if(centerstruc) {
         Vec3 center = this->find_center_of_mass();
 
         for(unsigned int i=0; i<this->atom_positions.size(); i++) {
             this->atom_positions[i] -= center;
-        }
-    }
-
-    // create unit cell
-    this->unitcell.resize(3,3);
-    Vec3 max = this->find_max_coordinates();
-
-    for(int i=0; i<this->unitcell.rows(); ++i) {
-        for(unsigned int j=0; j<3; j++) {
-            this->unitcell(i,j) *= max[j] * 5;
         }
     }
 }
@@ -143,7 +152,7 @@ void GeometryReader::read_xyz(const std::string& filename,
     this->elements.resize(nr_atoms);
     this->atom_positions.resize(nr_atoms);
     for(unsigned int i=0; i<nr_atoms; i++) {
-        boost::split(pieces,lines[i+2],boost::is_any_of(" "));
+        boost::split(pieces,lines[i+2],boost::is_any_of("\t "));
         this->elements[i] = pieces[0];
         for(unsigned int j=1; j<pieces.size(); j++){
             this->atom_positions[i][j-1] = std::stod(pieces[j]);

@@ -5,10 +5,10 @@ Background
 ==========
 
 The Common Neighbor Analysis (CNA) method is a pattern recognition algorithm for
-single atoms. `[1] <#references>`_ A unique fingerprint is assigned to each atom
+single atoms. [1] A unique fingerprint is assigned to each atom
 based on its atomic environment. It can act as an effective method to
 distinguish between active sites and/or facets for crystalline systems.
-`[2] <#references>`_ Various flavours of the CNA algorithm exist:
+[2] Various flavours of the CNA algorithm exist:
 
 * **Conventional CNA**
     Based on a pre-fixed cut-off distance the neighbors for
@@ -17,11 +17,11 @@ distinguish between active sites and/or facets for crystalline systems.
 * **Adaptive CNA**
     Rather than specifying a fixed cut-off distance, in the
     adaptive algorithm the optimal cutoff radius is automatically determined
-    for each individual particle. `[3] <#references>`_
+    for each individual particle. [3]
 * **Interval CNA**
     When a suitable cutoff is challenging to determine using
     conventional or adaptive CNA, especially at high temperatures, the Interval
-    Common Neighbor Analysis (i-CNA) method `[4] <#references>`_ can be
+    Common Neighbor Analysis (i-CNA) method [4] can be
     employed. i-CNA examines all potential threshold choices for each particle,
     making it slower but achieving a higher recognition rate compared to other
     methods.
@@ -32,9 +32,9 @@ distinguish between active sites and/or facets for crystalline systems.
 
 .. note::
    :program:`Bramble` uses an **adaptive CNA** based on the implementation of
-   Reinhart and coworkers `[5] <#references>`_
+   Reinhart and coworkers [5]
    and first documented in the work of van Etten
-   `[6] <#references>`_.
+   [6].
 
 Within :program:`Bramble`, the cut-off distance for an atom is determined
 based on the distances with the six nearest neighbors according to the
@@ -141,8 +141,7 @@ surface terminations and bulk atoms is given.
    critically check upon the underlying algorithm when comparing the CNA
    patterns between different programs.
 
-References
-----------
+**References**
 
 1. *Molecular dynamics study of melting and freezing of small Lennard-Jones
    clusters*, Honeycutt, J.D., Andersen, H.C., J. Phys. Chem., **1987**, 91, 19,

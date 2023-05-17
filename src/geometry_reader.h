@@ -36,6 +36,7 @@
 #include <boost/algorithm/string/trim_all.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include "math.h"
 
