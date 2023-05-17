@@ -49,5 +49,6 @@ endforeach()
 # add testinput files
 #######################################################
 configure_file(data/co_np.xyz co_np.xyz COPYONLY)
+configure_file(data/co_np.geo co_np.geo COPYONLY)
 configure_file(data/POSCAR POSCAR COPYONLY)
 configure_file(../../patterns/patterns.json patterns.json COPYONLY)

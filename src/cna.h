@@ -30,7 +30,7 @@
 #include "math.h"
 #include "state.h"
 #include "patterns.h"
-#include "cna_signature.h"
+#include "cna_triplet.h"
 
 class CNA {
 

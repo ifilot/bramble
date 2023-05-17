@@ -90,14 +90,14 @@ std::string CNA::calculate_fingerprint(size_t atid) {
  */
 std::string CNA::calculate_fingerprint_from_adjacency_matrix(const MatrixXXb& am) {
     // construct signature from adjacency matrix
-    std::vector<CNA_SIGNATURE> signatures;
+    std::vector<CNATriplet> cna_triplets;
     for(unsigned int i=0; i<am.rows(); i++) {
-        signatures.push_back(CNA_SIGNATURE(am, i));
+        cna_triplets.push_back(CNATriplet(am, i));
     }
 
-    // count number of similar CNA signatures
+    // count number of similar CNA cna_triplets
     std::map<std::string, int, std::greater<std::string>> map;
-    for(const auto& sign : signatures) {
+    for(const auto& sign : cna_triplets) {
         auto got = map.find(sign.get_str());
         if(got != map.end()) {
             got->second++;
@@ -106,7 +106,7 @@ std::string CNA::calculate_fingerprint_from_adjacency_matrix(const MatrixXXb& am
         }
     }
 
-    // reduce set of signatures to reduce on fingerprint string size
+    // reduce set of CNA triplets to reduce on fingerprint string size
     std::stringstream str;
     for(auto p : map) {
         str << p.second << p.first;
@@ -223,7 +223,7 @@ void CNA::write_analysis(const std::string& filename) {
         const auto& element = this->state->get_elements()[i];
 
         outfile << boost::format("%04i  %2s  %12.6f  %12.6f  %12.6f  %6s  %12s  %s\n")
-            % (i+1) % element % atompos(i,0) % atompos(i,1) % atompos(i,2)
+            % (i+1) % element % atompos[0] % atompos[1] % atompos[2]
             % this->pl->get_pattern(this->fingerprints[i]).get_color()
             % this->pl->identify_pattern(this->fingerprints[i]) % this->fingerprints[i];
     }
