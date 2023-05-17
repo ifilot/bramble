@@ -1,11 +1,11 @@
-#include "cna_signature.h"
+#include "cna_triplet.h"
 
 /**
  * @brief      Constructs the signature object
  *
  * @param[in]  matrix  The adjacency matrix
  */
-CNA_SIGNATURE::CNA_SIGNATURE(const MatrixXXb& matrix, size_t atid) :
+CNATriplet::CNATriplet(const MatrixXXb& matrix, size_t atid) :
     nr_neighbors(0),
     nr_neighbor_edges(0),
     longest_path(0)
@@ -28,7 +28,6 @@ CNA_SIGNATURE::CNA_SIGNATURE(const MatrixXXb& matrix, size_t atid) :
             const size_t atid2 = neighbor_ids[j];
             if(matrix(atid1, atid2)) {
                 boost::add_edge(i, j, 1, g);
-                //std::cout << i << "(" << atid << ")" << "<-->" << j << "(" << atid2 << ")" << std::endl;
                 this->nr_neighbor_edges++;
             }
         }
@@ -62,11 +61,11 @@ CNA_SIGNATURE::CNA_SIGNATURE(const MatrixXXb& matrix, size_t atid) :
     this->longest_path = path_dist.maxCoeff();
 }
 
-std::string CNA_SIGNATURE::get_str() const {
+std::string CNATriplet::get_str() const {
     return (boost::format("(%i,%i,%i)") % this->nr_neighbors % this->nr_neighbor_edges % this->longest_path).str();
 }
 
-std::ostream &operator<<(std::ostream &os, const CNA_SIGNATURE& m) {
+std::ostream &operator<<(std::ostream &os, const CNATriplet& m) {
     os << "{" << m.get_nr_neighbors() << "," << m.get_nr_neighbor_edges() << "," << m.get_longest_path() << "}";
     return os;
 }

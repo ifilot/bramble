@@ -18,8 +18,8 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _CNA_SIGNATURE
-#define _CNA_SIGNATURE
+#ifndef _CNA_TRIPLET
+#define _CNA_TRIPLET
 
 #include "config.h"
 
@@ -46,7 +46,7 @@ typedef boost::property_map < Graph, boost::vertex_name_t >::type NameMap;
 typedef boost::iterator_property_map < GVertex*, IndexMap, GVertex, GVertex& > PredecessorMap;
 typedef boost::iterator_property_map < Weight*, IndexMap, Weight, Weight& > DistanceMap;
 
-class CNA_SIGNATURE {
+class CNATriplet {
 private:
     unsigned int nr_neighbors;
     unsigned int nr_neighbor_edges;
@@ -58,7 +58,7 @@ public:
      *
      * @param[in]  matrix  The adjacency matrix
      */
-    CNA_SIGNATURE(const MatrixXXb& matrix, size_t atid);
+    CNATriplet(const MatrixXXb& matrix, size_t atid);
 
     inline unsigned int get_nr_neighbors() const {
         return this->nr_neighbors;
@@ -75,6 +75,6 @@ public:
     std::string get_str() const;
 };
 
-std::ostream &operator<<(std::ostream &os, const CNA_SIGNATURE& m);
+std::ostream &operator<<(std::ostream &os, const CNATriplet& m);
 
-#endif // _CNA_SIGNATURE
+#endif // _CNA_TRIPLET
