@@ -3,3 +3,160 @@
 
 User Interface
 ==============
+
+:program:`Bramble` is shipped with two executables, ``bramble`` and ``brambletool``.
+The former is to perform the CNA analysis, the latter is to build, edit, and
+validate the pattern library.
+
+Bramble
+-------
+
+To perform the CNA analysis, launch ``./bramble`` with the following three
+mandatory command line arguments::
+
+    ./bramble -p <pattern-file> -i <geometry-file> -o <output-file>
+
+* ``-i``, ``--input`` ``<geometry-file>``
+    File containing the geometry of the system. :program:`Bramble` supports
+
+    * VASP `POSCAR/CONTCAR <https://www.vasp.at/wiki/index.php/POSCAR>`_ files
+    * `XYZ <http://openbabel.org/wiki/XYZ_(format)>`_ files
+    * `ReaxFF GEO <https://www.scm.com/doc/plams/interfaces/reaxff.html>`_ files
+* ``-p``, ``--pattern`` ``<pattern-file>``
+    Pattern library encoded in a JSON file. Details of the pattern library can
+    be found :ref:`here <pattern_library>`.
+* ``-o``, ``--output`` ``<output-file>``
+    Where to write the output to.
+
+*Example*: ``./bramble -p ../patterns/patterns.json -i ../src/test/data/co_np.geo -o result.txt``
+
+Typical output looks as follows::
+
+    --------------------------------------------------------------
+    Executing Bramble v.0.2.0
+    Author: Ivo Filot <i.a.w.filot@tue.nl>
+    Documentation: https://bramble.imc-tue.nl
+    --------------------------------------------------------------
+    Compilation time: May 18 2023 20:20:12
+    Git Hash: acfc9bc
+    --------------------------------------------------------------
+    Loading ../src/test/data/co_np.geo as .geo file.
+    Geometry file contains 3375 atoms.
+    Calculating interatomic distances...
+    Completed calculation of interatomic distances.
+    Start common neighbor analysis...
+    Common neighbor analysis completed.
+    --------------------------------------------------------------
+    Done in 0.10766 seconds.
+
+Bramble Tool
+------------
+
+To create, edit or validate a pattern library, one can use ``brambletool``.
+
+.. tip::
+    It is recommended to always use the ``.json`` extension for the pattern
+    library filename.
+
+Create a pattern library
+************************
+
+To create a new pattern library, run::
+
+    ./brambletool -c -p <new_pattern_library.json>
+
+Adding patterns
+***************
+
+.. tip::
+    It is commended to enclose the full pattern description in quotation
+    marks to ensure proper parsing. Also note that each element of the pattern
+    entry should be separated by semicolons.
+
+To add a new pattern entry to the library, run::
+
+    ./brambletool -a "<key>;<fingerprint>;<description>;<color>" -p <pattern_library.json>
+
+The entries for ``<key>``, ``<fingerprint>`` and ``<color>`` are automatically
+validated. The entry ``<key>`` should only contain alphanumerical characters,
+underscores and dashes. The ``<fingerprint>`` entry should be a valid CNA
+fingerprint composed of a series of ``n(x,y,z)`` triplets. Finally, the
+``<color>`` entry should be a valid hexadecimal color code. Do **not** start
+the color code with a leading ``#``.
+
+Editing patterns
+****************
+
+Patterns are edited based on the entry key. To edit a pattern, run::
+
+    ./brambletool -e "<key>;<fingerprint>;<description>;<color>" -p <pattern_library.json>
+
+Removing patterns
+*****************
+
+Patterns are removed based on their entry key:
+
+    ./brambletool -d "<key>" -p <pattern_library.json>
+
+Listing patterns
+*****************
+
+To list all patterns in the library, one can run::
+
+    ./brambletool -l -p <pattern_library.json>
+
+Typical output looks as follows::
+
+    --------------------------------------------------------------
+    Running bramble-tool v.0.2.0
+    Author: Ivo Filot <i.a.w.filot@tue.nl>
+    Documentation: https://bramble.imc-tue.nl
+    --------------------------------------------------------------
+    Compilation time: May 18 2023 20:20:11
+    Git Hash: acfc9bc
+    --------------------------------------------------------------
+    Printing list of patterns:
+                   SC(223)   ffffff 4(6,7,3)2(5,5,3)3(4,3,3)2(3,2,2)
+                   SC(135)   ffffff 4(5,5,3)2(4,4,2)2(2,1,1)
+                   SC(123)   ffffff 2(6,7,3)2(5,5,3)2(4,4,2)1(4,3,3)2(3,2,2)
+                   SC(123)   ffffff 2(5,5,3)4(4,4,2)1(2,1,1)
+                   SC(112)   ffffff 3(6,7,3)2(5,5,3)1(4,4,2)2(4,3,3)2(3,2,2)
+                   SC(112)   ffffff 1(6,7,3)4(5,5,3)1(4,4,2)2(3,2,2)1(2,1,1)
+                   SC(011)   ffffff 4(0,0,0)
+                   SC(001)   ffffff 5(0,0,0)
+                   SC bulk   ffffff 6(0,0,0)
+    --------------------------------------------------------------
+    Done.
+
+Validating patterns
+*******************
+
+When receiving a third-party JSON library, it is good practice to first validate
+all the entries before running ``bramble``. To do so, run::
+
+    ./brambletool -v -p <pattern_library.json>
+
+Typical output looks as follows::
+
+    --------------------------------------------------------------
+    Running bramble-tool v.0.2.0
+    Author: Ivo Filot <i.a.w.filot@tue.nl>
+    Documentation: https://bramble.imc-tue.nl
+    --------------------------------------------------------------
+    Compilation time: May 18 2023 20:20:11
+    Git Hash: acfc9bc
+    --------------------------------------------------------------
+    Validating list of patterns:
+                   SC(223)   ffffff [V] 4(6,7,3)2(5,5,3)3(4,3,3)2(3,2,2) [V]
+                   SC(135)   ffffff [V] 4(5,5,3)2(4,4,2)2(2,1,1) [V]
+                   SC(123)   ffffff [V] 2(6,7,3)2(5,5,3)2(4,4,2)1(4,3,3)2(3,2,2) [V]
+                   SC(123)   ffffff [V] 2(5,5,3)4(4,4,2)1(2,1,1) [V]
+                   SC(112)   ffffff [V] 3(6,7,3)2(5,5,3)1(4,4,2)2(4,3,3)2(3,2,2) [V]
+                   SC(112)   ffffff [V] 1(6,7,3)4(5,5,3)1(4,4,2)2(3,2,2)1(2,1,1) [V]
+                   SC(011)   ffffff [V] 4(0,0,0) [V]
+                   SC(001)   ffffff [V] 5(0,0,0) [V]
+                   SC bulk   ffffff [V] 6(0,0,0) [V]
+    --------------------------------------------------------------
+    Done.
+
+Observe that all valid entries are marked by ``[V]``.

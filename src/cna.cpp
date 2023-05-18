@@ -212,6 +212,8 @@ void CNA::write_analysis(const std::string& filename) {
     outfile << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
     outfile << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
     outfile << dashed_lines << std::endl;
+    outfile << "Number of atoms: " << this->fingerprints.size() << std::endl;
+    outfile << dashed_lines << std::endl;
 
     // print header
     outfile << "#     atom           x             y             z   color       pattern  fingerprint" << std::endl;
