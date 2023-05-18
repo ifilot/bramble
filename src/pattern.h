@@ -25,16 +25,6 @@
 
 #include <iostream>
 #include <unordered_map>
-#include <filesystem>
-
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/foreach.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem/operations.hpp>
-
-#include <Eigen/Dense>
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
 
 class Pattern {
 private:
@@ -90,70 +80,8 @@ public:
     inline const std::string& get_color() const {
         return this->color;
     }
-
 };
 
-class PatternLibrary {
-private:
-    std::unordered_map<std::string, Pattern> patterns;               // patterns map sorted by fingerprint
-    std::unordered_map<std::string, Pattern> patterns_labelkey;      // patterns map sorted by key
-    boost::property_tree::ptree patterns_json_root;                  // json data
+std::ostream &operator<<(std::ostream &os, const Pattern& m);
 
-    std::unordered_map<std::string, MatrixXXb> adjacency_matrices;   // map of adjacency_matrices
-
-public:
-    /**
-     * @brief      pattern library constructor
-     */
-    PatternLibrary(const std::string& filename);
-
-    /**
-     * @brief      get the patterns
-     *
-     * @return     The patterns map
-     */
-    inline const auto& get_patterns() const {
-        return this->patterns_labelkey;
-    }
-
-    /**
-     * @brief      identify the pattern based on the fingerprint
-     *
-     * @param[in]  pattern  fingerprint of the pattern
-     *
-     * @return     name of the pattern
-     */
-    const std::string& identify_pattern(const std::string& pattern) const;
-
-    /**
-     * @brief      get pattern using fingerprint
-     *
-     * @param[in]  pattern  fingerprint of the pattern
-     *
-     * @return     Pattern object
-     */
-    const Pattern& get_pattern(const std::string& pattern) const;
-
-    /**
-     * @brief      get pattern using key
-     *
-     * @param[in]  pattern key
-     *
-     * @return     Pattern object
-     */
-    const Pattern& get_pattern_by_key(const std::string& key) const;
-
-private:
-    /**
-     * @brief      add pattern to library
-     *
-     * @param[in]  key      JSON key
-     * @param[in]  pattern  fingerprint
-     * @param[in]  name     name or label of the pattern
-     * @param[in]  color    color
-     */
-    void add_pattern(const std::string& key, const std::string& pattern,
-        const std::string& name, const std::string& color);
-};
-
-#endif // _PATTERN_H
+#endif //_PATTERN_H

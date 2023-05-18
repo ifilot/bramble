@@ -29,7 +29,7 @@
 
 #include "math.h"
 #include "state.h"
-#include "patterns.h"
+#include "pattern_library.h"
 #include "cna_triplet.h"
 
 class CNA {

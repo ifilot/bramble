@@ -1,0 +1,17 @@
+{
+    "patterns":
+    {
+        "fcc_bulk":
+        {
+            "label": "12(4,2,1)",
+            "fingerprint": "FCC Bulk",
+            "color": "0b3d05"
+        },
+        "unknown":
+        {
+            "label": "Unknown",
+            "fingerprint": "",
+            "color": "000000"
+        }
+    }
+}

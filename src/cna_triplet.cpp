@@ -61,10 +61,20 @@ CNATriplet::CNATriplet(const MatrixXXb& matrix, size_t atid) :
     this->longest_path = path_dist.maxCoeff();
 }
 
+/**
+ * @brief      Get the string representation of the CNA triplet
+ *
+ * @return     String representation
+ */
 std::string CNATriplet::get_str() const {
     return (boost::format("(%i,%i,%i)") % this->nr_neighbors % this->nr_neighbor_edges % this->longest_path).str();
 }
 
+/**
+ * @brief      Output ostream representation of the CNA triplet
+ *
+ * @return     ostream representation of CNA triplet
+ */
 std::ostream &operator<<(std::ostream &os, const CNATriplet& m) {
     os << "{" << m.get_nr_neighbors() << "," << m.get_nr_neighbor_edges() << "," << m.get_longest_path() << "}";
     return os;

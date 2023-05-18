@@ -60,18 +60,47 @@ public:
      */
     CNATriplet(const MatrixXXb& matrix, size_t atid);
 
+    /**
+     * @brief      Get the number of neighbors
+     *
+     * @return     Number of neighbors
+     */
     inline unsigned int get_nr_neighbors() const {
         return this->nr_neighbors;
     }
 
+    /**
+     * @brief      Get the number of edges shared among neighbors
+     *
+     * @return     Number of edges shared among neighbors
+     */
     inline unsigned int get_nr_neighbor_edges() const {
         return this->nr_neighbor_edges;
     }
 
+    /**
+     * @brief      Get the longest continuous path
+     *
+     * @return     Length of longest continuous path
+     */
     inline unsigned int get_longest_path() const {
         return this->longest_path;
     }
 
+    /**
+     * @brief      Gets the cna indices as an array.
+     *
+     * @return     Triplet of CNA indices
+     */
+    inline std::array<unsigned int, 3> get_cna_indices() const {
+        return {this->nr_neighbors, this->nr_neighbor_edges, longest_path};
+    }
+
+    /**
+     * @brief      Get the string representation of the CNA triplet
+     *
+     * @return     String representation
+     */
     std::string get_str() const;
 };
 

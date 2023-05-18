@@ -18,29 +18,19 @@
  *                                                                        *
  **************************************************************************/
 
-#include "patterns.h"
+#include "pattern_library.h"
 
-/**
- * @brief      Constructs the object.
- *
- * @param[in]  _key      JSON key
- * @param[in]  _name     name
- * @param[in]  _pattern  fingerprint
- */
-Pattern::Pattern(const std::string& _key,
-                 const std::string& _name,
-                 const std::string& _pattern,
-                 const std::string& _color) :
-key(_key),
-pattern_name(_name),
-pattern(_pattern),
-color(_color)
-{
+PatternLibrary::PatternLibrary() {
+    // at least add the empty pattern
 
+    // add key - pattern - name - color
+    this->add_pattern("unknown", "", "Unknown", "000000");
 }
 
 /**
  * @brief      pattern library constructor
+ *
+ * @param[in]  filename  json file wherein patterns are stored
  */
 PatternLibrary::PatternLibrary(const std::string& filename) {
     if(!std::filesystem::exists(filename)) {
@@ -59,6 +49,81 @@ PatternLibrary::PatternLibrary(const std::string& filename) {
         const std::string colstr = this->patterns_json_root.get<std::string>("patterns."+key+".color");
 
         this->add_pattern(key, fingerprint, label, colstr);
+    }
+
+    // check that the pattern library contains at least one entry with the item
+    // unknown, if not, throw an error
+    try {
+        auto res = this->get_pattern("");
+        if(res.get_key() != "unknown" || res.get_name() != "Unknown") {
+            std::cerr << "    Key name: " << res.get_key() << std::endl;
+            std::cerr << "    Label name: " << res.get_name() << std::endl;
+            throw std::runtime_error("Incorrect label encountered for empty pattern.");
+        }
+    } catch(const std::exception& e) {
+        if(std::string(e.what()) == "Unknown pattern key: ") {
+            std::cerr << "Unknown pattern is missing in library" << std::endl;
+            std::cerr << "Every pattern library should contain the 'unknown' element." << std::endl;
+            throw std::runtime_error("Invalid or incorrectly formatted patterns file.");
+        } else {
+            throw;
+        }
+    }
+}
+
+/**
+ * @brief      Stores a pattern library.
+ *
+ * @param[in]  filename  The filename
+ */
+void PatternLibrary::store_pattern_library(const std::string& filename) const {
+    std::ofstream out(filename);
+
+    static const std::string tab4("    ");
+    static const std::string tab8 = tab4 + tab4;
+    static const std::string tab12 = tab8 + tab4;
+
+    // header
+    out << "{" << std::endl;
+    out << tab4 << "\"patterns\":" << std::endl;
+    out << tab4 << "{" << std::endl;
+
+    // all patterns
+    for(auto item = this->patterns.begin(); item != this->patterns.end(); item++) {
+        out << tab8 << "\"" << item->second.get_key() << "\":" << std::endl;
+        out << tab8 << "{" << std::endl;
+        out << tab12 << "\"label\": \"" << item->second.get_name() << "\"," << std::endl;
+        out << tab12 << "\"fingerprint\": \"" << item->second.get_fingerprint() << "\"," << std::endl;
+        out << tab12 << "\"color\": \"" << item->second.get_color() << "\"" << std::endl;
+
+        if(std::next(item) == this->patterns.end()) {
+            out << tab8 << "}" << std::endl;
+        } else {
+            out << tab8 << "}," << std::endl;
+        }
+    }
+
+    // footer
+    out << tab4 << "}" << std::endl;
+    out << "}" << std::endl;
+}
+
+/**
+ * @brief      add pattern to library
+ *
+ * @param[in]  key      JSON key
+ * @param[in]  pattern  fingerprint
+ * @param[in]  name     name or label of the pattern
+ */
+void PatternLibrary::add_pattern(const std::string& key, const std::string& pattern,
+    const std::string& name, const std::string& color) {
+    auto got = this->patterns.find(pattern);
+
+    if(got == this->patterns.end()) {
+        this->patterns.emplace(pattern, Pattern(key, name, pattern, color));
+        this->patterns_labelkey.emplace(key, Pattern(key, name, pattern, color));
+    } else {
+        throw std::runtime_error("Pattern {" + pattern + "} already exists in library.");
     }
 }
 
@@ -85,6 +150,8 @@ const Pattern& PatternLibrary::get_pattern(const std::string& pattern) const {
 
     if(got != this->patterns.end()) {
         return got->second;
+    } else if(pattern.empty() && got == this->patterns.end()) {
+        throw std::logic_error("Library does not contain the empty pattern.");
     } else {
         return this->get_pattern("");
     }
@@ -104,24 +171,5 @@ const Pattern& PatternLibrary::get_pattern_by_key(const std::string& key) const 
         return got->second;
     } else {
         throw std::runtime_error("Unknown pattern key: " + key);
-    }
-}
-
-/**
- * @brief      add pattern to library
- *
- * @param[in]  key      JSON key
- * @param[in]  pattern  fingerprint
- * @param[in]  name     name or label of the pattern
- */
-void PatternLibrary::add_pattern(const std::string& key, const std::string& pattern,
-    const std::string& name, const std::string& color) {
-    auto got = this->patterns.find(pattern);
-
-    if(got == this->patterns.end()) {
-        this->patterns.emplace(pattern, Pattern(key, name, pattern, color));
-        this->patterns_labelkey.emplace(key, Pattern(key, name, pattern, color));
-    } else {
-        std::cerr << "Pattern {" << pattern << "} already exists in library." << std::endl;
     }
 }
