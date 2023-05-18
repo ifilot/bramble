@@ -7,7 +7,8 @@
 
 ## Purpose
 
-Atomic pattern recognition utility based on the CNA algorithm. Bramble is the refactored version of [Barnacle](https://gitlab.tue.nl/inorganic-materials-chemistry/barnacle).
+Atomic pattern recognition utility based on the CNA algorithm. For detailed explanation
+of Bramble, [see the documentation](https://bramble.imc-tue.nl).
 
 ## Compilation
 
@@ -17,10 +18,18 @@ Ensure you have the necessary dependencies installed on your system.
 sudo apt install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
 ```
 
+Next, clone the repository and combile Bramble using
+
 ```bash
 mkdir build && cd build
 cmake ../src
 make -j
+```
+
+To test that Bramble is working, run the test suite
+
+```bash
+make test
 ```
 
 ## Usage

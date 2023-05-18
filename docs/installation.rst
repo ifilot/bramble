@@ -55,18 +55,22 @@ Typical output should look as follows::
     Running tests...
     Test project /mnt/d/PROGRAMMING/CPP/bramble/build
         Start 1: test_basic
-    1/6 Test #1: test_basic .......................   Passed    0.00 sec
+    1/8 Test #1: test_basic .......................   Passed    0.00 sec
         Start 2: test_geo
-    2/6 Test #2: test_geo .........................   Passed    0.01 sec
+    2/8 Test #2: test_geo .........................   Passed    0.03 sec
         Start 3: test_xyz
-    3/6 Test #3: test_xyz .........................   Passed    0.01 sec
+    3/8 Test #3: test_xyz .........................   Passed    0.02 sec
         Start 4: test_error
-    4/6 Test #4: test_error .......................   Passed    0.01 sec
+    4/8 Test #4: test_error .......................   Passed    0.01 sec
         Start 5: test_poscar
-    5/6 Test #5: test_poscar ......................   Passed    0.01 sec
+    5/8 Test #5: test_poscar ......................   Passed    0.01 sec
         Start 6: test_cna
-    6/6 Test #6: test_cna .........................   Passed    0.08 sec
+    6/8 Test #6: test_cna .........................   Passed    0.03 sec
+        Start 7: test_fingerprint
+    7/8 Test #7: test_fingerprint .................   Passed    0.01 sec
+        Start 8: test_pattern_library
+    8/8 Test #8: test_pattern_library .............   Passed    0.01 sec
 
-    100% tests passed, 0 tests failed out of 6
+    100% tests passed, 0 tests failed out of 8
 
-    Total Test time (real) =   0.14 sec
+    Total Test time (real) =   0.25 sec

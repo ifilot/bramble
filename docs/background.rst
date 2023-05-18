@@ -43,12 +43,12 @@ following equation
 .. math::
 
    r_{\text{cut}} = \left( \frac{1 + \sqrt{2}}{2} \right)
-   \left( \frac{1}{6} \sum_{j=1}^{6} | \vec{r}_{ij} \right).
+   \left( \frac{1}{6} \sum_{j=1}^{6} | \vec{r}_{ij} | \right).
 
 Based on this cut-off distance, all the neighbors of the atom are determined
 and based on these atoms a binary adjacency matrix is constructed wherein each
-element is a one if the distance between those atoms is smaller than
-:math:`r_{\text{cut}}` or a zero otherwise. This adjacency matrix is essentially
+element is a ``1`` if the distance between those atoms is smaller than
+:math:`r_{\text{cut}}` or a ``0`` otherwise. This adjacency matrix is essentially
 a representation of the neighborhood graph between the atoms. For each node in
 this neighborhood graph a triplet of values, i.e. the so-called CNA
 indices, is assigned. These indices are:
@@ -60,7 +60,7 @@ indices, is assigned. These indices are:
 Finally, the indices of each node are collected and a fingerprint is constructed
 based on how many times each CNA triplet is found within the graph.
 
-We here provide a example for an atom at the FCC(111) termination. Such
+We here provide an example for an atom at the FCC(111) termination. Such
 an atom has 9 neighbors based on the value of :math:`r_{\text{cut}}`.
 A schematic representation of this geometry is given below.
 
@@ -100,6 +100,7 @@ is one. Thus, these atoms have the triplet (3,1,1).
 
 .. figure:: _static/img/background/graph.png
     :align: center
+    :width: 256
 
     Neighborhood graph of an FCC(111) atom. There are two types of atoms,
     one type with (4,2,1) CNA indices and another type with (3,1,1) CNA
@@ -113,14 +114,12 @@ is one. Thus, these atoms have the triplet (3,1,1).
    multiplicity, i.e. the number of atoms having a particular CNA triplet, is
    **not** used.
 
-
 We can readily observe that there 3 atoms with the (4,2,1) triplet and 6
 atoms with the (3,1,1) triplet. This would then yield a CNA signature
-of **3(4,2,1)6(3,1,1)**. Below, a list of CNA patterns is given for very common
+of ``3(4,2,1)6(3,1,1)``. Below, a list of CNA patterns is given for very common
 surface terminations and bulk atoms is given.
 
-.. list-table:: CNA pattern for common crystal motifs.
-   :widths: 25 25
+.. list-table:: CNA pattern for some common crystal motifs.
    :header-rows: 1
 
    * - Structure

@@ -18,30 +18,37 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#define BOOST_TEST_MODULE test_fingerprint
+#include <boost/test/unit_test.hpp>
 
-#include <Eigen/Dense>
+#include "pattern_library.h"
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+// basic check to see if the test module works
+BOOST_AUTO_TEST_CASE(test_fingerprint) {
+    BOOST_TEST_MESSAGE( "Testing fingerprints..." );
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
+    PatternLibrary pl;
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
-
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
+    // check that all patterns in file are valid
+    for(const auto& item : pl.get_patterns()) {
+        BOOST_TEST(pl.is_valid_pattern(item.second.get_fingerprint()));
     }
-};
 
-#endif // _MATRIXMATH_H
+    // test that these patterns are invalid
+    BOOST_TEST(!pl.is_valid_pattern("invalid"));
+    BOOST_TEST(!pl.is_valid_pattern("0(1,2,3)"));
+    BOOST_TEST(!pl.is_valid_pattern("12(1,2,0)(1,2,0)"));
+    BOOST_TEST(!pl.is_valid_pattern("12(1,2,0)0"));
+    BOOST_TEST(!pl.is_valid_pattern("12(1,2,0)a12(1,2,0)"));
+    BOOST_TEST(!pl.is_valid_pattern("12(1,2,0) 12(1,2,0)"));
+
+    // also test keys
+    for(const auto& item : pl.get_patterns()) {
+        BOOST_TEST(pl.is_valid_key(item.second.get_key()));
+    }
+
+    // and colors
+    for(const auto& item : pl.get_patterns()) {
+        BOOST_TEST(pl.is_valid_colorcode(item.second.get_color()));
+    }
+}

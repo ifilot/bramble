@@ -28,7 +28,7 @@ requests are ideally submitted via the `github issue tracker
 
    installation
    background
-   examples
+   gallery
    user_interface
    pattern_library
    publications

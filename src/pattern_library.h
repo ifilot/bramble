@@ -18,10 +18,11 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _PATTERN_H
-#define _PATTERN_H
+#ifndef _PATTERN_LIBRARY_H
+#define _PATTERN_LIBRARY_H
 
 #include "config.h"
+#include "math.h"
 
 #include <iostream>
 #include <unordered_map>
@@ -32,66 +33,9 @@
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/regex.hpp>
 
-#include <Eigen/Dense>
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-
-class Pattern {
-private:
-    std::string key;
-    std::string pattern_name;
-    std::string pattern;
-    std::string color;
-
-public:
-    /**
-     * @brief      Constructs the object.
-     *
-     * @param[in]  _key      JSON key
-     * @param[in]  _name     name
-     * @param[in]  _pattern  fingerprint
-     * @param[in]  _color    color
-     */
-    Pattern(const std::string& _key, const std::string& _name,
-        const std::string& _pattern, const std::string& _color);
-
-    /**
-     * @brief      Gets the key.
-     *
-     * @return     The key.
-     */
-    inline const std::string& get_key() const {
-        return this->key;
-    }
-
-    /**
-     * @brief      Gets the name.
-     *
-     * @return     The name.
-     */
-    inline const std::string& get_name() const {
-        return this->pattern_name;
-    }
-
-    /**
-     * @brief      Gets the fingerprint.
-     *
-     * @return     The fingerprint.
-     */
-    inline const std::string& get_fingerprint() const {
-        return this->pattern;
-    }
-
-    /**
-     * @brief      Gets the color.
-     *
-     * @return     The color.
-     */
-    inline const std::string& get_color() const {
-        return this->color;
-    }
-
-};
+#include "pattern.h"
 
 class PatternLibrary {
 private:
@@ -105,7 +49,21 @@ public:
     /**
      * @brief      pattern library constructor
      */
+    PatternLibrary();
+
+    /**
+     * @brief      pattern library constructor
+     *
+     * @param[in]  filename  json file wherein patterns are stored
+     */
     PatternLibrary(const std::string& filename);
+
+    /**
+     * @brief      Stores a pattern library.
+     *
+     * @param[in]  filename  The filename
+     */
+    void store_pattern_library(const std::string& filename) const;
 
     /**
      * @brief      get the patterns
@@ -143,7 +101,6 @@ public:
      */
     const Pattern& get_pattern_by_key(const std::string& key) const;
 
-private:
     /**
      * @brief      add pattern to library
      *
@@ -153,7 +110,62 @@ private:
      * @param[in]  color    color
      */
     void add_pattern(const std::string& key, const std::string& pattern,
-        const std::string& name, const std::string& color);
+                     const std::string& name, const std::string& color);
+
+    /**
+     * @brief      edit a pattern in library
+     *
+     * @param[in]  key      JSON key
+     * @param[in]  pattern  fingerprint
+     * @param[in]  name     name or label of the pattern
+     * @param[in]  color    color
+     */
+    void edit_pattern(const std::string& key, const std::string& pattern,
+                      const std::string& name, const std::string& color);
+
+    /**
+     * @brief      remove a pattern in library
+     *
+     * @param[in]  key      JSON key
+     * @param[in]  pattern  fingerprint
+     */
+    void remove_pattern(const std::string& key, const std::string& pattern);
+
+    /**
+     * @brief      remove a pattern in library
+     *
+     * @param[in]  key      JSON key
+     */
+    void delete_pattern_by_key(const std::string& key);
+
+    /**
+     * @brief      Determines whether the specified pattern is valid pattern.
+     *
+     * @param[in]  pattern  The pattern
+     *
+     * @return     True if the specified pattern is valid pattern, False otherwise.
+     */
+    bool is_valid_pattern(const std::string& pattern) const;
+
+    /**
+     * @brief      Determines whether the specified key is valid key.
+     *
+     * @param[in]  key  The key
+     *
+     * @return     True if the specified key is valid key, False otherwise.
+     */
+    bool is_valid_key(const std::string& key) const;
+
+    /**
+     * @brief      Determines whether the specified colorcode is valid colorcode.
+     *
+     * @param[in]  colorcode  The colorcode
+     *
+     * @return     True if the specified colorcode is valid colorcode, False otherwise.
+     */
+    bool is_valid_colorcode(const std::string& colorcode) const;
+
+private:
 };
 
-#endif // _PATTERN_H
+#endif // _PATTERN_LIBRARY_H

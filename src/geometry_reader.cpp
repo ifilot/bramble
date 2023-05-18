@@ -142,11 +142,6 @@ void GeometryReader::read_xyz(const std::string& filename,
 
     int nr_atoms = std::stoi(lines[0]); // number of atoms that should be read from file
 
-    // check if file has correct number of lines
-    // if(lines.size() != nr_atoms+2) {
-    //     throw std::runtime_error("Incorrect number of atoms found in " + filename);
-    // }
-
     // get elements and atom positions
     std::vector<std::string> pieces; // temporary storage of split file line as string vector
     this->elements.resize(nr_atoms);

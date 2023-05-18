@@ -22,15 +22,11 @@
 #include <chrono>
 
 #include "config.h"
-#include "patterns.h"
+#include "pattern_library.h"
 #include "cna.h"
 #include "state.h"
 
 int main(int argc, char* argv[]) {
-    std::string input_filename;
-    std::string input_fingerprint;
-    bool periodic;
-
     try {
         TCLAP::CmdLine cmd("CNA algorithm");
 

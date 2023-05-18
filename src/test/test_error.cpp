@@ -22,7 +22,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "geometry_reader.h"
-#include "patterns.h"
+#include "pattern_library.h"
 
 // check that an error is thrown when trying to read a file that does not exist
 BOOST_AUTO_TEST_CASE(test_error) {

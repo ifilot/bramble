@@ -80,15 +80,25 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 
 # Add sources
 file(GLOB SOURCES "*.cpp")
-list(REMOVE_ITEM SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+list(REMOVE_ITEM
+     SOURCES
+     ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp
+     ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
+
 add_library(bramblesources STATIC ${SOURCES})
-add_executable(bramble ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+
+add_executable(bramble ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp)
+add_executable(brambletool ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
 
 # Set newer C++ version
 add_definitions(-std=c++17 -march=native)
 
 # Link libraries
 target_link_libraries(bramble
+                      bramblesources
+                      ${Boost_LIBRARIES})
+
+target_link_libraries(brambletool
                       bramblesources
                       ${Boost_LIBRARIES})
 

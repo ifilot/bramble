@@ -1,8 +1,11 @@
-.. _examples:
-.. index:: Examples
+.. _gallery:
+.. index:: Gallery
 
-Examples
-========
+Gallery
+=======
+
+On this page, you can find a series of example images constructed using
+:program:`Bramble`.
 
 .. figure:: _static/img/examples/nanoparticles.png
     :align: center
@@ -11,4 +14,8 @@ Examples
     atoms of cobalt nanoparticles of varying size. Details of this work
     can be found in the `publication <https://pubs.acs.org/doi/10.1021/acscatal.1c00651>`_.
 
+*****
+
 ..  youtube:: 9P0frhULKpw
+
+*****

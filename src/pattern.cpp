@@ -18,30 +18,28 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#include "pattern.h"
 
-#include <Eigen/Dense>
+/**
+ * @brief      Constructs the object.
+ *
+ * @param[in]  _key      JSON key
+ * @param[in]  _name     name
+ * @param[in]  _pattern  fingerprint
+ */
+Pattern::Pattern(const std::string& _key,
+                 const std::string& _name,
+                 const std::string& _pattern,
+                 const std::string& _color) :
+key(_key),
+pattern_name(_name),
+pattern(_pattern),
+color(_color)
+{
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+}
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
-
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
-    }
-};
-
-#endif // _MATRIXMATH_H
+std::ostream &operator<<(std::ostream &os, const Pattern& m) {
+    os << m.get_fingerprint();
+    return os;
+}

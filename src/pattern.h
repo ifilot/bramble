@@ -18,30 +18,70 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#ifndef _PATTERN_H
+#define _PATTERN_H
 
-#include <Eigen/Dense>
+#include "config.h"
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+#include <iostream>
+#include <unordered_map>
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
+class Pattern {
+private:
+    std::string key;
+    std::string pattern_name;
+    std::string pattern;
+    std::string color;
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
+public:
+    /**
+     * @brief      Constructs the object.
+     *
+     * @param[in]  _key      JSON key
+     * @param[in]  _name     name
+     * @param[in]  _pattern  fingerprint
+     * @param[in]  _color    color
+     */
+    Pattern(const std::string& _key, const std::string& _name,
+        const std::string& _pattern, const std::string& _color);
 
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
+    /**
+     * @brief      Gets the key.
+     *
+     * @return     The key.
+     */
+    inline const std::string& get_key() const {
+        return this->key;
+    }
+
+    /**
+     * @brief      Gets the name.
+     *
+     * @return     The name.
+     */
+    inline const std::string& get_name() const {
+        return this->pattern_name;
+    }
+
+    /**
+     * @brief      Gets the fingerprint.
+     *
+     * @return     The fingerprint.
+     */
+    inline const std::string& get_fingerprint() const {
+        return this->pattern;
+    }
+
+    /**
+     * @brief      Gets the color.
+     *
+     * @return     The color.
+     */
+    inline const std::string& get_color() const {
+        return this->color;
     }
 };
 
-#endif // _MATRIXMATH_H
+std::ostream &operator<<(std::ostream &os, const Pattern& m);
+
+#endif //_PATTERN_H
