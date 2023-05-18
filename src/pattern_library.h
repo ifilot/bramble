@@ -33,6 +33,7 @@
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/regex.hpp>
 
 #include "pattern.h"
 
@@ -110,6 +111,59 @@ public:
      */
     void add_pattern(const std::string& key, const std::string& pattern,
                      const std::string& name, const std::string& color);
+
+    /**
+     * @brief      edit a pattern in library
+     *
+     * @param[in]  key      JSON key
+     * @param[in]  pattern  fingerprint
+     * @param[in]  name     name or label of the pattern
+     * @param[in]  color    color
+     */
+    void edit_pattern(const std::string& key, const std::string& pattern,
+                      const std::string& name, const std::string& color);
+
+    /**
+     * @brief      remove a pattern in library
+     *
+     * @param[in]  key      JSON key
+     * @param[in]  pattern  fingerprint
+     */
+    void remove_pattern(const std::string& key, const std::string& pattern);
+
+    /**
+     * @brief      remove a pattern in library
+     *
+     * @param[in]  key      JSON key
+     */
+    void delete_pattern_by_key(const std::string& key);
+
+    /**
+     * @brief      Determines whether the specified pattern is valid pattern.
+     *
+     * @param[in]  pattern  The pattern
+     *
+     * @return     True if the specified pattern is valid pattern, False otherwise.
+     */
+    bool is_valid_pattern(const std::string& pattern) const;
+
+    /**
+     * @brief      Determines whether the specified key is valid key.
+     *
+     * @param[in]  key  The key
+     *
+     * @return     True if the specified key is valid key, False otherwise.
+     */
+    bool is_valid_key(const std::string& key) const;
+
+    /**
+     * @brief      Determines whether the specified colorcode is valid colorcode.
+     *
+     * @param[in]  colorcode  The colorcode
+     *
+     * @return     True if the specified colorcode is valid colorcode, False otherwise.
+     */
+    bool is_valid_colorcode(const std::string& colorcode) const;
 
 private:
 };

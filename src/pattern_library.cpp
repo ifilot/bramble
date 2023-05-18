@@ -116,7 +116,22 @@ void PatternLibrary::store_pattern_library(const std::string& filename) const {
  * @param[in]  name     name or label of the pattern
  */
 void PatternLibrary::add_pattern(const std::string& key, const std::string& pattern,
-    const std::string& name, const std::string& color) {
+                                 const std::string& name, const std::string& color) {
+    // check if pattern is valid
+    if(!this->is_valid_pattern(pattern)) {
+        throw std::runtime_error("Pattern \"" + pattern + "\" is invalid!");
+    }
+
+    // check if key is valid
+    if(!this->is_valid_key(key)) {
+        throw std::runtime_error("Key \"" + key + "\" is invalid!");
+    }
+
+    // check if color code is valid
+    if(!this->is_valid_colorcode(color)) {
+        throw std::runtime_error("Color code \"" + color + "\" is invalid!");
+    }
+
     auto got = this->patterns.find(pattern);
 
     if(got == this->patterns.end()) {
@@ -125,6 +140,61 @@ void PatternLibrary::add_pattern(const std::string& key, const std::string& patt
     } else {
         throw std::runtime_error("Pattern {" + pattern + "} already exists in library.");
     }
+}
+
+/**
+ * @brief      edit a pattern in library
+ *
+ * @param[in]  key      JSON key
+ * @param[in]  pattern  fingerprint
+ * @param[in]  name     name or label of the pattern
+ * @param[in]  color    color
+ */
+void PatternLibrary::edit_pattern(const std::string& key, const std::string& pattern,
+                                  const std::string& name, const std::string& color) {
+
+    // find key
+    const auto& got = this->get_pattern_by_key(key);
+    std::string oldpattern = got.get_fingerprint();
+
+    // check if pattern is valid
+    if(!this->is_valid_pattern(pattern)) {
+        throw std::runtime_error("Pattern \"" + pattern + "\" is invalid!");
+    }
+
+    // check if color code is valid
+    if(!this->is_valid_colorcode(color)) {
+        throw std::runtime_error("Color code \"" + color + "\" is invalid!");
+    }
+
+    try {
+        this->remove_pattern(key, oldpattern);
+    } catch(const std::exception& e) {
+        throw std::runtime_error("Unable to remove key: " + key);
+    }
+
+    this->add_pattern(key, pattern, name, color);
+}
+
+/**
+ * @brief      remove a pattern in library
+ *
+ * @param[in]  key      JSON key
+ * @param[in]  pattern  fingerprint
+ */
+void PatternLibrary::remove_pattern(const std::string& key, const std::string& pattern) {
+    this->patterns.erase(pattern);
+    this->patterns_labelkey.erase(key);
+}
+
+/**
+ * @brief      remove a pattern in library
+ *
+ * @param[in]  key      JSON key
+ */
+void PatternLibrary::delete_pattern_by_key(const std::string& key) {
+    auto got = this->get_pattern_by_key(key);
+    this->remove_pattern(got.get_key(), got.get_fingerprint());
 }
 
 /**
@@ -172,4 +242,44 @@ const Pattern& PatternLibrary::get_pattern_by_key(const std::string& key) const 
     } else {
         throw std::runtime_error("Unknown pattern key: " + key);
     }
+}
+
+/**
+ * @brief      Determines whether the specified pattern is valid pattern.
+ *
+ * @param[in]  pattern  The pattern
+ *
+ * @return     True if the specified pattern is valid pattern, False otherwise.
+ */
+bool PatternLibrary::is_valid_pattern(const std::string& pattern) const {
+    const boost::regex regex_cna_pattern("^([1-9]+\\([0-9]+,[0-9]+,[0-9]+\\))*$");
+    boost::smatch what;
+    return boost::regex_match(pattern, what, regex_cna_pattern);
+}
+
+/**
+ * @brief      Determines whether the specified key is valid key.
+ *
+ * @param[in]  key  The key
+ *
+ * @return     True if the specified key is valid key, False otherwise.
+ */
+bool PatternLibrary::is_valid_key(const std::string& key) const {
+    const boost::regex regex_key("^[A-Za-z0-9_-]+$");
+    boost::smatch what;
+    return boost::regex_match(key, what, regex_key);
+}
+
+
+/**
+ * @brief      Determines whether the specified colorcode is valid colorcode.
+ *
+ * @param[in]  colorcode  The colorcode
+ *
+ * @return     True if the specified colorcode is valid colorcode, False otherwise.
+ */
+bool PatternLibrary::is_valid_colorcode(const std::string& colorcode) const {
+    const boost::regex regex_color_code("^[A-Fa-f0-9]{6}$");
+    boost::smatch what;
+    return boost::regex_match(colorcode, what, regex_color_code);
 }

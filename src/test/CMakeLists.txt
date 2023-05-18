@@ -31,6 +31,8 @@ SET(TESTS
     test_error
     test_poscar
     test_cna
+    test_fingerprint
+    test_pattern_library
     )
 
 foreach(testexec ${TESTS})

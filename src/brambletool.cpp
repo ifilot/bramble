@@ -44,12 +44,20 @@ int main(int argc, char* argv[]) {
         // add a new pattern
         TCLAP::ValueArg<std::string> arg_newpattern("a", "add", "Add a new pattern to the file", false, "", "patterndata");
 
+        // edit a existing pattern
+        TCLAP::ValueArg<std::string> arg_editpattern("e", "edit", "Add a new pattern to the file", false, "", "patterndata");
+
+        // delete an existing pattern
+        TCLAP::ValueArg<std::string> arg_deletepattern("d", "delete", "Delete a pattern from the dataset", false, "", "patterndata");
+
         // find pattern by label
         TCLAP::ValueArg<std::string> arg_find_label("l", "label", "Find pattern by label", false, "", "labelname");
 
         // add and parse arguments
         cmd.add(arg_fingerprint);
         cmd.add(arg_newpattern);
+        cmd.add(arg_editpattern);
+        cmd.add(arg_deletepattern);
         cmd.parse(argc, argv);
 
         std::cout << "--------------------------------------------------------------" << std::endl;
@@ -63,7 +71,9 @@ int main(int argc, char* argv[]) {
 
         auto start = std::chrono::system_clock::now();
 
+        //------------------------------------------------------------------------------------------
         // create a new empty patterns file
+        //------------------------------------------------------------------------------------------
         if(swarg_create.getValue()) {
             if(std::filesystem::exists(arg_fingerprint.getValue())) {
                 std::cout << "Are you sure you want to overwrite existing pattern file (Y/N)?" << std::endl;
@@ -96,8 +106,9 @@ int main(int argc, char* argv[]) {
             return -1;
         }
 
-
+        //------------------------------------------------------------------------------------------
         // add a new pattern to the file
+        //------------------------------------------------------------------------------------------
         if(!arg_newpattern.getValue().empty()) {
             std::vector<std::string> pieces;
 
@@ -132,7 +143,72 @@ int main(int argc, char* argv[]) {
             return 0;
         }
 
+        //------------------------------------------------------------------------------------------
+        // edit an existing pattern to the file
+        //------------------------------------------------------------------------------------------
+        if(!arg_editpattern.getValue().empty()) {
+            std::vector<std::string> pieces;
+
+            std::string patternstr = arg_newpattern.getValue();
+            boost::algorithm::trim_all(patternstr);
+            boost::split(pieces, patternstr, boost::is_any_of(";"));
+
+            // check if number of items is correct
+            if(pieces.size() != 4) {
+                throw std::runtime_error("Invalid pattern description: " + patternstr);
+            }
+
+            // clean pieces
+            for(auto& piece : pieces) {
+                boost::algorithm::trim_all(piece);
+            }
+
+            // add key - pattern - name - color
+            pl.edit_pattern(pieces[0], pieces[1], pieces[2], pieces[3]);
+
+            std::cout << "Editing pattern:" << std::endl;
+            std::cout << "    Key: " << pieces[0] << std::endl;
+            std::cout << "    Pattern: " << pieces[1] << std::endl;
+            std::cout << "    Name: " << pieces[2] << std::endl;
+            std::cout << "    Color: " << pieces[3] << std::endl;
+
+            pl.store_pattern_library(arg_fingerprint.getValue());
+            std::cout << "Storing pattern file as: " << arg_fingerprint.getValue() << std::endl;
+
+            std::cout << "--------------------------------------------------------------" << std::endl;
+            std::cout << "Done." << std::endl;
+            return 0;
+        }
+
+        //------------------------------------------------------------------------------------------
+        // delete a pattern from the file
+        //------------------------------------------------------------------------------------------
+        if(!arg_deletepattern.getValue().empty()) {
+
+            std::string key = arg_deletepattern.getValue();
+            boost::algorithm::trim_all(key);
+
+            auto got = pl.get_pattern_by_key(key);
+
+            std::cout << "Deleting pattern:" << std::endl;
+            std::cout << "    Key: " << got.get_key() << std::endl;
+            std::cout << "    Pattern: " << got.get_fingerprint() << std::endl;
+            std::cout << "    Name: " << got.get_name() << std::endl;
+            std::cout << "    Color: " << got.get_color() << std::endl;
+
+            pl.delete_pattern_by_key(key);
+
+            pl.store_pattern_library(arg_fingerprint.getValue());
+            std::cout << "Storing pattern file as: " << arg_fingerprint.getValue() << std::endl;
+
+            std::cout << "--------------------------------------------------------------" << std::endl;
+            std::cout << "Done." << std::endl;
+            return 0;
+        }
+
+        //------------------------------------------------------------------------------------------
         // print list of patterns, stop after printing
+        //------------------------------------------------------------------------------------------
         if(swarg_list.getValue()) {
             std::cout << "Printing list of patterns:" << std::endl;
             for(const auto& item : pl.get_patterns()) {
@@ -146,7 +222,9 @@ int main(int argc, char* argv[]) {
             return 0;
         }
 
+        //------------------------------------------------------------------------------------------
         // find a pattern
+        //------------------------------------------------------------------------------------------
         if(!arg_find_label.getValue().empty()) {
             std::cout << "Searching for pattern: " << arg_find_label.getValue() << std::endl;
             auto pattern = pl.get_pattern(arg_find_label.getValue());
