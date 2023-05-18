@@ -38,6 +38,9 @@ int main(int argc, char* argv[]) {
         // list fingerprints
         TCLAP::SwitchArg swarg_list("l","list","List all fingerprints in pattern file", cmd, false);
 
+        // validate fingerprints
+        TCLAP::SwitchArg swarg_validate("v","validate","Validate all fingerprints in pattern file", cmd, false);
+
         // create new empty patterns file
         TCLAP::SwitchArg swarg_create("c","create","Create a new empty patterns file", cmd, false);
 
@@ -216,6 +219,26 @@ int main(int argc, char* argv[]) {
                                 % item.second.get_name()
                                 % item.second.get_color()
                                 % item.second.get_fingerprint()).str() << std::endl;
+            }
+            std::cout << "--------------------------------------------------------------" << std::endl;
+            std::cout << "Done." << std::endl;
+            return 0;
+        }
+
+        //------------------------------------------------------------------------------------------
+        // validate list of patterns, stop after printing
+        //------------------------------------------------------------------------------------------
+        if(swarg_validate.getValue()) {
+            std::cout << "Validating list of patterns:" << std::endl;
+
+            for(const auto& item : pl.get_patterns()) {
+                std::cout << (boost::format("%22s %8s [%1s] %s [%1s]")
+                                % item.second.get_name()
+                                % item.second.get_color()
+                                % (pl.is_valid_colorcode(item.second.get_color()) ? "V" : "X")
+                                % item.second.get_fingerprint()
+                                % (pl.is_valid_pattern(item.second.get_fingerprint()) ? "V" : "X")
+                              ).str() << std::endl;
             }
             std::cout << "--------------------------------------------------------------" << std::endl;
             std::cout << "Done." << std::endl;

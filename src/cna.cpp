@@ -217,18 +217,52 @@ void CNA::write_analysis(const std::string& filename) {
     outfile << "#     atom           x             y             z   color       pattern  fingerprint" << std::endl;
     outfile << dashed_lines << std::endl;
 
+    // collecting statistics
+    std::unordered_map<std::string, unsigned int> abundancies;
+
     // print finger prints and analysis
     for(unsigned int i=0; i<this->fingerprints.size(); ++i) {
         const auto& atompos = this->state->get_atom_pos_cartesian(i);
         const auto& element = this->state->get_elements()[i];
+        const std::string fingerprintstr = this->fingerprints[i];
+
+        if(abundancies.find(fingerprintstr) != abundancies.end()) {
+            abundancies.find(fingerprintstr)->second++;
+        } else {
+            abundancies.emplace(fingerprintstr, 1);
+        }
 
         outfile << boost::format("%04i  %2s  %12.6f  %12.6f  %12.6f  %6s  %12s  %s\n")
-            % (i+1) % element % atompos[0] % atompos[1] % atompos[2]
-            % this->pl->get_pattern(this->fingerprints[i]).get_color()
-            % this->pl->identify_pattern(this->fingerprints[i]) % this->fingerprints[i];
+                    % (i+1)
+                    % element
+                    % atompos[0]
+                    % atompos[1]
+                    % atompos[2]
+                    % this->pl->get_pattern(fingerprintstr).get_color()
+                    % this->pl->identify_pattern(fingerprintstr)
+                    % fingerprintstr;
     }
 
-    dashed_lines.resize(100, '-');
+    outfile << dashed_lines << std::endl << std::endl;
+
+    // dump abundancy map into a vector and sort it
+    std::vector<std::pair<std::string, unsigned int> > abundancies_v(abundancies.begin(), abundancies.end());
+    std::sort(abundancies_v.begin(), abundancies_v.end(), greater_second<std::string, unsigned int>());
+
+    // output statistics
+    outfile << "Statistics" << std::endl;
+    outfile << dashed_lines << std::endl;
+    outfile << " #atom    perc      pattern fingerprint" << std::endl;
+    outfile << dashed_lines << std::endl;
+    for(const auto& item : abundancies_v) {
+        outfile << boost::format("%6i  %5.2f%% %12s %s\n")
+                    % item.second
+                    % ((double)item.second / (double)this->fingerprints.size() * 100.)
+                    % this->pl->identify_pattern(item.first)
+                    % item.first;
+    }
+
+    outfile << dashed_lines << std::endl;
     outfile << "Done" << std::endl;
 
     outfile.close();

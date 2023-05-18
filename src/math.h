@@ -35,4 +35,13 @@ typedef Eigen::Vector3f Vec3f;
 typedef Vec3f Vec3;
 typedef float fpt;  // general floating point type
 
+// needed for sorting unordered maps based on second item
+template <typename T1, typename T2>
+struct greater_second {
+    typedef std::pair<T1, T2> type;
+    bool operator ()(type const& a, type const& b) const {
+        return a.second > b.second;
+    }
+};
+
 #endif // _MATRIXMATH_H
