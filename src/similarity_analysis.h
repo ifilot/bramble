@@ -60,6 +60,11 @@ public:
 
     void create_permutation(unsigned int perm);
 
+    /**
+     * @brief      Write result of similarity analysis
+     *
+     * @param[in]  filename  Output file
+     */
     void write_analysis(const std::string& filename);
 
 private:

@@ -179,18 +179,17 @@ float SimilarityAnalysis::calculate_distance_metric_single_thread(const MatrixXX
         dm2c = dm2;
     }
 
-    size_t minsize = std::min(dm1c.rows(), dm2c.rows());
     size_t maxsize = std::max(dm1c.rows(), dm2c.rows());
 
     dm1c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
     dm2c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
 
-    if(!this->permutation_generators[minsize-1]) {
-        this->create_permutation(minsize);
+    if(!this->permutation_generators[maxsize-1]) {
+        this->create_permutation(maxsize);
     }
 
     // build permutation generator and create pointer
-    auto pg = this->permutation_generators[minsize-1].get();
+    auto pg = this->permutation_generators[maxsize-1].get();
     const auto& permutations = pg->get_permutation_vector();
 
     float lownorm = 1e6;
@@ -206,8 +205,8 @@ float SimilarityAnalysis::calculate_distance_metric_single_thread(const MatrixXX
         }
     }
 
-    for(unsigned int i=0; i<minsize; i++) {
-        permvec[i] = permutations[pid * minsize + i];
+    for(unsigned int i=0; i<maxsize; i++) {
+        permvec[i] = permutations[pid * maxsize + i];
     }
 
     return std::sqrt(lownorm);
@@ -224,18 +223,17 @@ float SimilarityAnalysis::calculate_distance_metric_openmp(const MatrixXXf& dm1,
         dm2c = dm2;
     }
 
-    size_t minsize = std::min(dm1c.rows(), dm2c.rows());
     size_t maxsize = std::max(dm1c.rows(), dm2c.rows());
 
     dm1c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
     dm2c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
 
-    if(!this->permutation_generators[minsize-1]) {
-        this->create_permutation(minsize);
+    if(!this->permutation_generators[maxsize-1]) {
+        this->create_permutation(maxsize);
     }
 
     // build permutation generator and create pointer
-    auto pg = this->permutation_generators[minsize-1].get();
+    auto pg = this->permutation_generators[maxsize-1].get();
     const auto& permutations = pg->get_permutation_vector();
 
     int mxthread = omp_get_max_threads();
@@ -272,8 +270,8 @@ float SimilarityAnalysis::calculate_distance_metric_openmp(const MatrixXXf& dm1,
         }
     }
 
-    for(unsigned int i=0; i<minsize; i++) {
-        permvec[i] = permutations[pid * minsize + i];
+    for(unsigned int i=0; i<maxsize; i++) {
+        permvec[i] = permutations[pid * maxsize + i];
     }
 
     return std::sqrt(lownorm);
@@ -300,11 +298,10 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, c
         dm2c = dm2;
     }
 
-    size_t minsize = std::min(dm1c.rows(), dm2c.rows());
     size_t maxsize = std::max(dm1c.rows(), dm2c.rows());
 
-    if(!this->permutation_generators[minsize-1]) {
-        this->create_permutation(minsize);
+    if(!this->permutation_generators[maxsize-1]) {
+        this->create_permutation(maxsize);
     }
 
     dm1c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
@@ -320,7 +317,7 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, c
         }
     }
 
-    auto pg = this->permutation_generators[minsize-1].get();
+    auto pg = this->permutation_generators[maxsize-1].get();
 
     MetricAnalyzerCUDA mac;
     const size_t N = pg->get_nr_perm();
@@ -335,7 +332,7 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, c
 
     for(size_t i=0; i<N; i+= increment) {
         std::vector<float> results(std::min(N,increment));
-        mac.analyze_cuda(minsize, i, std::min(N,i+increment), permutations, dm1cv, dm2cv, results);
+        mac.analyze_cuda(maxsize, i, std::min(N,i+increment), permutations, dm1cv, dm2cv, results);
 
         // find minimum value
         unsigned int pid = 0;
@@ -350,8 +347,8 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, c
 
         // return permutation
         if(findbetter) {
-            for(unsigned int j=0; j<minsize; j++) {
-                permvec[j] = permutations[pid * minsize + j];
+            for(unsigned int j=0; j<maxsize; j++) {
+                permvec[j] = permutations[pid * maxsize + j];
             }
         }
     }
@@ -382,8 +379,7 @@ float SimilarityAnalysis::analyze_single(const MatrixXXf& mat1,
     float norm = 0.0f;
 
     // note that the second matrix is in principle the smaller one, but appended by zeros to match the size of the
-    // first matrix. We only need to loop over the (original) size of the second matrix, which matches the size
-    // of the exchange vector
+    // first matrix. We only need to loop over the (original) size of the larger matrix.
     for(unsigned int i=0; i<ex.size(); i++) {
         for(unsigned int j=i+1; j<ex.size(); j++) {
             norm += (mat1(i,j) - mat2(ex[i], ex[j])) * (mat1(i,j) - mat2(ex[i], ex[j]));
@@ -420,6 +416,11 @@ float SimilarityAnalysis::calculate_adjacency_metric_perm(const MatrixXXb& am1, 
     return (float)anorm * 2.0f;
 }
 
+/**
+ * @brief      Write result of similarity analysis
+ *
+ * @param[in]  filename  Output file
+ */
 void SimilarityAnalysis::write_analysis(const std::string& filename) {
     std::ofstream outfile(filename);
 
