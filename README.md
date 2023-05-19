@@ -32,6 +32,24 @@ To test that Bramble is working, run the test suite
 make test
 ```
 
+For debugging purposes, one can run
+
+```bash
+CTEST_OUTPUT_ON_FAILURE=TRUE make test
+```
+
+### CUDA support
+
+To compile `bramble` with CUDA support, run
+
+```bash
+cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=sm_89
+```
+
+where the value for `DCUDA_ARCH` should match the architecture of your graphical
+card. A nice overview is given [here](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/).
+For example, for a `RTX 4090`,  `-DCUDA_ARCH=sm_89`.
+
 ## Usage
 
 ```bash

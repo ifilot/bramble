@@ -29,6 +29,7 @@
 #include "state.h"
 #include "permutation_generator.h"
 #include "metric_analyzer_cuda.h"
+#include "progress_bar.h"
 
 class SimilarityAnalysis {
 private:
@@ -36,27 +37,30 @@ private:
     std::vector<std::unique_ptr<PermutationGenerator>> permutation_generators;
     std::vector<MatrixXXf> distance_matrices;
     std::vector<std::vector<size_t> > neighbor_ids;
+    MatrixXXf jobtimes;
     MatrixXXf distances;
     MatrixXXf distance_metric_matrix;
 
 public:
-    SimilarityAnalysis(bool unsafe = false);
+    SimilarityAnalysis(bool unsafe = false, bool lazy_init = true);
 
     void analyze(const std::shared_ptr<State>& _state);
 
     float calculate_distance_metric_single_thread(const MatrixXXf& dm1,
                                                   const MatrixXXf& dm2,
-                                                  unsigned int* permvec) const ;
+                                                  unsigned int* permvec);
 
-    float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const;
+    float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
 
     #ifdef MOD_CUDA
-    float calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const;
+    float calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
     #endif
+
+    float calculate_adjacency_metric_perm(const MatrixXXb& am1, const MatrixXXb& am2, const unsigned int* permvec) const;
 
     void create_permutation(unsigned int perm);
 
-    float calculate_adjacency_metric_perm(const MatrixXXb& am1, const MatrixXXb& am2, const unsigned int* permvec) const;
+    void write_analysis(const std::string& filename);
 
 private:
     float analyze_single(const MatrixXXf& mat1, const MatrixXXf& mat2, const std::vector<size_t>& ex) const ;

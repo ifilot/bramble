@@ -56,6 +56,9 @@ int main(int argc, char* argv[]) {
         std::cout << "--------------------------------------------------------------" << std::endl;
         std::cout << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
         std::cout << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
+        #ifdef MOD_CUDA
+        std::cout << "Modules: CUDA" << std::endl;
+        #endif // MOD_CUDA
         std::cout << "--------------------------------------------------------------" << std::endl;
 
         auto start = std::chrono::system_clock::now();
@@ -87,6 +90,9 @@ int main(int argc, char* argv[]) {
 
             // perform analysis
             sl.analyze(state);
+
+            // write to file
+            sl.write_analysis(arg_output_filename.getValue());
         }
 
         auto end = std::chrono::system_clock::now();

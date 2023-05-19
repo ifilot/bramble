@@ -26,12 +26,12 @@
 
 typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
+typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXf;
+typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
+typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXi;
 typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXu;
+typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
+typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXu;
 
 typedef Eigen::Vector3f Vec3f;
 typedef Vec3f Vec3;

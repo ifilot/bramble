@@ -31,6 +31,9 @@ int main(int argc, char* argv[]) {
     std::cout << "--------------------------------------------------------------" << std::endl;
     std::cout << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
     std::cout << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
+    #ifdef MOD_CUDA
+    std::cout << "Modules: CUDA" << std::endl;
+    #endif // MOD_CUDA
     std::cout << "--------------------------------------------------------------" << std::endl;
     std::cout << "Testing CUDA..." << std::endl;
 
