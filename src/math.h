@@ -30,6 +30,7 @@ typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
 typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
 typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
 typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
+typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXu;
 
 typedef Eigen::Vector3f Vec3f;
 typedef Vec3f Vec3;
