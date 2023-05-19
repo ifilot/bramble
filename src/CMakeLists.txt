@@ -35,7 +35,7 @@ execute_process(
 
 # prepare configuration file
 SET(VERSION_MAJOR "0")
-SET(VERSION_MINOR "2")
+SET(VERSION_MINOR "3")
 SET(VERSION_MICRO "0")
 configure_file(config.h.in ../src/config.h @ONLY)
 
@@ -78,12 +78,32 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
                     ${Boost_INCLUDE_DIRS}
                     ${EIGEN_INCLUDE_DIRS})
 
+# enable CUDA support
+if(MOD_CUDA)
+    find_package(CUDA 12.1 REQUIRED)
+    set(CUDA_SEPARABLE_COMPILATION ON)
+    set(CUDA_PROPAGATE_HOST_FLAGS OFF)
+    set(CUDA_HOST_COMPILER g++)
+    set(CUDA_NVCC_FLAGS "-arch=${CUDA_ARCH}")
+    file(GLOB CUDA_FILES "src/" *.cu)
+    CUDA_ADD_LIBRARY(cuda_files ${CUDA_FILES})
+
+    # create cuda test executable for probing cards
+    add_executable(bramblecuda ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
+    target_link_libraries(bramblecuda
+                          cuda_files)
+
+    # set compile directive
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMOD_CUDA")
+endif()
+
 # Add sources
 file(GLOB SOURCES "*.cpp")
 list(REMOVE_ITEM
      SOURCES
      ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp
-     ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
+     ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp
+     ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
 
 add_library(bramblesources STATIC ${SOURCES})
 
@@ -94,9 +114,16 @@ add_executable(brambletool ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
 add_definitions(-std=c++17 -march=native)
 
 # Link libraries
-target_link_libraries(bramble
-                      bramblesources
-                      ${Boost_LIBRARIES})
+if(MOD_CUDA)
+    target_link_libraries(bramble
+                          bramblesources
+                          cuda_files
+                          ${Boost_LIBRARIES})
+else()
+    target_link_libraries(bramble
+                          bramblesources
+                          ${Boost_LIBRARIES})
+endif()
 
 target_link_libraries(brambletool
                       bramblesources

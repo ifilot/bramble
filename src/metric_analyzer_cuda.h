@@ -18,32 +18,45 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#ifndef _METRIC_ANALYZER_CUDA_H
+#define _METRIC_ANALYZER_CUDA_H
 
-#define EIGEN_NO_CUDA
-#include <Eigen/Dense>
+#include <iostream>
+#include <vector>
+#include <chrono>
+#include <stdint.h>
+#include <omp.h>
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+class MetricAnalyzerCUDA {
+private:
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXu;
+public:
+    MetricAnalyzerCUDA();
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
+    /**
+     * @brief      calculate distance metric using GPU
+     *
+     * @param[in]  psize       number of atom indices
+     * @param[in]  start       starting permutation index
+     * @param[in]  stop        stopping permutation index
+     * @param[in]  _exchanges  vector holding exchanges
+     * @param[in]  _mat1       distance matrix of atom 1
+     * @param[in]  _mat2       distance matrix of atom 2
+     * @param      _results    result vector (distance of each permutation)
+     *
+     * @return     lowest permutation
+     */
+    float analyze_cuda(size_t psize,
+                       size_t start,
+                       size_t stop,
+                       const std::vector<uint8_t>& _exchanges,
+                       const std::vector<float>& _mat1,
+                       const std::vector<float>& _mat2,
+                       std::vector<float>& _results);
 
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
-    }
+private:
+
 };
 
-#endif // _MATRIXMATH_H
+
+#endif // _METRIC_ANALYZER_CUDA_H

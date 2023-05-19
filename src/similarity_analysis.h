@@ -28,6 +28,7 @@
 
 #include "state.h"
 #include "permutation_generator.h"
+#include "metric_analyzer_cuda.h"
 
 class SimilarityAnalysis {
 private:
@@ -36,15 +37,22 @@ private:
     std::vector<MatrixXXf> distance_matrices;
     std::vector<std::vector<size_t> > neighbor_ids;
     MatrixXXf distances;
+    MatrixXXf distance_metric_matrix;
 
 public:
     SimilarityAnalysis(bool unsafe = false);
 
     void analyze(const std::shared_ptr<State>& _state);
 
-    float calculate_distance_metric_single_thread(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const ;
+    float calculate_distance_metric_single_thread(const MatrixXXf& dm1,
+                                                  const MatrixXXf& dm2,
+                                                  unsigned int* permvec) const ;
 
-    float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const ;
+    float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const;
+
+    #ifdef MOD_CUDA
+    float calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const;
+    #endif
 
     void create_permutation(unsigned int perm);
 
@@ -71,6 +79,10 @@ private:
      * @return     cutoff distance
      */
     float calculate_cutoff(size_t atid);
+
+    #ifdef MOD_CUDA
+    void selftest(unsigned int sz);
+    #endif
 };
 
 

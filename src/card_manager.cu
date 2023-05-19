@@ -18,32 +18,36 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#include "card_manager.h"
 
-#define EIGEN_NO_CUDA
-#include <Eigen/Dense>
+CardManager::CardManager() {}
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+void CardManager::probe_cards() {
+    int nDevices;
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> MatrixXXb;
-typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic> MatrixXXu;
+	cudaGetDeviceCount(&nDevices);
+	for (int i = 0; i < nDevices; i++) {
+		cudaDeviceProp prop;
+		cudaGetDeviceProperties(&prop, i);
+		std::cout << "Device Number: " << i << std::endl;
+		std::cout << "  Device name: " << prop.name << std::endl;
+		std::cout << "  Memory Clock Rate (KHz): " << prop.memoryClockRate << std::endl;
+		std::cout << "  Memory Bus Width (bits): " << prop.memoryBusWidth << std::endl;
+		std::cout << "  Peak Memory Bandwidth (GB/s): " << 2.0*prop.memoryClockRate*(prop.memoryBusWidth/8)/1.0e6 << std::endl << std::endl;
+	}
+}
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
+int CardManager::get_num_gpus() {
+    int nDevices;
+    cudaGetDeviceCount(&nDevices);
+    return nDevices;
+}
 
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
-    }
-};
+void CardManager::set_gpu_to_thread() {
+    int id = omp_get_thread_num();
+    cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, id);
 
-#endif // _MATRIXMATH_H
+    std::cout << "Setting GPU " << id << " to thread " << id << std::endl;
+    cudaSetDevice(id);
+}

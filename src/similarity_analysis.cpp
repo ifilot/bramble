@@ -36,9 +36,25 @@ SimilarityAnalysis::SimilarityAnalysis(bool unsafe) {
     std::cout << "Done constructing permutations in " << elapsed_seconds.count() << " seconds." << std::endl;
 
     std::cout << std::endl;
+
+    // perform a self-evaluation of CPU vs GPU performance if the
+    // CUDA module is enabled
+    #ifdef MOD_CUDA
+    tstart = std::chrono::system_clock::now();
+    std::cout << "Executing selftests" << std::endl;
+
+    for(unsigned int i=6; i<12; i++) {
+        this->selftest(i);
+    }
+
+    std::cout << "Done executing selftests: all OK! " << std::endl;
+    std::cout << std::endl;
+    #endif // MOD_CUDA
 }
 
 void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
+    std::cout << "Start Similarity Analysis" << std::endl;
+
     // clear contents when doing new analysis
     this->distances.resize(0,0); // clear matrix contents
     this->neighbor_ids.clear();  // clear neighbors
@@ -48,15 +64,75 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
     this->neighbor_ids.resize(this->state->get_nr_atoms());
 
     // calculate all distances
+    std::cout << "Copying interatomic distances to similarity analysis object." << std::endl;
     this->distances = this->state->get_distances();
 
     // expand adjacency matrix vector
     this->distance_matrices.resize(this->state->get_nr_atoms());
 
+    // construct local density matrices
+    std::cout << "Constructing local density matrices...";
     #pragma omp parallel for
-    for(unsigned int i=0; i<this->distances.size(); i++) {
+    for(unsigned int i=0; i<this->state->get_nr_atoms(); i++) {
         this->distance_matrices[i] = this->construct_distance_matrix(i, this->calculate_cutoff(i));
     }
+    std::cout << " Done!" << std::endl;
+
+    // perform similarity analysis
+    this->distance_metric_matrix = MatrixXXf::Zero(this->state->get_nr_atoms(),this->state->get_nr_atoms());
+
+    // create a list of jobs
+    std::vector<std::pair<unsigned int, unsigned int>> jobs;
+    for(unsigned int i=0; i<this->state->get_nr_atoms(); i++) {
+        for(unsigned int j=i+1; j<this->state->get_nr_atoms(); j++) {
+            jobs.emplace_back(i,j);
+        }
+    }
+
+    // give number of threads
+    #pragma omp parallel
+    {
+        int nrthreads = omp_get_num_threads();
+        int threadnum = omp_get_thread_num();
+
+        if(threadnum ==  0) {
+            std::cout << "Executing similarity analysis using " << nrthreads << " threads." << std::endl;
+        }
+    }
+
+    // execute jobs in parallel
+    #ifdef MOD_CUDA
+    for(unsigned int k=0; k<jobs.size(); k++) {
+        std::cout << (k+1) << " / " << jobs.size() << std::endl;
+
+        const unsigned int i = jobs[k].first;
+        const unsigned int j = jobs[k].second;
+        std::vector<unsigned int> permvec(12,0);
+        for(unsigned int j=i+1; j<this->state->get_nr_atoms(); j++) {
+            float mhsn = this->calculate_distance_metric_cuda(this->distance_matrices[i],
+                                                              this->distance_matrices[j],
+                                                              &permvec[0]);
+            this->distance_metric_matrix(i,j) = this->distance_metric_matrix(j,i) = mhsn;
+        }
+    }
+    #else
+    #pragma omp parallel for schedule(dynamic)
+    for(unsigned int k=0; k<jobs.size(); k++) {
+
+        #pragma omp critical
+        std::cout << (k+1) << " / " << jobs.size() << std::endl;
+
+        const unsigned int i = jobs[k].first;
+        const unsigned int j = jobs[k].second;
+        std::vector<unsigned int> permvec(12,0);
+        for(unsigned int j=i+1; j<this->state->get_nr_atoms(); j++) {
+            float mhsn = this->calculate_distance_metric_single_thread(this->distance_matrices[i],
+                                                                       this->distance_matrices[j],
+                                                                       &permvec[0]);
+            this->distance_metric_matrix(i,j) = this->distance_metric_matrix(j,i) = mhsn;
+        }
+    }
+    #endif
 }
 
 float SimilarityAnalysis::calculate_distance_metric_single_thread(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const {
@@ -162,6 +238,83 @@ float SimilarityAnalysis::calculate_distance_metric_openmp(const MatrixXXf& dm1,
     return std::sqrt(lownorm);
 }
 
+#ifdef MOD_CUDA
+/**
+ * @brief      Calculates the distance metric between two distance matrices on the GPU
+ *
+ * @param[in]  dm1      distance matrix 1
+ * @param[in]  dm2      distance matrix 2
+ * @param      permvec  pointer to permutation vector
+ *
+ * @return     distance metric
+ */
+float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) const {
+    // create local copy and make matrices equal in size
+    MatrixXXf dm1c, dm2c;
+    if(dm1.rows() < dm2.rows()) {
+        dm1c = dm2;
+        dm2c = dm1;
+    } else {
+        dm1c = dm1;
+        dm2c = dm2;
+    }
+
+    size_t minsize = std::min(dm1c.rows(), dm2c.rows());
+    size_t maxsize = std::max(dm1c.rows(), dm2c.rows());
+
+    dm1c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
+    dm2c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
+
+    std::vector<float> dm1cv(maxsize * maxsize);
+    std::vector<float> dm2cv(maxsize * maxsize);
+
+    for(unsigned int i=0; i<maxsize; i++) {
+        for(unsigned int j=i; j<maxsize; j++) {
+            dm1cv[i * maxsize + j] = dm1cv[j * maxsize + i] = dm1c(i,j);
+            dm2cv[i * maxsize + j] = dm2cv[j * maxsize + i] = dm2c(i,j);
+        }
+    }
+
+    auto pg = this->permutation_generators[minsize-1].get();
+
+    MetricAnalyzerCUDA mac;
+    const size_t N = pg->get_nr_perm();
+
+    float lowest_metric = 1e6;
+    auto permutations = pg->get_permutation_vector();
+
+    // the maximum size of a 32 bit unsigned integer is 4,294,967,295; the maximum index value
+    // of 12! * 12 values equals 5,748,019,200; hence we have to submit 12! permutations in
+    // multiple (here two) stages
+    static const size_t increment = 39916800 * 6;
+
+    for(size_t i=0; i<N; i+= increment) {
+        std::vector<float> results(std::min(N,increment));
+        mac.analyze_cuda(minsize, i, std::min(N,i+increment), permutations, dm1cv, dm2cv, results);
+
+        // find minimum value
+        unsigned int pid = 0;
+        bool findbetter = false;
+        for(unsigned int j=0; j<results.size(); j++) {
+            if(results[j] < lowest_metric) {
+                lowest_metric = results[j];
+                pid = j;
+                findbetter = true;
+            }
+        }
+
+        // return permutation
+        if(findbetter) {
+            for(unsigned int j=0; j<minsize; j++) {
+                permvec[j] = permutations[pid * minsize + j];
+            }
+        }
+    }
+
+    return std::sqrt(lowest_metric);
+}
+#endif // MOD_CUDA
+
 void SimilarityAnalysis::create_permutation(unsigned int perm) {
     if(this->permutation_generators[perm-1].get() == nullptr) {
         this->permutation_generators[perm-1] = std::make_unique<PermutationGenerator>(perm);
@@ -247,21 +400,21 @@ MatrixXXf SimilarityAnalysis::construct_distance_matrix(size_t atid, float cutof
     }
 
     // construct distance matrix
-    MatrixXXf am(this->neighbor_ids[atid].size(), this->neighbor_ids[atid].size());
+    MatrixXXf dm(this->neighbor_ids[atid].size(), this->neighbor_ids[atid].size());
     for(unsigned int i=0; i<this->neighbor_ids[atid].size(); i++) {
         for(unsigned int j=i; j<this->neighbor_ids[atid].size(); j++) {
             if(i == j) {
-                am(i,j) = 0.0;
+                dm(i,j) = 0.0;
                 continue;
             }
 
             unsigned int id1 = this->neighbor_ids[atid][i];
             unsigned int id2 = this->neighbor_ids[atid][j];
-            am(i,j) = am(j,i) = this->distances(id1, id2);
+            dm(i,j) = dm(j,i) = this->distances(id1, id2);
         }
     }
 
-    return am;
+    return dm;
 }
 
 /**
@@ -290,3 +443,44 @@ float SimilarityAnalysis::calculate_cutoff(size_t atid) {
 
     return sum / 6.0f * (1.0f + std::sqrt(2.0f)) / 2.0f;
 }
+
+#ifdef MOD_CUDA
+void SimilarityAnalysis::selftest(unsigned int sz) {
+    MatrixXXf dm1 = MatrixXXf::Zero(sz,sz);
+    MatrixXXf dm2 = MatrixXXf::Zero(sz,sz);
+
+    for(unsigned int i=0; i<sz; i++) {
+        for(unsigned int j=i+1; j<sz; j++) {
+            dm1(i,j) = dm1(j,i) = (i+1) * (j+1);
+            dm2(sz - 1 - i,sz - 1 - j) = dm2(sz - 1 - j,sz - 1 - i) = (i+1) * (j+1) + 1;
+        }
+    }
+
+    unsigned int permvec[12];
+
+    // perform gpu calculation
+    auto tstart = std::chrono::system_clock::now();
+    const float gpu_ans = this->calculate_distance_metric_cuda(dm1, dm2, permvec);
+    auto tend = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds_gpu = tend - tstart;
+
+
+    // perform cpu calculation
+    tstart = std::chrono::system_clock::now();
+    const float cpu_ans = this->calculate_distance_metric_openmp(dm1, dm2, permvec);
+    tend = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds_cpu = tend - tstart;
+
+    // calculate correct number
+    const float ans = std::sqrt(sz * sz - sz);
+
+    if(std::fabs(gpu_ans - cpu_ans) < 1e-10 && std::fabs(gpu_ans - ans) < 1e-10) {
+        std::cout << boost::format("T%02i: CPU %12.6f | GPU %12.6f")
+                        % sz
+                        % elapsed_seconds_cpu.count()
+                        % elapsed_seconds_gpu.count() << std::endl;
+    } else {
+        throw std::runtime_error("Critical selftest failed; terminating.");
+    }
+}
+#endif
