@@ -24,6 +24,17 @@ visualization in `Blender <https://www.blender.org/>`_ and/or
     unknown atoms, i.e. atoms with an unknown CNA fingerprint, are rendered
     using a glass material.
 
+For fingerprints that are (still) unknown or for atoms that have a more
+amorphous chemical environment, :program:`Bramble` comes bundled with a
+similarity analysis tool. Although relatively computationally expensive to
+execute, it yields a powerful similarity metric by which the extent that
+two chemical environments are the same can be probed.
+
+.. figure:: _static/img/similarity_analysis_co1121.png
+    :align: center
+
+    Similarity analysis of the atoms for a Co(1121) slab model
+
 :program:`Bramble` has been developed at the Eindhoven University of Technology,
 Netherlands. :program:`Bramble` and its development are hosted on `github
 <https://github.com/ifilot/bramble>`_.  Bugs and feature

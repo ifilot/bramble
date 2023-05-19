@@ -15,7 +15,22 @@ the functionality of :program:`Bramble`.
 Rh FCC111
 ---------
 
+The following code is used to run this example::
 
+     ./build/bramble -p patterns/patterns.json -i src/test/data/POSCAR_Rh111 -o pa_fcc111.txt
+
+The statistics block after the CNA pattern recognition process looks as follows::
+
+    Statistics
+    ----------------------------------------------------------------------------------------------------
+     #atom    perc      pattern fingerprint
+    ----------------------------------------------------------------------------------------------------
+         5  71.43%     FCC bulk 12(4,2,1)
+         2  28.57%     FCC(111) 3(4,2,1)6(3,1,1)
+    ----------------------------------------------------------------------------------------------------
+
+.. figure:: _static/img/similarity_analysis_rh111.png
+    :align: center
 
 Co HCP 11-21
 ------------
@@ -23,7 +38,7 @@ Co HCP 11-21
 
 The following code is used to run this example::
 
-     ./build/bramble -p patterns/patterns.json -i src/test/data/POSCAR_Co1121 -o result.txt
+     ./build/bramble -p patterns/patterns.json -i src/test/data/POSCAR_Co1121 -o pa_co1121.txt
 
 The statistics block after the CNA pattern recognition process looks as follows::
 
@@ -41,3 +56,6 @@ The statistics block after the CNA pattern recognition process looks as follows:
 Clearly, we can see that all atoms are correctly identified. The majority of the
 periodic unit cell is made up of bulk HCP atoms. The different types or surface
 atoms are automatically recognized.
+
+.. figure:: _static/img/similarity_analysis_co1121.png
+    :align: center
