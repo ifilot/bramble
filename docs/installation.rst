@@ -39,6 +39,50 @@ To install :program:`Bramble`, you can in addition run::
 
 which will place a copy of the ``bramble`` executable in ``/opt/bramble/bin/bramble``.
 
+CUDA support
+------------
+
+.. tip::
+   If you are running :program:`Bramble` under Windows Subsystems for Linux (WSL)
+   version 2, you can use CUDA from the Linux environment under Windows.
+   Detailed instructions are given `here <https://docs.nvidia.com/cuda/wsl-user-guide/index.html>`_.
+
+The similarity analysis functionality of :program:`Bramble` significantly
+benefits from the availability of a graphical card. To compile :program:`Bramble`
+with CUDA support, run CMake with::
+
+    cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=<ARCH>
+
+wherein `<ARCH>` is replaced with the architecture of your graphical card. For
+example, if you use an RTX 4090, you would use ``-DCUDA_ARCH=sm_89``. To
+test that :program:`Bramble` can use your GPU, you can run the ``bramblecuda``
+tool::
+
+    ./bramblecuda
+
+Typical output should look as follows::
+
+    --------------------------------------------------------------
+    Running bramble-tool v.0.3.0
+    Author: Ivo Filot <i.a.w.filot@tue.nl>
+    Documentation: https://bramble.imc-tue.nl
+    --------------------------------------------------------------
+    Compilation time: May 19 2023 16:19:56
+    Git Hash: 64694c5
+    Modules: CUDA
+    --------------------------------------------------------------
+    Testing CUDA...
+    Device Number: 0
+      Device name: NVIDIA GeForce RTX 4090
+      Memory Clock Rate (KHz): 10501000
+      Memory Bus Width (bits): 384
+      Peak Memory Bandwidth (GB/s): 1008.1
+
+.. note::
+   There is currently no support for using multiple GPUs. :program:`Bramble`
+   automatically selects the first GPU available and executes the code on this
+   GPU. Multi-GPU support is however in development.
+
 Testing
 -------
 
@@ -55,22 +99,24 @@ Typical output should look as follows::
     Running tests...
     Test project /mnt/d/PROGRAMMING/CPP/bramble/build
         Start 1: test_basic
-    1/8 Test #1: test_basic .......................   Passed    0.00 sec
+    1/9 Test #1: test_basic .......................   Passed    0.05 sec
         Start 2: test_geo
-    2/8 Test #2: test_geo .........................   Passed    0.03 sec
+    2/9 Test #2: test_geo .........................   Passed    0.11 sec
         Start 3: test_xyz
-    3/8 Test #3: test_xyz .........................   Passed    0.02 sec
+    3/9 Test #3: test_xyz .........................   Passed    0.06 sec
         Start 4: test_error
-    4/8 Test #4: test_error .......................   Passed    0.01 sec
+    4/9 Test #4: test_error .......................   Passed    0.08 sec
         Start 5: test_poscar
-    5/8 Test #5: test_poscar ......................   Passed    0.01 sec
+    5/9 Test #5: test_poscar ......................   Passed    0.08 sec
         Start 6: test_cna
-    6/8 Test #6: test_cna .........................   Passed    0.03 sec
+    6/9 Test #6: test_cna .........................   Passed    0.13 sec
         Start 7: test_fingerprint
-    7/8 Test #7: test_fingerprint .................   Passed    0.01 sec
+    7/9 Test #7: test_fingerprint .................   Passed    0.05 sec
         Start 8: test_pattern_library
-    8/8 Test #8: test_pattern_library .............   Passed    0.01 sec
+    8/9 Test #8: test_pattern_library .............   Passed    0.06 sec
+        Start 9: test_similarity
+    9/9 Test #9: test_similarity ..................   Passed    1.02 sec
 
-    100% tests passed, 0 tests failed out of 8
+    100% tests passed, 0 tests failed out of 9
 
-    Total Test time (real) =   0.25 sec
+    Total Test time (real) =   1.73 sec

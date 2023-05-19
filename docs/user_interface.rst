@@ -8,8 +8,35 @@ User Interface
 The former is to perform the CNA analysis, the latter is to build, edit, and
 validate the pattern library.
 
+.. note::
+    :program:`Bramble` is quite flexible in terms of the order of the command
+    line arguments as long as any instructions belonging to a specific
+    argument are directly after that argument.
+
 Bramble
 -------
+
+Bramble has two execution modes:
+
+1. **CNA pattern recognition**
+
+   To every atom a CNA fingerprint is assigned according to the
+   :ref:`adaptive CNA algorithm <background>`. If the CNA fingerprint is known
+   from the pattern library, a label is given. These labels are based on known
+   local atomic configurations of surface terminations.
+
+2. **Similarity analysis**
+
+   It is possible that a given local atomic configuration is not recognized. A
+   common situation is when the local atomic environment is somewhat amorphous.
+   In these cases, it is helpful to have a metric how much this atomic
+   configuration differs from any of the known configurations. To this end,
+   a similarity metric based on the minimized Hilbert-Schmidt norm is used.
+   The lower this metric, the more alike the configurations are. In the limit
+   that this norm is zero, the local environments are the same.
+
+CNA pattern recognition
+***********************
 
 To perform the CNA analysis, launch ``./bramble`` with the following three
 mandatory command line arguments::
@@ -22,9 +49,11 @@ mandatory command line arguments::
     * VASP `POSCAR/CONTCAR <https://www.vasp.at/wiki/index.php/POSCAR>`_ files
     * `XYZ <http://openbabel.org/wiki/XYZ_(format)>`_ files
     * `ReaxFF GEO <https://www.scm.com/doc/plams/interfaces/reaxff.html>`_ files
+
 * ``-p``, ``--pattern`` ``<pattern-file>``
     Pattern library encoded in a JSON file. Details of the pattern library can
     be found :ref:`here <pattern_library>`.
+
 * ``-o``, ``--output`` ``<output-file>``
     Where to write the output to.
 
@@ -48,6 +77,36 @@ Typical output looks as follows::
     Common neighbor analysis completed.
     --------------------------------------------------------------
     Done in 0.10766 seconds.
+
+Similarity Analysis
+*******************
+
+.. warning::
+    The similarity analysis algorithm can easily takes several minutes up to
+    several hours (and even days) to perform. Establishing the minimum
+    Hilbert-Schmidt norm of two distance matrices is tied to the graph
+    isomorphism problem. The algorithm "tackles" this by performing a brute
+    force algorithm.
+
+To perform the similarity analysis, launch ``./bramble`` with the following
+command line arguments::
+
+    ./bramble -s -i <geometry-file> -o <output-file>
+
+* ``-i``, ``--input`` ``<geometry-file>``
+    File containing the geometry of the system. :program:`Bramble` supports
+
+    * VASP `POSCAR/CONTCAR <https://www.vasp.at/wiki/index.php/POSCAR>`_ files
+    * `XYZ <http://openbabel.org/wiki/XYZ_(format)>`_ files
+    * `ReaxFF GEO <https://www.scm.com/doc/plams/interfaces/reaxff.html>`_ files
+
+* ``-s``, ``--similarity``
+    Perform a similarity analysis
+
+* ``-o``, ``--output`` ``<output-file>``
+    Where to write the output to.
+
+*Example*: ``./bramble -s -i ../src/test/data/POSCAR_Rh111.geo -o sa.txt``
 
 Bramble Tool
 ------------

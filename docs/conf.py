@@ -29,7 +29,7 @@ author = 'Ivo Filot'
 # ones.
 extensions = [
     'sphinx.ext.mathjax',
-    'sphinx.ext.autosectionlabel',
+    #'sphinx.ext.autosectionlabel',
     'sphinx_rtd_theme',
     'sphinx.ext.intersphinx',
     'sphinxcontrib.youtube'
