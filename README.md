@@ -7,8 +7,22 @@
 
 ## Purpose
 
-Atomic pattern recognition utility based on the CNA algorithm. For detailed explanation
-of Bramble, [see the documentation](https://bramble.imc-tue.nl).
+> [Go to the documentation](https://bramble.imc-tue.nl).
+
+Bramble is a single atom pattern recognition algorithm based on the Common
+Neighbor Analysis method. It can efficiently construct CNA fingerprints per
+atom and connect these fingerprints to a (customizable) pattern library to add
+labels to the fingerprints.
+
+![Nanoparticle](./docs/_static/img/nanoparticle_identified_atoms.png)
+
+For fingerprints that are (still) unknown or for atoms that have a more
+amorphous chemical environment, Bramble comes bundled with a similarity
+analysis tool. Although relatively computationally expensive to execute, it
+yields a powerful similarity metric by which the extent that two chemical
+environments are the same can be probed.
+
+![Nanoparticle](./docs/_static/img/similarity_analysis_co1121.png)
 
 ## Compilation
 
@@ -32,8 +46,20 @@ To test that Bramble is working, run the test suite
 make test
 ```
 
-## Usage
+For debugging purposes, one can run
 
 ```bash
-./bramble -i <geometry_file> -p <pattern_library> -o <output_file>
+CTEST_OUTPUT_ON_FAILURE=TRUE make test
 ```
+
+### CUDA support
+
+To compile `bramble` with CUDA support, run
+
+```bash
+cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=sm_89
+```
+
+where the value for `DCUDA_ARCH` should match the architecture of your graphical
+card. A nice overview is given [here](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/).
+For example, for a `RTX 4090`,  `-DCUDA_ARCH=sm_89`.

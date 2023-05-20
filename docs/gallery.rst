@@ -17,5 +17,3 @@ On this page, you can find a series of example images constructed using
 *****
 
 ..  youtube:: 9P0frhULKpw
-
-*****

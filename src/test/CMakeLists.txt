@@ -33,6 +33,7 @@ SET(TESTS
     test_cna
     test_fingerprint
     test_pattern_library
+    test_similarity
     )
 
 foreach(testexec ${TESTS})
@@ -47,10 +48,23 @@ foreach(testexec ${TESTS})
     message("Adding test: ${testexec}")
 endforeach()
 
+# some test require linking to cuda files
+if(MOD_CUDA)
+    target_link_libraries(test_similarity
+                          bramblesources
+                          cuda_files
+                          ${Boost_LIBRARIES}
+                          ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+                          )
+endif()
+
 #######################################################
 # add testinput files
 #######################################################
 configure_file(data/co_np.xyz co_np.xyz COPYONLY)
 configure_file(data/co_np.geo co_np.geo COPYONLY)
 configure_file(data/POSCAR POSCAR COPYONLY)
+configure_file(data/POSCAR_Rh111 POSCAR_Rh111 COPYONLY)
+configure_file(data/mat1.txt mat1.txt COPYONLY)
+configure_file(data/mat2.txt mat2.txt COPYONLY)
 configure_file(../../patterns/patterns.json patterns.json COPYONLY)

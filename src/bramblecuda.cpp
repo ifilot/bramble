@@ -18,32 +18,27 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#include <iostream>
 
-#define EIGEN_NO_CUDA
-#include <Eigen/Dense>
+#include "config.h"
+#include "card_manager.h"
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+int main(int argc, char* argv[]) {
+    std::cout << "--------------------------------------------------------------" << std::endl;
+    std::cout << "Running bramble-tool v." << PROGRAM_VERSION << std::endl;
+    std::cout << "Author: Ivo Filot <i.a.w.filot@tue.nl>" << std::endl;
+    std::cout << "Documentation: https://bramble.imc-tue.nl" << std::endl;
+    std::cout << "--------------------------------------------------------------" << std::endl;
+    std::cout << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
+    std::cout << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
+    #ifdef MOD_CUDA
+    std::cout << "Modules: CUDA" << std::endl;
+    #endif // MOD_CUDA
+    std::cout << "--------------------------------------------------------------" << std::endl;
+    std::cout << "Testing CUDA..." << std::endl;
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
-typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXu;
+    CardManager cm;
+    cm.probe_cards();
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
-
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
-    }
-};
-
-#endif // _MATRIXMATH_H
+    return 0;
+}

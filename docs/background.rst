@@ -4,6 +4,9 @@
 Background
 ==========
 
+Common Neighbor Analysis
+------------------------
+
 The Common Neighbor Analysis (CNA) method is a pattern recognition algorithm for
 single atoms. [1] A unique fingerprint is assigned to each atom
 based on its atomic environment. It can act as an effective method to
@@ -139,6 +142,32 @@ surface terminations and bulk atoms is given.
    between different programs, but no such guarantee can be given. Always
    critically check upon the underlying algorithm when comparing the CNA
    patterns between different programs.
+
+Similarity Analysis
+-------------------
+
+Similarity analysis is done in :program:`Bramble` by means of calculating
+the minimum `Hilbert-Schmidt norm <https://mathworld.wolfram.com/Hilbert-SchmidtNorm.html>`_.
+Consider the distance matrix of the nearest
+neighbors of two atoms which are to be compared. These distance matrices are
+based on those neighboring atoms which have a distance less than the cutoff
+distance as defined above.
+
+To determine the similarity between the two atoms, the following value is
+calculated
+
+.. math::
+
+   \mu_{kl} = \min_{P} \left( \sqrt{\sum_{ij} \left|\mathbf{D}_{ij}^{(k)} - \mathbf{D}_{ij}^{(l)}\right|^{2}} \right)
+
+wherein the minimum is determined for all permutations :math:`P` for a given
+matrix and wherein :math:`\mathbf{D}_{ij}^{(k)}` and :math:`\mathbf{D}_{ij}^{(l)}`
+are the distance matrices of the neighboring atoms of atoms :math:`k` and
+:math:`l`, respectively.
+
+Because establishing the minimum Hilbert-Schmidt norm is inherently tied to
+a graph isomorphism problem, :program:`Bramble` executes a brute-force technique
+to probe all possible permutations :math:`P` to ensure that the minimum is found.
 
 **References**
 

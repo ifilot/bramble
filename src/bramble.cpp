@@ -24,6 +24,7 @@
 #include "config.h"
 #include "pattern_library.h"
 #include "cna.h"
+#include "similarity_analysis.h"
 #include "state.h"
 
 int main(int argc, char* argv[]) {
@@ -37,7 +38,10 @@ int main(int argc, char* argv[]) {
         TCLAP::ValueArg<std::string> arg_output_filename("o", "output", "Output file (i.e. result.txt)", true, "", "path");
 
         // output file
-        TCLAP::ValueArg<std::string> arg_fingerprint("p", "pattern", "Pattern file (i.e. fingerprints.json)", true, "", "path");
+        TCLAP::ValueArg<std::string> arg_fingerprint("p", "pattern", "Pattern file (i.e. fingerprints.json)", false, "", "path");
+
+        // whether to perform a similarity analysis
+        TCLAP::SwitchArg swarg_similarity("s","similarity","Perform a similarity analysis", cmd, false);
 
         // add and parse arguments
         cmd.add(arg_input_filename);
@@ -52,20 +56,44 @@ int main(int argc, char* argv[]) {
         std::cout << "--------------------------------------------------------------" << std::endl;
         std::cout << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
         std::cout << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
+        #ifdef MOD_CUDA
+        std::cout << "Modules: CUDA" << std::endl;
+        #endif // MOD_CUDA
         std::cout << "--------------------------------------------------------------" << std::endl;
 
         auto start = std::chrono::system_clock::now();
 
-        // create pattern class
-        const auto pl = std::make_shared<PatternLibrary>(arg_fingerprint.getValue());
+        //------------------------------------------------------------------------------------------
+        // create fingerprints
+        //------------------------------------------------------------------------------------------
+        if(!arg_fingerprint.getValue().empty()) {
+            // create pattern class
+            const auto pl = std::make_shared<PatternLibrary>(arg_fingerprint.getValue());
 
-        // read file and setup State
-        const auto state = std::make_shared<State>(arg_input_filename.getValue());
+            // read file and setup State
+            const auto state = std::make_shared<State>(arg_input_filename.getValue());
 
-        // calculate CNA fingerprint
-        CNA cna(pl);
-        cna.analyze(state);
-        cna.write_analysis(arg_output_filename.getValue());
+            // calculate CNA fingerprint
+            CNA cna(pl);
+            cna.analyze(state);
+            cna.write_analysis(arg_output_filename.getValue());
+        }
+        //------------------------------------------------------------------------------------------
+        // perform similarity analysis
+        //------------------------------------------------------------------------------------------
+        else if(swarg_similarity.getValue()) {
+            // construct similarity analysis class
+            SimilarityAnalysis sl;
+
+            // read file and setup State
+            const auto state = std::make_shared<State>(arg_input_filename.getValue());
+
+            // perform analysis
+            sl.analyze(state);
+
+            // write to file
+            sl.write_analysis(arg_output_filename.getValue());
+        }
 
         auto end = std::chrono::system_clock::now();
         std::chrono::duration<double> elapsed = end-start;

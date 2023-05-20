@@ -18,32 +18,25 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef _MATRIXMATH_H
-#define _MATRIXMATH_H
+#ifndef _CARD_MANAGER_H
+#define _CARD_MANAGER_H
 
-#define EIGEN_NO_CUDA
-#include <Eigen/Dense>
+#include <iostream>
+#include <omp.h>
 
-typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> MatrixUnitcell;
+class CardManager {
+private:
 
-typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
-typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXi;
-typedef Eigen::Matrix<float, Eigen::Dynamic, 1> VectorXf;
-typedef Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXb;
-typedef Eigen::Matrix<unsigned int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixXXu;
+public:
+	CardManager();
 
-typedef Eigen::Vector3f Vec3f;
-typedef Vec3f Vec3;
-typedef float fpt;  // general floating point type
+	void probe_cards();
 
-// needed for sorting unordered maps based on second item
-template <typename T1, typename T2>
-struct greater_second {
-    typedef std::pair<T1, T2> type;
-    bool operator ()(type const& a, type const& b) const {
-        return a.second > b.second;
-    }
+    int get_num_gpus();
+
+    void set_gpu_to_thread();
+private:
+
 };
 
-#endif // _MATRIXMATH_H
+#endif // _CARD_MANAGER_H
