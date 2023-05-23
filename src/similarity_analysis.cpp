@@ -466,7 +466,7 @@ void SimilarityAnalysis::write_analysis(const std::string& filename) {
     // print distance matrices
     outfile << dashed_lines << std::endl;
     outfile << "DISTANCE MATRICES" << std::endl;
-    outfile << dashed_lines << std::endl << std::endl;;
+    outfile << dashed_lines << std::endl << std::endl;
     for(unsigned int i=0; i<this->distance_matrices.size(); i++) {
         outfile << dashed_lines << std::endl;
         outfile << "Atom " << (i+1) << std::endl;
