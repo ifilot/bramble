@@ -75,7 +75,7 @@ the value of :math:`r_{\text{cut}}`.
     fingerprint is going to be determined. Based on the cutoff distance, this
     atom has six neighbors as indicated by the circles. (2) For these
     neighbors, an adjacency matrix is constructed. For each off-diagonal
-    element in this matrix a value of one is assigned if the distance the
+    element in this matrix a value of one is assigned if the distance of the
     corresponding two neighbors is less than the cutoff distance. If not, the
     element has a value of zero.  (3) For each node in the adjacency matrix,
     a triplet of CNA indices is determined corresponding to (i) the number of

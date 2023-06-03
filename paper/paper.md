@@ -114,13 +114,28 @@ indices are calculated corresponding to
 3. The length of the longest path continuous path among those edges.
 
 To construct the CNA fingerprint, the number of times a given triplet of CNA
-indices is encountered is recorded and bundled into a string representation.
+indices is encountered is recorded and bundled into a string representation. A
+schematic depiction of the CNA algorithm is given in \autoref{fig:cna_algo}.
+
 For a large number of stable surface terminations of FCC, HCP, BCC and SC type
 of crystals the CNA fingerprints have been established and collected in a
 convenient fingerprint library. When a CNA fingerprint is known, the
 corresponding label is offered by the program which helps the user in the
 identification of the surface atom. This pattern library can be easily extended
 using a command-line utility `brambletool`.
+
+![Schematic depiction of the CNA algorithm. (1) Geometry of a Cobalt
+    (11-21) surface termination. For the highlighted atom, the CNA
+    fingerprint is going to be determined. Based on the cutoff distance, this
+    atom has six neighbors as indicated by the circles. (2) For these
+    neighbors, an adjacency matrix is constructed. For each off-diagonal
+    element in this matrix a value of one is assigned if the distance of the
+    corresponding two neighbors is less than the cutoff distance. If not, the
+    element has a value of zero. (3) For each node in the adjacency matrix,
+    a triplet of CNA indices is determined corresponding to (i) the number of
+    nearest neighbor nodes, (ii) the number of edges connecting those nodes
+    to each other, and (iii) the length of the longest continuous path among
+    those edges..\label{fig:cna_algo}](img/cna_explainer.png)
 
 When a given CNA fingerprint cannot be identified, i.e. when that fingerprint is
 unknown to the library, the user can perform a similarity analysis. For each
@@ -152,7 +167,10 @@ https://bramble.imc-tue.nl/.
 This work was supported by the Netherlands Center for Multiscale Catalytic
 Energy Conversion, and NWO Gravitation program funded by the Ministry of
 Education, Culture and Science of the government of the Netherlands. The
-Netherlands Organization for Scientific Research is acknowledged for providing
-access to computational resources.
+Netherlands Organization for Scientific Research is acknowledged for
+providing access to computational resources. Sven Roefs, Koen Jongejan, and
+Rudie van den Berg are acknowledged for providing useful comments and
+suggestions for the validation of the algorithm and the generation of the
+dataset used in the construction of the pattern recognition library.
 
 # References
