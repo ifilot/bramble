@@ -50,7 +50,7 @@ facilitate the conversion of reactants into products. The active site provides
 an environment that can selectively adsorb reactant molecules, weaken chemical
 bonds, and promote reaction pathways. Understanding and optimizing the active
 site is crucial for designing efficient catalysts and improving catalytic
-processes in diverse applications, such as industrial chemical production and
+processes in diverse applications such as industrial chemical production and
 environmental remediation.[@vansanten:2017]
 
 Understanding of the catalytic activity of nanoparticles is complex due to the
@@ -64,7 +64,7 @@ properties, material behavior, and designing materials for specific
 applications. It plays a crucial role in unraveling atomic structures and
 bonding patterns, enabling tailored material development.[@faken:1994; @stukowski:2012]
 
-There exist a variety of programs, packages and tools that support the CNA
+There exist a variety of programs and tools that support the CNA
 procedure. Perhaps the most well-known are Ovito[@Ovito] and Pyscal
 [@Pyscal]. Ovito implements a rich set of various CNA flavours, including
 conventional CNA, adaptive CNA, interval CNA and bond-based CNA. Pyscal is an
@@ -78,20 +78,24 @@ target of Bramble.
 `Bramble` is a C++-based command-line tool for the evaluation of CNA
 fingerprints, based on the adaptive CNA flavor, with the aim of recognizing
 atomic configurations pertaining to active sites. Uniquely, the `Bramble` CNA
-tool is bundled alongside a pattern library allowing for human-readable
-allocation of labels to the CNA fingerprints. When a given fingerprint is not
-recognized by the program, a similarity analysis can be performed using a
-metric based on the minimized Hilbert-Schmidt norm of two . `Bramble` has
-already been used in a number of scientific publications
-[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal set of
-dependencies, i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and Eigen3
-[@eigenweb], which are all readily available on modern Linux based operating
-systems. `Bramble` has been used in a number of scientific publications.
+tool is bundled alongside a pattern library allowing for the association of
+convenient and clear labels to the CNA fingerprints. When a given fingerprint
+is not recognized by the program, a similarity analysis can be performed. In
+this similarity analysis, the environment of every atom is compared to all the
+others. To qualitatively describe the similarity, a minimized Hilbert-Schmidt
+norm of the difference matrix between the distance matrices of two different
+atoms is used as the metric.  `Bramble` has already been used in a number of
+scientific publications[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal
+set of dependencies, i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and
+Eigen3[@eigenweb], which are all readily available on modern Linux based
+operating systems. Optionally, `Bramble` can make use of GPU acceleration via
+a CUDA-based[@cuda] acceleration module.
 
-`Bramble` uses an adaptive CNA flavor largely based on the work of Reinhart and
-coworkers.[@reinhart:2017] The nearest neighbors used for determining the local
-atomic environment are based on a cut-off distance $r_{\text{cut}}$ as given
-by an weighted average distance of the distance to the six nearest neighbors
+Internally, `Bramble` uses an adaptive CNA flavor largely based on the work of
+Reinhart and coworkers.[@reinhart:2017] The nearest neighbors used for
+determining the local atomic environment are based on a cut-off distance $r_
+{\text{cut}}$ as given by an weighted average distance of the distance to the
+six nearest neighbors
 
 $$r_{\text{cut}} = \left( \frac{1 + \sqrt{2}}{2} \right)
    \left( \frac{1}{6} \sum_{j=1}^{6} | \vec{r}_{ij} | \right).$$
@@ -112,11 +116,11 @@ indices are calculated corresponding to
 To construct the CNA fingerprint, the number of times a given triplet of CNA
 indices is encountered is recorded and bundled into a string representation.
 For a large number of stable surface terminations of FCC, HCP, BCC and SC type
-of crystals the CNA fingerprints have been established and collected in a convenient
-fingerprint library. When a CNA fingerprint is known, the corresponding label
-is offered by the program which helps the user in the identification of the
-surface atom. This pattern library can be easily extended using a command-line
-utility `brambletool`.
+of crystals the CNA fingerprints have been established and collected in a
+convenient fingerprint library. When a CNA fingerprint is known, the
+corresponding label is offered by the program which helps the user in the
+identification of the surface atom. This pattern library can be easily extended
+using a command-line utility `brambletool`.
 
 When a given CNA fingerprint cannot be identified, i.e. when that fingerprint is
 unknown to the library, the user can perform a similarity analysis. For each

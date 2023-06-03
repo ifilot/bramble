@@ -4,7 +4,7 @@
 
 # provide the path to the location where the paper is stored; note that under
 # Windows Git Bash, two slashes need to be used instead of one
-PAPERPATH="//d//PROGRAMMING//CPP//bramble//paper"
+PAPERPATH="//c//PROGRAMMING//CPP//bramble//paper"
 
 docker run --rm \
 --volume $PAPERPATH:/data \
