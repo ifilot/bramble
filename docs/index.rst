@@ -12,9 +12,8 @@ Bramble: Fast Common Neighbor Analysis
 :ref:`Common Neighbor Analysis method <background>`. It can efficiently construct
 :ref:`CNA fingerprints <background>` per atom and connect these fingerprints
 to a (customizable) :ref:`pattern library <pattern_library>` to
-add labels to the fingerprints. Complimentary scripts are available for easy
-visualization in `Blender <https://www.blender.org/>`_ and/or
-`Matplotlib <https://matplotlib.org/>`_.
+add labels to the fingerprints. Example scripts are available for easy
+visualization in `Matplotlib <https://matplotlib.org/>`_.
 
 .. figure:: _static/img/nanoparticle_identified_atoms.png
     :align: center
