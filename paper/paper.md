@@ -150,7 +150,7 @@ $$ \mu_{ij} = \min_{\mathbf{P}} || \mathbf{P} \mathbf{D}(i) \mathbf{P}^{\dagger}
 
 wherein $||\cdot||$ is the Hilbert-Schmidt norm as given by
 
-$$||\mathbf{D}|| = \sum_{ij} D_{ij}^{2}$$
+$$||\mathbf{D}|| = \sqrt{\sum_{ij} D_{ij}^{2}}$$
 
 and $\mathbf{P}$ is a permutation matrix. Essentially, the minimization loops
 over all possible $N!$ permutation for a given $N \times N$ distance matrix.
