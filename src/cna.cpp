@@ -263,6 +263,27 @@ void CNA::write_analysis(const std::string& filename) {
                     % this->pl->identify_pattern(item.first)
                     % item.first;
     }
+    outfile << std::endl;
+
+    // print adjacency matrices
+    outfile << dashed_lines << std::endl;
+    outfile << "ADJACENCY MATRICES" << std::endl;
+    outfile << dashed_lines << std::endl << std::endl;
+    for(unsigned int i=0; i<this->adjacency_matrices.size(); i++) {
+        outfile << dashed_lines << std::endl;
+        outfile << "Atom " << (i+1) << " ( ";
+        for(auto id : this->neighbor_ids[i]) {
+            if(id > this->state->get_nr_atoms()) {
+                outfile << "/" << ((id+1) % this->state->get_nr_atoms()) << "/" << " ";
+            } else {
+                outfile << (id+1) << " ";
+            }
+        }
+        outfile << ")" << std::endl;
+        outfile << dashed_lines << std::endl;
+        outfile << std::fixed << std::setprecision(1) << this->adjacency_matrices[i] << std::endl;
+        outfile << std::endl;
+    }
 
     outfile << dashed_lines << std::endl;
     outfile << "Done" << std::endl;

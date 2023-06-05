@@ -63,51 +63,52 @@ indices, is assigned. These indices are:
 Finally, the indices of each node are collected and a fingerprint is constructed
 based on how many times each CNA triplet is found within the graph.
 
-We here provide an example for an atom at the FCC(111) termination. Such
-an atom has 9 neighbors based on the value of :math:`r_{\text{cut}}`.
-A schematic representation of this geometry is given below.
+We here provide an example for a low-coordinated surface atom at the Co
+(11-21) interface. (see image below) This an atom has 6 neighbors based on
+the value of :math:`r_{\text{cut}}`.
 
-.. figure:: _static/img/background/fcc111.png
+.. figure:: _static/img/background/cna_explainer.png
     :align: center
 
-    Schematic depiction of an FCC(111) type of atom with its nearest
-    neighbors.
+    Schematic depiction of the CNA algorithm. (1) Geometry of the Co
+    (11-21) surface termination. For the highlighted atom, the CNA
+    fingerprint is going to be determined. Based on the cutoff distance, this
+    atom has six neighbors as indicated by the circles. (2) For these
+    neighbors, an adjacency matrix is constructed. For each off-diagonal
+    element in this matrix a value of one is assigned if the distance of the
+    corresponding two neighbors is less than the cutoff distance. If not, the
+    element has a value of zero.  (3) For each node in the adjacency matrix,
+    a triplet of CNA indices is determined corresponding to (i) the number of
+    nearest neighbor nodes, (ii) the number of edges connecting those nodes
+    to each other, and (iii) the length of the longest continuous path among
+    those edges.
 
-Based on this structure, the following binary (boolean) adjacency graph
-can be constructed
+From the graph (image 3), we can readily see that for the six nearest neighbors
+there are five different types of nodes.
 
-.. math::
+* Two of these nodes, colored in fuchsia, have the (2,0,0) CNA indices. As can
+  be readily seen, these nodes only have two neighboring nodes and none of
+  these neighboring nodes have any edges shared among them. Thus, the longest
+  continuous path has to amount to zero edges.
+* The teal node with the CNA indices (3,1,1) has three neighbors(fuchsia, blue
+  and green), a single edge is shared among these neighbors (green-blue) and
+  the longest continuous path thus amounts to one edge.
+* The green node with the CNA indices (3,2,2) has three neighbors (teal, blue
+  and yellow). There are two edges shared among these three neighbors
+  (teal-blue and yellow-blue). The longest continuous path among these
+  neighbors starts at the yellow node, going to the blue node and ending at
+  the teal node, thus corresponding to two edges.
+* The yellow node with the CNA indices (2,1,1) has two neighbors (green and
+  blue) for which one edge (green-blue) is shared among these neighbors. The
+  longest continuous path among these neighbors is 1.
+* Finally the blue node with the CNA indices (4,2,2) has four neighbors
+  (fuchsia, teal, green and yellow). Among these neighbors, two edges are
+  shared (teal-green and green-yellow). The longest continuous path for these
+  neighbors starts at the yellow node, goes to the green node and ends at the
+  teal node.
 
-    \textbf{M} = \left(
-    \begin{matrix}
-        - & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 \\
-        1 & - & 1 & 0 & 0 & 0 & 1 & 0 & 0 \\
-        0 & 1 & - & 1 & 0 & 0 & 0 & 1 & 0 \\
-        0 & 0 & 1 & - & 1 & 0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 1 & - & 1 & 0 & 0 & 0 \\
-        1 & 0 & 0 & 0 & 1 & - & 0 & 1 & 1 \\
-        1 & 1 & 0 & 0 & 0 & 0 & - & 1 & 1 \\
-        0 & 0 & 1 & 1 & 0 & 0 & 1 & - & 1 \\
-        0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & -
-    \end{matrix}
-    \right)
-
-which essentially represents the graph as found in the image below. In this graph,
-we can readily observe two types of atoms. One type of atom (node; deep purple) has
-four neighboring nodes. Among these four neighboring nodes, we can find two
-connecting edges. Finally, the longest path among these nodes is one. Thus,
-this atom has the triplet (4,2,1). Another type of atom, shaded in a lighter
-purple, has only three neighboring nodes. Among these neighboring nodes, only
-a single edge is shared and the longest continuous pathway along these nodes
-is one. Thus, these atoms have the triplet (3,1,1).
-
-.. figure:: _static/img/background/graph.png
-    :align: center
-    :width: 256
-
-    Neighborhood graph of an FCC(111) atom. There are two types of atoms,
-    one type with (4,2,1) CNA indices and another type with (3,1,1) CNA
-    indices.
+Counting the number of unique CNA triplets and collecting them into a single
+string representation yields ``1(4,2,2)1(3,2,2)1(3,1,1)1(2,1,1)2(2,0,0)``.
 
 .. note::
    There is no strict convention on how the multiplets of CNA indices are ordered
@@ -117,9 +118,7 @@ is one. Thus, these atoms have the triplet (3,1,1).
    multiplicity, i.e. the number of atoms having a particular CNA triplet, is
    **not** used.
 
-We can readily observe that there 3 atoms with the (4,2,1) triplet and 6
-atoms with the (3,1,1) triplet. This would then yield a CNA signature
-of ``3(4,2,1)6(3,1,1)``. Below, a list of CNA patterns is given for very common
+Below, a list of CNA patterns is given for very common
 surface terminations and bulk atoms is given.
 
 .. list-table:: CNA pattern for some common crystal motifs.
