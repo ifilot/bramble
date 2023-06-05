@@ -4,7 +4,17 @@
 
 # provide the path to the location where the paper is stored; note that under
 # Windows Git Bash, two slashes need to be used instead of one
-PAPERPATH="//c//PROGRAMMING//CPP//bramble//paper"
+
+if [ -d "/c/PROGRAMMING/CPP/bramble/paper" ]
+then
+    PAPERPATH="//c//PROGRAMMING//CPP//bramble//paper"
+elif [ -d "/d/PROGRAMMING/CPP/bramble/paper" ]
+then
+    PAPERPATH="//d//PROGRAMMING//CPP//bramble//paper"
+else
+    echo "Cannot find compilation path"
+    exit -1
+fi
 
 docker run --rm \
 --volume $PAPERPATH:/data \

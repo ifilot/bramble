@@ -35,7 +35,7 @@ as a powerful computational method used to analyze and classify atomic
 structures in materials. It involves examining the local environment of each
 atom to identify and quantify the types of atomic coordination and bonding,
 providing insights into the structural properties and behavior of materials at
-the atomic scale. Bramble is an efficient C++-based command-line tool to
+the atomic scale. `Bramble` is an efficient C++-based command-line tool to
 perform the CNA analysis. Uniquely, it is coupled to a pattern identification
 library for facile identification of the CNA fingerprints. Furthermore, for
 unknown fingerprint it offers the option to perform a similarity analysis based
@@ -73,7 +73,7 @@ efficient C++-based back-end. Both tools offer excellent documentation and are
 used throughout the field, however mainly focus on bulk structures and the
 identification of crystal phases. As such, they are fairly limited in the
 description of surface atoms and the recognition of active sites, which is the
-target of Bramble.
+target of `Bramble`.
 
 `Bramble` is a C++-based command-line tool for the evaluation of CNA
 fingerprints, based on the adaptive CNA flavor, with the aim of recognizing
@@ -81,15 +81,16 @@ atomic configurations pertaining to active sites. Uniquely, the `Bramble` CNA
 tool is bundled alongside a pattern library allowing for the association of
 convenient and clear labels to the CNA fingerprints. When a given fingerprint
 is not recognized by the program, a similarity analysis can be performed. In
-this similarity analysis, the environment of every atom is compared to all the
-others. To qualitatively describe the similarity, a minimized Hilbert-Schmidt
-norm of the difference matrix between the distance matrices of two different
-atoms is used as the metric.  `Bramble` has already been used in a number of
-scientific publications[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal
-set of dependencies, i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and
-Eigen3[@eigenweb], which are all readily available on modern Linux based
-operating systems. Optionally, `Bramble` can make use of GPU acceleration via
-a CUDA-based[@cuda] acceleration module.
+this similarity analysis, the environment of every atom is compared to all
+the others. To qualitatively describe the similarity, a minimized
+Hilbert-Schmidt norm of the difference matrix between the distance matrices
+of the nearest neighbors of the two atoms under consideration is used as the
+metric (*vide infra*). `Bramble` has already been used in a number of scientific
+publications[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal set of
+dependencies, i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and Eigen3
+[@eigenweb], which are all readily available on modern Linux based operating
+systems. Optionally, `Bramble` can make use of GPU acceleration via a
+CUDA-based[@cuda] acceleration module.
 
 Internally, `Bramble` uses an adaptive CNA flavor largely based on the work of
 Reinhart and coworkers.[@reinhart:2017] The nearest neighbors used for
