@@ -1,5 +1,5 @@
 ---
-title: 'Bramble: adaptive CNA-based atomic pattern recognition and similarity analysis'
+title: 'Bramble: adaptive common neighbor analysis (CNA) for the recognition of surface topologies in nanoparticles'
 tags:
   -
 authors:
@@ -10,7 +10,7 @@ authors:
   - name: M.P.C. van Etten
     orcid: 0000-0003-4789-5924
     affiliation: 1
-  - name: Dion Trommelen
+  - name: D.W.J.G. Trommelen
     orcid: 0009-0007-0946-2112
     affiliation: 1
   - name: E.J.M. Hensen
@@ -80,14 +80,12 @@ fingerprints, based on the adaptive CNA flavor, with the aim of recognizing
 atomic configurations pertaining to active sites. Uniquely, the `Bramble` CNA
 tool is bundled alongside a pattern library allowing for the association of
 convenient and clear labels to the CNA fingerprints. When a given fingerprint
-is not recognized by the program, a similarity analysis can be performed. In
-this similarity analysis, the environment of every atom is compared to all
-the others. To qualitatively describe the similarity, a minimized
-Hilbert-Schmidt norm of the difference matrix between the distance matrices
-of the nearest neighbors of the two atoms under consideration is used as the
-metric (*vide infra*). `Bramble` has already been used in a number of scientific
-publications[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal set of
-dependencies, i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and Eigen3
+is not recognized by the program, a similarity analysis can be performed to
+quantitatively assess how similar or different the local atomic environment
+is with respect to the other atoms in the systems. `Bramble` has already been
+used in a number of scientific publications
+[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal set of dependencies,
+i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and Eigen3
 [@eigenweb], which are all readily available on modern Linux based operating
 systems. Optionally, `Bramble` can make use of GPU acceleration via a
 CUDA-based[@cuda] acceleration module.
@@ -118,12 +116,13 @@ To construct the CNA fingerprint, the number of times a given triplet of CNA
 indices is encountered is recorded and bundled into a string representation. A
 schematic depiction of the CNA algorithm is given in \autoref{fig:cna_algo}.
 
-For a large number of stable surface terminations of FCC, HCP, BCC and SC type
-of crystals the CNA fingerprints have been established and collected in a
-convenient fingerprint library. When a CNA fingerprint is known, the
-corresponding label is offered by the program which helps the user in the
-identification of the surface atom. This pattern library can be easily extended
-using a command-line utility `brambletool`.
+For a large number of stable surface terminations of face-centered cubic
+(FCC), hexagonal close-packed (HCP), body-centered cubic (BCC) and simple
+cubic (SC) type of crystals the CNA fingerprints have been established and
+collected in a convenient fingerprint library. When a CNA fingerprint is
+known, the corresponding label is offered by the program which helps the user
+in the identification of the surface atom. This pattern library can be easily
+extended using a command-line utility `brambletool`.
 
 ![Schematic depiction of the CNA algorithm. (1) Geometry of a Cobalt
     (11-21) surface termination. For the highlighted atom, the CNA
