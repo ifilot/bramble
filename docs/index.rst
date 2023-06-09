@@ -7,6 +7,8 @@ Bramble: Fast Common Neighbor Analysis
    :target: https://github.com/ifilot/bramble/actions/workflows/build.yml
 .. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
    :target: https://www.gnu.org/licenses/gpl-3.0
+.. image:: https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c/status.svg
+   :target: https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c
 
 :program:`Bramble` is a single atom pattern recognition algorithm based on the
 :ref:`Common Neighbor Analysis method <background>`. It can efficiently construct
