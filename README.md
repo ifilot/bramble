@@ -5,6 +5,7 @@
 [![Documentation](https://github.com/ifilot/bramble/actions/workflows/docs.yml/badge.svg)](https://bramble.imc-tue.nl)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![status](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c/status.svg)](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c)
+[![DOI](https://zenodo.org/badge/641289155.svg)](https://zenodo.org/badge/latestdoi/641289155)
 
 ## Purpose
 
