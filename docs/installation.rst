@@ -11,6 +11,7 @@ available to you:
 * `Eigen3 <https://eigen.tuxfamily.org>`_ (matrix algebra)
 * `Boost <https://www.boost.org/>`_ (common routines)
 * `TCLAP <https://tclap.sourceforge.net/>`_ (command line instruction library)
+* `CMake <https://cmake.org/>`_ (build tool)
 
 On Debian-based operating systems, one can run the following::
 
@@ -20,6 +21,9 @@ On Debian-based operating systems, one can run the following::
    If you are running Windows and would like to use :program:`Bramble`, one option
    is to use `Debian for Windows Subsystem for Linux (WSL) <https://apps.microsoft.com/store/detail/debian/9MSVKQC78PK6>`_.
    The compilation instructions below can be readily used.
+
+.. warning::
+   In order to compile for GPU using CUDA, one needs Eigen3 version **3.4.0** or higher.
 
 Compilation
 -----------
@@ -47,8 +51,8 @@ CUDA support
    version 2, you can use CUDA from the Linux environment under Windows.
    Detailed instructions are given `here <https://docs.nvidia.com/cuda/wsl-user-guide/index.html>`_.
 
-The similarity analysis functionality of :program:`Bramble` significantly
-benefits from the availability of a graphical card. To compile :program:`Bramble`
+The similarity analysis functionality of :program:`Bramble` can
+benefit from the availability of a graphical card. To compile :program:`Bramble`
 with CUDA support, run CMake with::
 
     cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=<ARCH>
@@ -56,7 +60,7 @@ with CUDA support, run CMake with::
 wherein `<ARCH>` is replaced with the architecture of your graphical card. For
 example, if you use an RTX 4090, you would use ``-DCUDA_ARCH=sm_89``. To
 test that :program:`Bramble` can use your GPU, you can run the ``bramblecuda``
-tool::
+tool whose sole function is to test for the availability of a GPU on the system::
 
     ./bramblecuda
 
@@ -79,9 +83,12 @@ Typical output should look as follows::
       Peak Memory Bandwidth (GB/s): 1008.1
 
 .. note::
-   There is currently no support for using multiple GPUs. :program:`Bramble`
-   automatically selects the first GPU available and executes the code on this
-   GPU. Multi-GPU support is however in development.
+   * There is currently no support for using multiple GPUs. :program:`Bramble`
+     automatically selects the first GPU available and executes the code on this
+     GPU. Multi-GPU support is however in development.
+   * The functionality of `bramblecuda` is only for showing information on the
+     GPUs available on your system. The actual GPU-accelerated calculation is
+     still handled by the `bramble` executable.
 
 Testing
 -------
