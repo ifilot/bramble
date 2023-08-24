@@ -45,7 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: sudo apt install -y libeigen3-dev libboost-all-dev libtclap-dev
+      run: apt install -y libeigen3-dev libboost-all-dev libtclap-dev
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
