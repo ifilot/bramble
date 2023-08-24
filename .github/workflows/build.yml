@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential libeigen3-dev libboost-all-dev libtclap-dev cmake
+      run: sudo apt-get update && sudo apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
@@ -29,7 +29,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential libeigen3-dev libboost-all-dev libtclap-dev cmake
+      run: sudo apt-get update && sudo apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
@@ -45,7 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: apt-get update && apt-get install -y build-essential libeigen3-dev libboost-all-dev libtclap-dev cmake
+      run: apt-get update && apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
@@ -61,7 +61,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: apt-get update && apt-get install -y build-essential libeigen3-dev libboost-all-dev libtclap-dev cmake
+      run: apt-get update && apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
