@@ -7,7 +7,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build-ubuntu-22.04:
+  build-ubuntu-22-04:
 
     runs-on: ubuntu-22.04
 
@@ -22,33 +22,33 @@ jobs:
     - name: Perform unit tests
       run: cd build && make test
 
-  build-ubuntu-20.04:
+  build-ubuntu-20-04:
 
     runs-on: ubuntu-20.04
 
-      steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: sudo apt install -y libeigen3-dev libboost-all-dev libtclap-dev
-      - name: Configure CMake
-        run: mkdir build && cd build && cmake ../src
-      - name: Build
-        run: cd build && make -j
-      - name: Perform unit tests
-        run: cd build && make test
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: sudo apt install -y libeigen3-dev libboost-all-dev libtclap-dev
+    - name: Configure CMake
+      run: mkdir build && cd build && cmake ../src
+    - name: Build
+      run: cd build && make -j
+    - name: Perform unit tests
+      run: cd build && make test
 
-  build-ubuntu-23.10:
+  build-ubuntu-23-10:
 
     runs-on: ubuntu-latest
     container: ubuntu/ubuntu:23.10
 
-      steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: sudo apt install -y libeigen3-dev libboost-all-dev libtclap-dev
-      - name: Configure CMake
-        run: mkdir build && cd build && cmake ../src
-      - name: Build
-        run: cd build && make -j
-      - name: Perform unit tests
-        run: cd build && make test
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: sudo apt install -y libeigen3-dev libboost-all-dev libtclap-dev
+    - name: Configure CMake
+      run: mkdir build && cd build && cmake ../src
+    - name: Build
+      run: cd build && make -j
+    - name: Perform unit tests
+      run: cd build && make test
