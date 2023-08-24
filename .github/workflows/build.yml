@@ -40,7 +40,7 @@ jobs:
   build-ubuntu-23-10:
 
     runs-on: ubuntu-latest
-    container: ubuntu/ubuntu:23.10
+    container: ubuntu:23.10
 
     steps:
     - uses: actions/checkout@v3
