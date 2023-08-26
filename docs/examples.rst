@@ -61,9 +61,25 @@ between the surface and bulk atoms amounts to :math:`\mu_{ij} = 30.8`.
 .. figure:: _static/img/similarity_analysis_rh111.png
     :align: center
 
+Execution times
+***************
+
+To get an impression of typical execution times and the benefit of GPU
+acceleration, we refer to the Table as seen below.
+
+.. list-table:: Execution times for the Rh FCC111 example
+   :widths: 50 50
+   :header-rows: 1
+
+   * - System
+     - Execution time (averaged)
+   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz
+     - 172.58s
+   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz + RTX 4090
+     - 90.18s
+
 Co HCP 11-21
 ------------
-
 
 The following code is used to run this example::
 
@@ -146,7 +162,7 @@ atoms are automatically recognized.
 
 Continuing the study by  performing a similarity analysis by running::
 
-    ./build/bramble -s -i src/test/data/POSCAR_Rh111 -o sa_fcc111.txt
+    ./build/bramble -s -i src/test/data/POSCAR_Co1121 -o sa_fcc111.txt
 
 yields the result as shown in the image below. Comparing the image with the
 CNA pattern per atom above, we can readily interpret this result. The light
@@ -164,19 +180,4 @@ to bulk atoms, :math:`\mu_{ij} \approx 36` is found.
 .. figure:: _static/img/similarity_analysis_co1121.png
     :align: center
 
-Execution times
-***************
 
-To get an impression of typical execution times and the benefit of GPU
-acceleration, we refer to the Table as seen below.
-
-.. list-table:: Execution times for the Co HCP 11-21
-   :widths: 50 50
-   :header-rows: 1
-
-   * - System
-     - Execution time (averaged)
-   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz
-     - 172.58s
-   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz + RTX 4090
-     - 90.18s

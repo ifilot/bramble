@@ -39,3 +39,5 @@ examples/data
 # Sphinx docs
 docs/_build/
 docs/userguide/build*
+pa_*.txt
+sa_*.txt
