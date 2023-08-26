@@ -136,7 +136,7 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         }
 
         #ifdef MOD_CUDA
-        if(omp_get_thread_num == 0) { // run these on GPU
+        if(omp_get_thread_num() == 0) { // run these on GPU
             mhsn = this->calculate_distance_metric_cuda(this->distance_matrices[i],
                                                         this->distance_matrices[j],
                                                         &permvec[0]);

@@ -25,6 +25,7 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <stdint.h>
 
 /**
  * RAII implementation of a progress bar.
@@ -38,8 +39,7 @@ public:
      * want to monitor and an initial message to be displayed on top of the bar
      * (which can be updated with updateLastPrintedMessage()).
      */
-    ProgressBar(
-            uint32_t expectedIterations, const std::string& initialMessage="");
+    ProgressBar(uint32_t expectedIterations, const std::string& initialMessage="");
 
     /**
      * Destructor to guarantee RAII.

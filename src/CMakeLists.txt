@@ -19,7 +19,7 @@
  #*************************************************************************/
 
 # set minimum cmake requirements
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.5)
 project (bramble)
 
 # add custom directory to look for .cmake files
@@ -36,7 +36,7 @@ execute_process(
 # prepare configuration file
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "0")
-SET(VERSION_MICRO "0")
+SET(VERSION_MICRO "1")
 configure_file(config.h.in ../src/config.h @ONLY)
 
 # Enable release build
@@ -67,14 +67,14 @@ set (BOOST_ALL_DYN_LINK ON)
 
 # Include libraries
 find_package(PkgConfig REQUIRED)
-find_package(Boost COMPONENTS regex unit_test_framework REQUIRED)
+find_package(Boost COMPONENTS regex unit_test_framework system REQUIRED)
 pkg_check_modules(TCLAP tclap REQUIRED)
 pkg_check_modules(EIGEN eigen3 REQUIRED)
 
 # Set include folders
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_BINARY_DIR}
-                    ${TCLAP_INCLUDE_DIR}
+                    ${TCLAP_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS}
                     ${EIGEN_INCLUDE_DIRS})
 
@@ -110,7 +110,7 @@ add_library(bramblesources STATIC ${SOURCES})
 add_executable(bramble ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp)
 add_executable(brambletool ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
 
-# Set newer C++ version
+# set C++17 standard
 add_definitions(-std=c++17 -march=native)
 
 # Link libraries
