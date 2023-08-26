@@ -163,3 +163,20 @@ to bulk atoms, :math:`\mu_{ij} \approx 36` is found.
 
 .. figure:: _static/img/similarity_analysis_co1121.png
     :align: center
+
+Execution times
+***************
+
+To get an impression of typical execution times and the benefit of GPU
+acceleration, we refer to the Table as seen below.
+
+.. list-table:: Execution times for the Co HCP 11-21
+   :widths: 50 50
+   :header-rows: 1
+
+   * - System
+     - Execution time (averaged)
+   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz
+     - 172.58s
+   * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz + RTX 4090
+     - 90.18s
