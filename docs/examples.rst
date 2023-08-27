@@ -193,6 +193,6 @@ acceleration, we refer to the Table as seen below.
    * - System
      - Execution time (averaged)
    * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz (20 threads)
-     - 2368.63s
+     - 2368.63s (39m28s)
    * - Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz (20 threads) + RTX 4090
-     - 5207.93s
+     - 5207.93s (1h26m47s)
