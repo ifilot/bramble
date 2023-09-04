@@ -24,8 +24,8 @@ jobs:
     - name: Perform code coverage
       run: |
         cd build
-        gcovr -r ../ . --xml-pretty > coverage.xml
-        gcovr -r ../ . --html > report.html
+        gcovr -r ../ . --xml-pretty -e ".*\.h" > coverage.xml
+        gcovr -r ../ . --html -e ".*\.h" > report.html
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
       with:
