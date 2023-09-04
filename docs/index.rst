@@ -50,6 +50,7 @@ requests are ideally submitted via the `github issue tracker
 
    installation
    background
+   execution_model
    gallery
    user_interface
    examples
