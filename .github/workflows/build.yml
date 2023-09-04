@@ -22,12 +22,16 @@ jobs:
     - name: Perform unit tests
       run: cd build && make test
     - name: Perform code coverage
-      run: cd build && make test && gcovr -r ../ . --xml-pretty > coverage.xml
-    - name: Upload coverage result for job 1
+      run: |
+        cd build
+        gcovr -r ../ . --xml-pretty > coverage.xml
+        gcovr -r ../ . --html > report.html
+        tar -cvjf report.tar.bz2 report.html report.css
+    - name: Upload coverage report
       uses: actions/upload-artifact@v3
       with:
-        name: code-coverage
-        path: ./build/coverage.xml
+        name: code-coverage-report
+        path: ./build/report.tar.bz2
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
