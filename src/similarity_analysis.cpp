@@ -109,7 +109,8 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         if(threadnum ==  0) {
             CardManager cm;
             cuda_devices = cm.get_num_gpus();
-            std::cout << "Planning job using " << cuda_devices << " GPUs and " << (nrthreads - cuda_devices) << " CPUs" << std::endl;
+            this->num_gpu = std::max((unsigned int)cuda_devices, this->num_gpu);
+            std::cout << "Planning job using " << this->num_gpu << " GPUs and " << nrthreads << " CPUs" << std::endl;
         }
     }
 
@@ -157,14 +158,12 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         }
 
         #ifdef MOD_CUDA
-        if(threadnum < cuda_devices) { // run these on GPU
-            std::cout << "Spawning CUDA: " << threadnum << std::endl;
+        if(threadnum < this->num_gpu) { // execute GPU jobs
             mhsn = this->calculate_distance_metric_cuda(threadnum,
                                                         this->distance_matrices[i],
                                                         this->distance_matrices[j],
                                                         &permvec[0]);
-        } else { // all other jobs are run on CPU
-            std::cout << "Spawning regular: " << threadnum << std::endl;
+        } else { // one remaining thread using openmp
             mhsn = this->calculate_distance_metric_openmp(this->distance_matrices[i],
                                                           this->distance_matrices[j],
                                                           &permvec[0]);
@@ -313,8 +312,6 @@ float SimilarityAnalysis::calculate_distance_metric_openmp(const MatrixXXf& dm1,
  * @return     distance  metric
  */
 float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) {
-    std::cout << "Launching to CUDA device0: " << device_id << std::endl;
-
     // create local copy and make matrices equal in size
     MatrixXXf dm1c, dm2c;
     if(dm1.rows() < dm2.rows()) {
@@ -325,8 +322,6 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const Ma
         dm2c = dm2;
     }
 
-    std::cout << "Launching to CUDA device1: " << device_id << std::endl;
-
     size_t maxsize = std::max(dm1c.rows(), dm2c.rows());
 
     if(!this->permutation_generators[maxsize-1]) {
@@ -335,8 +330,6 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const Ma
 
     dm1c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
     dm2c.conservativeResizeLike(MatrixXXf::Zero(maxsize, maxsize));
-
-    std::cout << "Launching to CUDA device2: " << device_id << std::endl;
 
     std::vector<float> dm1cv(maxsize * maxsize);
     std::vector<float> dm2cv(maxsize * maxsize);
@@ -348,14 +341,10 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const Ma
         }
     }
 
-    std::cout << "Launching to CUDA device3: " << device_id << std::endl;
-
     auto pg = this->permutation_generators[maxsize-1].get();
 
     MetricAnalyzerCUDA mac;
     const size_t N = pg->get_nr_perm();
-
-    std::cout << "Launching to CUDA device4: " << device_id << std::endl;
 
     float lowest_metric = 1e6;
     auto permutations = pg->get_permutation_vector();
@@ -364,8 +353,6 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const Ma
     // of 12! * 12 values equals 5,748,019,200; hence we have to submit 12! permutations in
     // multiple (here two) stages
     static const size_t increment = 39916800 * 6;
-
-    std::cout << "Launching to CUDA device5: " << device_id << std::endl;
 
     for(size_t i=0; i<N; i+= increment) {
         std::vector<float> results(std::min(N,increment));

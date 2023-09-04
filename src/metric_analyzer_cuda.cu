@@ -61,8 +61,6 @@ float MetricAnalyzerCUDA::analyze_cuda(int cuda_device,
     float *results;
     const size_t N = (stop - start);
 
-    std::cout << "Launching job on cuda device: " << cuda_device << std::endl;
-
     // specify cuda device
     gpu_err_chk(cudaSetDevice(cuda_device));
 
