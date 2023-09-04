@@ -21,6 +21,10 @@
 # auto-generate main function
 ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
 
+# collect files
+add_library(bramblesourcestest STATIC ${SOURCES})
+target_compile_options(bramblesourcestest PRIVATE -fprofile-arcs -ftest-coverage -std=c++17 -march=native)
+
 #######################################################
 # define tests
 #######################################################
@@ -38,8 +42,10 @@ SET(TESTS
 
 foreach(testexec ${TESTS})
     add_executable(${testexec} ${testexec}.cpp)
+    target_compile_options(${testexec} PRIVATE -fprofile-arcs -ftest-coverage)
     target_link_libraries(${testexec}
-                          bramblesources
+                          bramblesourcestest
+                          gcov
                           ${Boost_LIBRARIES}
                           ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
                           )
@@ -51,7 +57,7 @@ endforeach()
 # some test require linking to cuda files
 if(MOD_CUDA)
     target_link_libraries(test_similarity
-                          bramblesources
+                          bramblesourcestest
                           cuda_files
                           ${Boost_LIBRARIES}
                           ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}

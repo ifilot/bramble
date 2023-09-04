@@ -130,8 +130,9 @@ target_link_libraries(brambletool
                       ${Boost_LIBRARIES})
 
 if(NOT DISABLE_TEST)
+    include(CTest)
     message("[USER] Performing unit tests")
-    enable_testing ()
+    enable_testing()
     add_subdirectory("test")
 else()
     message("[USER] Testing routine disabled")

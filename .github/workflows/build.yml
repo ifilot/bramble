@@ -7,9 +7,9 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build-ubuntu-22-04:
+  build-ubuntu-latest:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -21,6 +21,13 @@ jobs:
       run: cd build && make -j
     - name: Perform unit tests
       run: cd build && make test
+    - name: Perform code coverage
+      run: cd build && ctest -T Test -T Coverage > coverage.txt
+    - name: Upload coverage result for job 1
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage
+        path: ./build/coverage.txt
 
   build-ubuntu-20-04:
 

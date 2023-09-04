@@ -13,6 +13,14 @@ validate the pattern library.
     line arguments as long as any instructions belonging to a specific
     argument are directly after that argument.
 
+.. warning::
+    * Note that :program:`Bramble` uses roughly 8GB per execution thread, where
+      the number of execution threads is ``N+1`` where ``N`` is the number of GPUs.
+      See also :ref:`this page <memory_load>`.
+    * For systems having **multiple** GPUs, one needs to explicitly set
+      ``--ngpu <number of gpus>`` to make use of all GPUs. If not, only one of
+      the GPUs is being used.
+
 Bramble
 -------
 
@@ -56,6 +64,13 @@ mandatory command line arguments::
 
 * ``-o``, ``--output`` ``<output-file>``
     Where to write the output to.
+
+* ``-g``, ``--ngpu`` ``<number of gpus>``
+    Number of GPUs to use. This option is only available when :program:`Bramble`
+    is compiled with the CUDA module. If more GPUs are allocated via this tag
+    than the number of GPUs available, the number is automatically lowered to
+    match the number of GPUs available. The default value is 1, so for multi-GPU
+    systems, the user needs to manually adjust this value.
 
 *Example*: ``./bramble -p ../patterns/patterns.json -i ../src/test/data/co_np.geo -o result.txt``
 
