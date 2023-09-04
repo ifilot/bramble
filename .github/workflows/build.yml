@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev
+      run: sudo apt-get update && sudo apt-get install -y build-essential cmake libboost-all-dev pkg-config libeigen3-dev libtclap-dev gcovr
     - name: Configure CMake
       run: mkdir build && cd build && cmake ../src
     - name: Build
