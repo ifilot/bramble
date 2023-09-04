@@ -30,6 +30,7 @@
 #include "permutation_generator.h"
 #include "metric_analyzer_cuda.h"
 #include "progress_bar.h"
+#include "card_manager.h"
 
 class SimilarityAnalysis {
 private:
@@ -53,7 +54,7 @@ public:
     float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
 
     #ifdef MOD_CUDA
-    float calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
+    float calculate_distance_metric_cuda(int device_id, const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
     #endif
 
     float calculate_adjacency_metric_perm(const MatrixXXb& am1, const MatrixXXb& am2, const unsigned int* permvec) const;
