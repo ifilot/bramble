@@ -7,9 +7,9 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build-ubuntu-latest:
+  build-ubuntu-22.04:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
@@ -27,11 +27,11 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: code-coverage
-        path: ./build/coverage.txt
+        path: ./build/coverage.xml
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: coverage.xml
+        filename: ./build/coverage.xml
 
   build-ubuntu-20-04:
 
