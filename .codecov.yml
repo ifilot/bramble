@@ -22,4 +22,5 @@ comment:
 
 ignore:
   - "*.h"
-  - "src/test/**"  # ignore test harness code
+  - "src/test/**"           # ignore test harness code
+  - "src/progress_bar.cpp"  # ignore progress bar (not used in testing)
