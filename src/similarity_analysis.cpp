@@ -110,7 +110,7 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
             CardManager cm;
             cuda_devices = cm.get_num_gpus();
             this->num_gpu = std::min((unsigned int)cuda_devices, this->num_gpu);
-            std::cout << "Planning job using " << this->num_gpu << " GPUs and " << nrthreads << " CPUs" << std::endl;
+            std::cout << "Executing similarity analysis using " << this->num_gpu << " GPUs and " << nrthreads << " CPU threads." << std::endl;
         }
     }
 
