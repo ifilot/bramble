@@ -37,14 +37,6 @@ if(USE_GCOV)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lgcov -profile-arcs")
 endif()
 
-# store git hash
-execute_process(
-        COMMAND git log -1 --format=%h
-        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-        OUTPUT_VARIABLE GIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
 # prepare configuration file
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "1")
