@@ -457,6 +457,7 @@ void SimilarityAnalysis::write_analysis(const std::string& filename) {
     outfile << "Documentation: https://bramble.imc-tue.nl" << std::endl;
     outfile << dashed_lines << std::endl;
     outfile << "Compilation time: " << __DATE__ << " " << __TIME__ << std::endl;
+    outfile << "Git Hash: " << PROGRAM_GIT_HASH << std::endl;
     outfile << dashed_lines << std::endl;
     outfile << "Number of atoms: " << this->distance_matrices.size() << std::endl;
     outfile << dashed_lines << std::endl;
