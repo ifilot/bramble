@@ -156,3 +156,4 @@ endif()
 ##
 install (TARGETS bramble DESTINATION bin)
 install (TARGETS brambletool DESTINATION bin)
+install (TARGETS bramblecuda DESTINATION bin)
