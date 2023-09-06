@@ -19,7 +19,7 @@
  #*************************************************************************/
 
 # set minimum cmake requirements
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project (bramble)
 
 # change compiler directives when code coverage is required
@@ -93,18 +93,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 
 # enable CUDA support
 if(MOD_CUDA)
+    set(CUDA_VERBOSE_BUILD ON)
     find_package(CUDA 12.1 REQUIRED)
     set(CUDA_SEPARABLE_COMPILATION ON)
     set(CUDA_PROPAGATE_HOST_FLAGS OFF)
     set(CUDA_HOST_COMPILER g++)
-    set(CUDA_NVCC_FLAGS "-arch=${CUDA_ARCH}")
     file(GLOB CUDA_FILES "src/" *.cu)
-    CUDA_ADD_LIBRARY(cuda_files ${CUDA_FILES})
+    cuda_select_nvcc_arch_flags(ARCH_FLAGS Common)
+    message("Using: ${ARCH_FLAGS}")
+    list(APPEND CUDA_NVCC_FLAGS ${ARCH_FLAGS})
+    cuda_add_library(cuda_files ${CUDA_FILES})
 
     # create cuda test executable for probing cards
     add_executable(bramblecuda ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
-    target_link_libraries(bramblecuda
-                          cuda_files)
+    target_link_libraries(bramblecuda cuda_files)
 
     # set compile directive
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMOD_CUDA")

@@ -34,7 +34,7 @@ SET(TESTS
     test_fingerprint
     test_pattern_library
     test_similarity
-    )
+)
 
 foreach(testexec ${TESTS})
     add_executable(${testexec} ${testexec}.cpp)
