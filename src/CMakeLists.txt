@@ -122,6 +122,7 @@ add_library(bramblesources STATIC ${SOURCES})
 
 add_executable(bramble ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp)
 add_executable(brambletool ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
+add_executable(bramblecuda ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
 
 # set C++17 standard
 add_definitions(-std=c++17 -march=native)
