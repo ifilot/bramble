@@ -41,6 +41,7 @@ endif()
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "1")
 SET(VERSION_PATCH "0")
+message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_SOURCE_DIR}/config.h")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
 
 # Enable release build
