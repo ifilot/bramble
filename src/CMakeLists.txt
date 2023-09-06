@@ -150,3 +150,9 @@ if(NOT DISABLE_TEST)
 else()
     message("[USER] Testing routine disabled")
 endif()
+
+###
+# Installing
+##
+install (TARGETS bramble DESTINATION bin)
+install (TARGETS brambletool DESTINATION bin)
