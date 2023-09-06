@@ -41,7 +41,7 @@ endif()
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "1")
 SET(VERSION_PATCH "0")
-configure_file(config.h.in ../src/config.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
 
 # Enable release build
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
