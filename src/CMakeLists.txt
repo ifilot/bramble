@@ -22,8 +22,20 @@
 cmake_minimum_required(VERSION 3.5)
 project (bramble)
 
-# add custom directory to look for .cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules )
+# change compiler directives when code coverage is required
+if(USE_GCOV)
+  set(CMAKE_BUILD_TYPE "Debug")
+
+  # Set global c and c++ flags
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+
+  # Link flags used for creating executables
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov -fprofile-arcs")
+
+  # Link flags used for creating shared libraries
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lgcov -profile-arcs")
+endif()
 
 # store git hash
 execute_process(
@@ -31,7 +43,7 @@ execute_process(
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_HASH
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+)
 
 # prepare configuration file
 SET(VERSION_MAJOR "1")
