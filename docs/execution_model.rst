@@ -9,6 +9,12 @@ acceleration to speed up the execution. This is especially beneficial when
 performing a similarity analysis. :program:`Bramble` supports multi-GPU
 setups, so one can use multiple GPUs if more than one GPU is available.
 
+.. warning::
+    :program:`Bramble` requires a GPU with at least 8Gb of memory. :program:`Bramble`
+    will check whether the GPU supports the calculation prior to execution and throws
+    an error when the GPU is not supported. You can also check the memory available
+    on your GPU by running ``bramblecuda``.
+
 When performing the similarity analysis, an inventory of all the jobs is made.
 ``N+1`` OpenMP threads are being spawned where ``N`` equals the number of GPUs.
 Each GPU gets assigned a CPU thread and jobs are relayed to the GPU via the CPU

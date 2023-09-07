@@ -23,7 +23,8 @@ On Debian-based operating systems, one can run the following::
    The compilation instructions below can be readily used.
 
 .. warning::
-   In order to compile for GPU using CUDA, one needs Eigen3 version **3.4.0** or higher.
+   * In order to compile for GPU using CUDA, one needs Eigen3 version **3.4.0** or higher.
+   * Your GPU needs at least 8Gb of memory in order to use Bramble.
 
 Compilation
 -----------
