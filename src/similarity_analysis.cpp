@@ -99,7 +99,29 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         }
     }
 
-    // give number of threads
+    #ifdef MOD_CUDA	// CUDA SUPPORT
+    int cuda_devices = 0;
+    #pragma omp parallel
+    {
+        int nrthreads = omp_get_num_threads();
+        int threadnum = omp_get_thread_num();
+
+        if(threadnum ==  0) {
+            CardManager cm;
+            cuda_devices = cm.get_num_gpus();
+            this->num_gpu = std::min((unsigned int)cuda_devices, this->num_gpu);
+            if(this->num_gpu > 0) {
+                if(!(cm.get_memory_device(0) >= 8361738240)) {
+                    throw std::runtime_error("Your GPU does not have at least 8Gb of memory. Cannot use this GPU.");
+                }
+            }
+            std::cout << "Executing similarity analysis using " << this->num_gpu << " GPUs and " << nrthreads << " CPU threads." << std::endl;
+        }
+    }
+
+    #else	        // NO CUDA SUPPORT
+
+    int cuda_devices = 0;
     #pragma omp parallel
     {
         int nrthreads = omp_get_num_threads();
@@ -110,6 +132,8 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         }
     }
 
+    #endif // MOD_CUDA
+
     // show progress bar
     ProgressBar progress(jobs.size(), "");
     std::vector<bool> jobdone(jobs.size(), false);
@@ -117,8 +141,10 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
 
     #ifdef MOD_CUDA
     omp_set_nested(1);
-    #pragma omp parallel for num_threads(2) schedule(dynamic)
-    #endif // MOD_CUDA
+    omp_set_dynamic(0);
+    omp_set_num_threads(cuda_devices+1);
+    #pragma omp parallel for schedule(dynamic)
+    #endif // MOD CUDA
     for(unsigned int k=0; k<jobs.size(); k++) {
 
         // keep track of time per job
@@ -128,6 +154,7 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         const unsigned int j = jobs[k].second;
         std::vector<unsigned int> permvec(12,0);
         float mhsn = -1;
+        int threadnum = omp_get_thread_num();
 
         // refuse to execute job when number of atoms is larger than 12
         if(this->distance_matrices[i].rows() > 12 || this->distance_matrices[j].rows() > 12) {
@@ -136,11 +163,12 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
         }
 
         #ifdef MOD_CUDA
-        if(omp_get_thread_num() == 0) { // run these on GPU
-            mhsn = this->calculate_distance_metric_cuda(this->distance_matrices[i],
+        if(threadnum < this->num_gpu) { // execute GPU jobs
+            mhsn = this->calculate_distance_metric_cuda(threadnum,
+                                                        this->distance_matrices[i],
                                                         this->distance_matrices[j],
                                                         &permvec[0]);
-        } else { // all other jobs are run on CPU
+        } else { // one remaining thread using openmp
             mhsn = this->calculate_distance_metric_openmp(this->distance_matrices[i],
                                                           this->distance_matrices[j],
                                                           &permvec[0]);
@@ -281,13 +309,14 @@ float SimilarityAnalysis::calculate_distance_metric_openmp(const MatrixXXf& dm1,
 /**
  * @brief      Calculates the distance metric between two distance matrices on the GPU
  *
- * @param[in]  dm1      distance matrix 1
- * @param[in]  dm2      distance matrix 2
- * @param      permvec  pointer to permutation vector
+ * @param[in]  device_id which GPU to run this calculation on
+ * @param[in]  dm1       distance matrix 1
+ * @param[in]  dm2       distance matrix 2
+ * @param      permvec   pointer to permutation vector
  *
- * @return     distance metric
+ * @return     distance  metric
  */
-float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) {
+float SimilarityAnalysis::calculate_distance_metric_cuda(int device_id, const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec) {
     // create local copy and make matrices equal in size
     MatrixXXf dm1c, dm2c;
     if(dm1.rows() < dm2.rows()) {
@@ -332,7 +361,7 @@ float SimilarityAnalysis::calculate_distance_metric_cuda(const MatrixXXf& dm1, c
 
     for(size_t i=0; i<N; i+= increment) {
         std::vector<float> results(std::min(N,increment));
-        mac.analyze_cuda(maxsize, i, std::min(N,i+increment), permutations, dm1cv, dm2cv, results);
+        mac.analyze_cuda(device_id, maxsize, i, std::min(N,i+increment), permutations, dm1cv, dm2cv, results);
 
         // find minimum value
         unsigned int pid = 0;
@@ -568,7 +597,7 @@ void SimilarityAnalysis::selftest(unsigned int sz) {
 
     // perform gpu calculation
     auto tstart = std::chrono::system_clock::now();
-    const float gpu_ans = this->calculate_distance_metric_cuda(dm1, dm2, permvec);
+    const float gpu_ans = this->calculate_distance_metric_cuda(0, dm1, dm2, permvec);
     auto tend = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds_gpu = tend - tstart;
 

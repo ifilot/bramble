@@ -30,6 +30,7 @@
 #include "permutation_generator.h"
 #include "metric_analyzer_cuda.h"
 #include "progress_bar.h"
+#include "card_manager.h"
 
 class SimilarityAnalysis {
 private:
@@ -40,6 +41,7 @@ private:
     MatrixXXf jobtimes;
     MatrixXXf distances;
     MatrixXXf distance_metric_matrix;
+    unsigned int num_gpu = 0;
 
 public:
     SimilarityAnalysis(bool unsafe = false, bool lazy_init = true);
@@ -50,13 +52,24 @@ public:
                                                   const MatrixXXf& dm2,
                                                   unsigned int* permvec);
 
-    float calculate_distance_metric_openmp(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
+    float calculate_distance_metric_openmp(const MatrixXXf& dm1,
+                                           const MatrixXXf& dm2,
+                                           unsigned int* permvec);
 
     #ifdef MOD_CUDA
-    float calculate_distance_metric_cuda(const MatrixXXf& dm1, const MatrixXXf& dm2, unsigned int* permvec);
+    float calculate_distance_metric_cuda(int device_id,
+                                         const MatrixXXf& dm1,
+                                         const MatrixXXf& dm2,
+                                         unsigned int* permvec);
+
+    inline void set_num_gpu(unsigned int _num_gpu) {
+        this->num_gpu = _num_gpu;
+    }
     #endif
 
-    float calculate_adjacency_metric_perm(const MatrixXXb& am1, const MatrixXXb& am2, const unsigned int* permvec) const;
+    float calculate_adjacency_metric_perm(const MatrixXXb& am1,
+                                          const MatrixXXb& am2,
+                                          const unsigned int* permvec) const;
 
     void create_permutation(unsigned int perm);
 

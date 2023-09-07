@@ -19,25 +19,38 @@
  #*************************************************************************/
 
 # set minimum cmake requirements
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project (bramble)
 
-# add custom directory to look for .cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules )
+# change compiler directives when code coverage is required
+if(USE_GCOV)
+  set(CMAKE_BUILD_TYPE "Debug")
+
+  # Set global c and c++ flags
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+
+  # Link flags used for creating executables
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov -fprofile-arcs")
+
+  # Link flags used for creating shared libraries
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -lgcov -profile-arcs")
+endif()
 
 # store git hash
 execute_process(
-        COMMAND git log -1 --format=%h
-        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-        OUTPUT_VARIABLE GIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+    COMMAND git log -1 --format=%h
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    OUTPUT_VARIABLE GIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 # prepare configuration file
 SET(VERSION_MAJOR "1")
-SET(VERSION_MINOR "0")
-SET(VERSION_MICRO "1")
-configure_file(config.h.in ../src/config.h @ONLY)
+SET(VERSION_MINOR "1")
+SET(VERSION_PATCH "0")
+message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_SOURCE_DIR}/config.h")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
 
 # Enable release build
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -80,18 +93,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 
 # enable CUDA support
 if(MOD_CUDA)
+    set(CUDA_VERBOSE_BUILD ON)
     find_package(CUDA 12.1 REQUIRED)
     set(CUDA_SEPARABLE_COMPILATION ON)
     set(CUDA_PROPAGATE_HOST_FLAGS OFF)
     set(CUDA_HOST_COMPILER g++)
-    set(CUDA_NVCC_FLAGS "-arch=${CUDA_ARCH}")
     file(GLOB CUDA_FILES "src/" *.cu)
-    CUDA_ADD_LIBRARY(cuda_files ${CUDA_FILES})
+    cuda_select_nvcc_arch_flags(ARCH_FLAGS Common)
+    message("Using: ${ARCH_FLAGS}")
+    list(APPEND CUDA_NVCC_FLAGS ${ARCH_FLAGS})
+    cuda_add_library(cuda_files ${CUDA_FILES})
 
     # create cuda test executable for probing cards
     add_executable(bramblecuda ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
-    target_link_libraries(bramblecuda
-                          cuda_files)
+    target_link_libraries(bramblecuda cuda_files)
 
     # set compile directive
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMOD_CUDA")
@@ -130,8 +145,9 @@ target_link_libraries(brambletool
                       ${Boost_LIBRARIES})
 
 if(NOT DISABLE_TEST)
+    include(CTest)
     message("[USER] Performing unit tests")
-    enable_testing ()
+    enable_testing()
     add_subdirectory("test")
 else()
     message("[USER] Testing routine disabled")
@@ -140,5 +156,9 @@ endif()
 ###
 # Installing
 ##
-install (TARGETS bramble DESTINATION "/opt/bramble/bin")
-install (FILES "../patterns/patterns.json" DESTINATION "/opt/bramble")
+install (TARGETS bramble DESTINATION bin)
+install (TARGETS brambletool DESTINATION bin)
+
+if(MOD_CUDA)
+    install (TARGETS bramblecuda DESTINATION bin)
+endif()

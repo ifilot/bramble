@@ -38,6 +38,7 @@ MetricAnalyzerCUDA::MetricAnalyzerCUDA() {
 /**
  * @brief      calculate distance metric using GPU
  *
+ * @param[in]  cuda_device which GPU to perform this calculation on
  * @param[in]  psize       number of atom indices
  * @param[in]  start       starting permutation index
  * @param[in]  stop        stopping permutation index
@@ -48,7 +49,8 @@ MetricAnalyzerCUDA::MetricAnalyzerCUDA() {
  *
  * @return     lowest permutation
  */
-float MetricAnalyzerCUDA::analyze_cuda(size_t psize,
+float MetricAnalyzerCUDA::analyze_cuda(int cuda_device,
+                                       size_t psize,
                                        size_t start,
                                        size_t stop,
                                        const std::vector<uint8_t>& _exchanges,
@@ -58,6 +60,9 @@ float MetricAnalyzerCUDA::analyze_cuda(size_t psize,
     uint8_t *exchanges;
     float *results;
     const size_t N = (stop - start);
+
+    // specify cuda device
+    gpu_err_chk(cudaSetDevice(cuda_device));
 
     // Allocate Unified Memory – accessible from CPU or GPU
     gpu_err_chk(cudaMalloc(&exchanges, N * psize * sizeof(uint8_t)));

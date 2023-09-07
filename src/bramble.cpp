@@ -40,6 +40,11 @@ int main(int argc, char* argv[]) {
         // output file
         TCLAP::ValueArg<std::string> arg_fingerprint("p", "pattern", "Pattern file (i.e. fingerprints.json)", false, "", "path");
 
+        #ifdef MOD_CUDA
+        // number of gpus
+        TCLAP::ValueArg<unsigned int> arg_ngpu("g", "ngpu", "Number of GPUs", false, 1, "unsigned int");
+        #endif
+
         // whether to perform a similarity analysis
         TCLAP::SwitchArg swarg_similarity("s","similarity","Perform a similarity analysis", cmd, false);
 
@@ -47,6 +52,9 @@ int main(int argc, char* argv[]) {
         cmd.add(arg_input_filename);
         cmd.add(arg_output_filename);
         cmd.add(arg_fingerprint);
+        #ifdef MOD_CUDA
+        cmd.add(arg_ngpu);
+        #endif // MOD_CUDA
         cmd.parse(argc, argv);
 
         std::cout << "--------------------------------------------------------------" << std::endl;
@@ -84,6 +92,10 @@ int main(int argc, char* argv[]) {
         else if(swarg_similarity.getValue()) {
             // construct similarity analysis class
             SimilarityAnalysis sl;
+
+            #ifdef MOD_CUDA
+            sl.set_num_gpu(arg_ngpu.getValue());
+            #endif // MOD_CUDA
 
             // read file and setup State
             const auto state = std::make_shared<State>(arg_input_filename.getValue());

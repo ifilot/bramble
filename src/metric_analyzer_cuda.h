@@ -46,7 +46,8 @@ public:
      *
      * @return     lowest permutation
      */
-    float analyze_cuda(size_t psize,
+    float analyze_cuda(int device_id,
+                       size_t psize,
                        size_t start,
                        size_t stop,
                        const std::vector<uint8_t>& _exchanges,

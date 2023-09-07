@@ -17,7 +17,7 @@ jobs:
       run: sudo pip install sphinx sphinx-rtd-theme sphinxcontrib-youtube
     - name: Build documentation
       run: cd docs && make html
-    - name: Upload math result for job 1
+    - name: Upload compilation result for job 1
       uses: actions/upload-artifact@v3
       with:
         name: html-docs
