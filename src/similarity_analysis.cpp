@@ -111,7 +111,7 @@ void SimilarityAnalysis::analyze(const std::shared_ptr<State>& _state) {
             cuda_devices = cm.get_num_gpus();
             this->num_gpu = std::min((unsigned int)cuda_devices, this->num_gpu);
             if(this->num_gpu > 0) {
-                if(!(cm.get_memory_device(0) >= 8589934592)) {
+                if(!(cm.get_memory_device(0) >= 8361738240)) {
                     throw std::runtime_error("Your GPU does not have at least 8Gb of memory. Cannot use this GPU.");
                 }
             }
