@@ -23,7 +23,8 @@ On Debian-based operating systems, one can run the following::
    The compilation instructions below can be readily used.
 
 .. warning::
-   In order to compile for GPU using CUDA, one needs Eigen3 version **3.4.0** or higher.
+   * In order to compile for GPU using CUDA, one needs Eigen3 version **3.4.0** or higher.
+   * Your GPU needs at least 8Gb of memory in order to use Bramble.
 
 Compilation
 -----------
@@ -55,11 +56,9 @@ The similarity analysis functionality of :program:`Bramble` can
 benefit from the availability of a graphical card. To compile :program:`Bramble`
 with CUDA support, run CMake with::
 
-    cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=<ARCH>
+    cmake ../src -DMOD_CUDA=1
 
-wherein `<ARCH>` is replaced with the architecture of your graphical card. For
-example, if you use an RTX 4090, you would use ``-DCUDA_ARCH=sm_89``. To
-test that :program:`Bramble` can use your GPU, you can run the ``bramblecuda``
+To test that :program:`Bramble` can use your GPU, you can run the ``bramblecuda``
 tool whose sole function is to test for the availability of a GPU on the system::
 
     ./bramblecuda
@@ -127,3 +126,11 @@ Typical output should look as follows::
     100% tests passed, 0 tests failed out of 9
 
     Total Test time (real) =   1.73 sec
+
+EasyBuild Installation
+----------------------
+
+For HPC infrastructure, there is also the option to install :program:`Bramble` using EasyBuild.
+Make a copy of `bramble-1.1.0.eb` and run::
+
+    eb bramble-1.1.0.eb --minimal-toolchains --add-system-to-minimal-toolchains --robot
