@@ -130,7 +130,53 @@ Typical output should look as follows::
 EasyBuild Installation
 ----------------------
 
-For HPC infrastructure, there is also the option to install :program:`Bramble` using EasyBuild.
-Make a copy of `bramble-1.1.0.eb` and run::
+For HPC infrastructure, there is also the option to install :program:`Bramble`
+using `EasyBuild <https://easybuild.io/>`_.
+Create a file called `bramble-<VERSION>.eb` and populate this file with::
 
-    eb bramble-1.1.0.eb --minimal-toolchains --add-system-to-minimal-toolchains --robot
+    name = 'Bramble'
+    version = '<VERSION>'
+
+    homepage = 'https://bramble.imc-tue.nl'
+    description = "Single atom pattern recognition algorithm based on the Common Neighbor Analysis method"
+
+    toolchain = {'name': 'GCC', 'version': '11.2.0'}
+
+    sources = [{
+        'filename': 'bramble-%(version)s.tar.gz',
+        'git_config': {
+            'url': 'https://github.com/ifilot',
+            'repo_name': 'bramble',
+            'tag': 'v%(version)s',
+            'keep_git_dir': True,
+        },
+    }]
+
+    dependencies = [('Eigen', '3.4.0'),
+                    ('TCLAP', '1.2.5'),
+                    ('Boost', '1.79.0'),
+                    ('CUDA', '12.1.0')]
+
+    builddependencies = [('CMake', '3.22.1'),
+                         ('pkg-config', '0.29.2')]
+
+    easyblock = 'CMakeMake'
+
+    srcdir = 'src'
+    separate_build_dir = True
+    runtest = 'test'
+    configopts = "-DCMAKE_BUILD_TYPE=Release -DMOD_CUDA=1"
+
+    sanity_check_paths = {
+        'files': ["bin/bramble"],
+        'dirs': [],
+    }
+
+Note that you need to manually adjust the value of `<VERSION>` to the desired
+version (e.g. `1.1.1`). To install, run the following::
+
+    eb bramble-<VERSION>.eb --robot --minimal-toolchains --add-system-to-minimal-toolchains
+
+The `--robot` option aims to automatically resolve all dependencies. The
+`--minimal-toolchains` and `--add-system-to-minimal-toolchains` options are
+necessary to properly resolve the CUDA dependency.
