@@ -33,6 +33,7 @@ void CardManager::probe_cards() {
 		std::cout << "  Device name: " << prop.name << std::endl;
 		std::cout << "  Memory Clock Rate (KHz): " << prop.memoryClockRate << std::endl;
 		std::cout << "  Memory Bus Width (bits): " << prop.memoryBusWidth << std::endl;
+        std::cout << "  Total memory: " << prop.totalGlobalMem << std::endl;
 		std::cout << "  Peak Memory Bandwidth (GB/s): " << 2.0*prop.memoryClockRate*(prop.memoryBusWidth/8)/1.0e6 << std::endl << std::endl;
 	}
 }
@@ -50,4 +51,13 @@ void CardManager::set_gpu_to_thread() {
 
     std::cout << "Setting GPU " << id << " to thread " << id << std::endl;
     cudaSetDevice(id);
+}
+
+int64_t CardManager::get_memory_device(unsigned int device_id) {
+    cudaDeviceProp prop;
+    if(cudaGetDeviceProperties(&prop, device_id) == 0) {
+        return prop.totalGlobalMem;
+    } else {
+        return -1;
+    }
 }

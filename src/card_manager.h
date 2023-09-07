@@ -35,6 +35,8 @@ public:
     int get_num_gpus();
 
     void set_gpu_to_thread();
+
+    int64_t get_memory_device(unsigned int device_id);
 private:
 
 };
