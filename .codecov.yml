@@ -24,3 +24,5 @@ ignore:
   - "*.h"
   - "src/test/**"           # ignore test harness code
   - "src/progress_bar.cpp"  # ignore progress bar (not used in testing)
+  - "src/bramble.cpp"       # ignore main routine of bramble
+  - "src/brambletool.cpp"   # ignore main routine of brambletool
