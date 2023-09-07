@@ -22,6 +22,9 @@
 #include <boost/test/unit_test.hpp>
 
 #include "similarity_analysis.h"
+#ifdef MOD_CUDA
+#include "card_manager.h"
+#endif
 
 // check that we can read .geo files
 BOOST_AUTO_TEST_CASE(test_similarity) {
@@ -57,9 +60,12 @@ BOOST_AUTO_TEST_CASE(test_similarity) {
     BOOST_TEST(ans2 == ans3, boost::test_tools::tolerance(1e-7));
 
     #ifdef MOD_CUDA
-    float ans4 = sa.calculate_distance_metric_cuda(dm3, dm4, &permvec[0]);
-    BOOST_TEST(ans2 == ans4, boost::test_tools::tolerance(1e-7));
-    BOOST_TEST(ans3 == ans4, boost::test_tools::tolerance(1e-7));
+    CardManager cm;
+    if(cm.get_num_gpus() > 0) {
+        float ans4 = sa.calculate_distance_metric_cuda(dm3, dm4, &permvec[0]);
+        BOOST_TEST(ans2 == ans4, boost::test_tools::tolerance(1e-7));
+        BOOST_TEST(ans3 == ans4, boost::test_tools::tolerance(1e-7));
+    }
     #endif // MOD_CUDA
 
     //-------------------------------------------------------------------------
