@@ -25,7 +25,7 @@ visualization in `Matplotlib <https://matplotlib.org/>`_.
     Cobalt nanoparticle of 15625 atoms generated using a simulated annealing
     procedure. All colored atoms are identified by the CNA algorithm. The
     unknown atoms, i.e. atoms with an unknown CNA fingerprint, are rendered
-    using a glass material.
+    using a glass material. (source files can be found `here <https://github.com/ifilot/bramble/tree/master/scripts/blender>`_)
 
 For fingerprints that are (still) unknown or for atoms that have a more
 amorphous chemical environment, :program:`Bramble` comes bundled with a

@@ -81,6 +81,10 @@ acceleration, we refer to the Table as seen below.
      - 311.84s
    * - Intel(R) Core(TM) i5-8400 (6 threads) + RTX 2070
      - 125.08s
+   * - Intel(R) Xeon(R) Platinum 8360Y (18 threads) + A100-SXM4-40GB
+     - 147.06s
+   * - Intel(R) Xeon(R) Platinum 8360Y (36 threads) + 2x A100-SXM4-40GB
+     - 72.59s
 
 Co HCP 11-21
 ------------
@@ -197,14 +201,18 @@ acceleration, we refer to the Table as seen below.
    * - System
      - Execution time (averaged)
    * - Intel(R) Core(TM) i9-10900K (20 threads)
-     - 5207.93s (1h26m47s)
+     - 5207s
    * - Intel(R) Core(TM) i9-10900K (20 threads) + RTX 4090
-     - 2368.63s (39m28s)
+     - 2368s
+   * - Intel(R) Xeon(R) Platinum 8360Y (18 threads) + A100-SXM4-40GB
+     - 2543s
+   * - Intel(R) Xeon(R) Platinum 8360Y (36 threads) + 2x A100-SXM4-40GB
+     - 1366s
    * - Intel(R) Core(TM) i5-8400 (6 threads) + RTX 2070
-     - 2986.00s (49m46s)
+     - 2986s
    * - Intel(R) Xeon(R) Gold 6234 (16 threads) + A5000
-     - 3912.19 (65m12s)
+     - 3912
    * - Intel(R) Core(TM) i5-12400F (12 threads) + 1x GTX 1080 Ti
-     - 2759.49 (45m59s)
+     - 2759
    * - Intel(R) Core(TM) i5-12400F (12 threads) + 2x GTX 1080 Ti
-     - 2067.24s (34m27s)
+     - 2067s
