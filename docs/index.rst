@@ -36,7 +36,8 @@ two chemical environments are the same can be probed.
 .. figure:: _static/img/similarity_analysis_co1121.png
     :align: center
 
-    Similarity analysis of the atoms for a Co(1121) slab model
+    Similarity analysis of the atoms for a Co(1121) slab model. An example script
+    how to produce these similarity plots can be found `here <https://github.com/ifilot/bramble/tree/master/scripts>`_.
 
 :program:`Bramble` has been developed at the Eindhoven University of Technology,
 Netherlands. :program:`Bramble` and its development are hosted on `github
