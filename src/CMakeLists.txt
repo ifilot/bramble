@@ -48,7 +48,7 @@ execute_process(
 # prepare configuration file
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "1")
-SET(VERSION_PATCH "0")
+SET(VERSION_PATCH "2")
 message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_SOURCE_DIR}/config.h")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
 
@@ -94,7 +94,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 # enable CUDA support
 if(MOD_CUDA)
     set(CUDA_VERBOSE_BUILD ON)
-    find_package(CUDA 12.1 REQUIRED)
+    find_package(CUDA 11.0 REQUIRED)
     set(CUDA_SEPARABLE_COMPILATION ON)
     set(CUDA_PROPAGATE_HOST_FLAGS OFF)
     set(CUDA_HOST_COMPILER g++)
