@@ -51,7 +51,7 @@ an environment that can selectively adsorb reactant molecules, weaken chemical
 bonds, and promote reaction pathways. Understanding and optimizing the active
 site is crucial for designing efficient catalysts and improving catalytic
 processes in diverse applications such as industrial chemical production and
-environmental remediation.[@vansanten:2017]
+environmental remediation. [@vansanten:2017]
 
 Understanding of the catalytic activity of nanoparticles is complex due to the
 large array of potentially important active site configurations present. To
@@ -62,11 +62,11 @@ enumerate the different atomic structures present at the local scale.
 quantitative descriptors. The CNA method aids in understanding structural
 properties, material behavior, and designing materials for specific
 applications. It plays a crucial role in unraveling atomic structures and
-bonding patterns, enabling tailored material development.[@faken:1994; @stukowski:2012]
+bonding patterns, enabling tailored material development. [@faken:1994; @stukowski:2012]
 
 There exist a variety of programs and tools that support the CNA
-procedure. Perhaps the most well-known are Ovito[@Ovito] and Pyscal
-[@Pyscal]. Ovito implements a rich set of various CNA flavours, including
+procedure. Perhaps the most well-known are Ovito [@Ovito] and Pyscal
+. [@Pyscal] Ovito implements a rich set of various CNA flavours, including
 conventional CNA, adaptive CNA, interval CNA and bond-based CNA. Pyscal is an
 extensive python module for structural analysis of atomic environment using an
 efficient C++-based back-end. Both tools offer excellent documentation and are
@@ -83,15 +83,15 @@ convenient and clear labels to the CNA fingerprints. When a given fingerprint
 is not recognized by the program, a similarity analysis can be performed to
 quantitatively assess how similar or different the local atomic environment
 is with respect to the other atoms in the systems. `Bramble` has already been
-used in a number of scientific publications
-[@vanetten:2021; @sterk:2022]. `Bramble` uses a minimal set of dependencies,
-i.e. Boost[@BoostLibrary], `TCLAP`[@TclapLibrary], and Eigen3
+used in a number of scientific publications.
+[@vanetten:2021; @sterk:2022; @vanetten:2023] `Bramble` uses a minimal set of dependencies,
+i.e. Boost [@BoostLibrary], `TCLAP` [@TclapLibrary], and Eigen3
 [@eigenweb], which are all readily available on modern Linux based operating
 systems. Optionally, `Bramble` can make use of GPU acceleration via a
-CUDA-based[@cuda] acceleration module.
+CUDA-based [@cuda] acceleration module.
 
 Internally, `Bramble` uses an adaptive CNA flavor largely based on the work of
-Reinhart and coworkers.[@reinhart:2017] The nearest neighbors used for
+Reinhart and coworkers. [@reinhart:2017] The nearest neighbors used for
 determining the local atomic environment are based on a cut-off distance $r_
 {\text{cut}}$ as given by an weighted average distance of the distance to the
 six nearest neighbors
