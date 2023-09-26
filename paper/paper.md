@@ -17,7 +17,7 @@ authors:
     orcid: 0000-0002-9754-2417
     affiliation: 1
 affiliations:
- - name: Inorganic Materials and Catalysis, Department of Chemical Engineering and Chemistry, Eindhoven University of Technology
+ - name: Inorganic Materials and Catalysis, Department of Chemical Engineering and Chemistry, Eindhoven University of Technology, Eindhoven, The Netherlands
    index: 1
 date: 20 May 2023
 bibliography: paper.bib
