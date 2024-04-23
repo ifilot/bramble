@@ -8,7 +8,6 @@ on:
 
 jobs:
   build-ubuntu-22-04:
-
     runs-on: ubuntu-22.04
 
     steps:
@@ -37,9 +36,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./build/coverage.xml
 
-
   build-ubuntu-20-04:
-
     runs-on: ubuntu-20.04
 
     steps:
@@ -54,7 +51,6 @@ jobs:
       run: cd build && make test
 
   build-ubuntu-23-04:
-
     runs-on: ubuntu-latest
     container: ubuntu:23.04
 
@@ -70,7 +66,6 @@ jobs:
       run: cd build && make test
 
   build-ubuntu-23-10:
-
     runs-on: ubuntu-latest
     container: ubuntu:23.10
 
