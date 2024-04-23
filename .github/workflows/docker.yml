@@ -47,4 +47,4 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
-          GIT_HASH:${{ env.SHORT_SHA }}
+          GIT_HASH=${{ env.SHORT_SHA }}
