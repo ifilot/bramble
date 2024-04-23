@@ -13,3 +13,12 @@ WORKDIR /tmp/build
 RUN cmake ../src -DMOD_CUDA=1
 RUN make -j
 RUN make install
+
+# clean up installation files
+RUN rm -rf /tmp/src /tmp/build
+
+# create `bramble` user
+RUN useradd -ms /bin/bash bramble
+USER bramble
+WORKDIR /home/bramble
+RUN which bramblecuda
