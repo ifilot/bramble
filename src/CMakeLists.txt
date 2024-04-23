@@ -38,17 +38,23 @@ if(USE_GCOV)
 endif()
 
 # store git hash
-execute_process(
-    COMMAND git log -1 --format=%h
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    OUTPUT_VARIABLE GIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+if(DEFINED ENV{GIT_HASH})
+    set(GIT_HASH $ENV{GIT_HASH})
+    MESSAGE(STATUS "GIT HASH externally defined: " ${GIT_HASH})
+else()
+    execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+        OUTPUT_VARIABLE GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    MESSAGE(STATUS "GIT HASH grabbed from Git command: " GIT_HASH)
+endif()
 
 # prepare configuration file
 SET(VERSION_MAJOR "1")
 SET(VERSION_MINOR "1")
-SET(VERSION_PATCH "2")
+SET(VERSION_PATCH "3")
 message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_SOURCE_DIR}/config.h")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
 
