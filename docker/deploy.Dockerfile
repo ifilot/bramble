@@ -22,3 +22,5 @@ RUN useradd -ms /bin/bash bramble
 USER bramble
 WORKDIR /home/bramble
 RUN which bramblecuda
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

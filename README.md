@@ -6,6 +6,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![status](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c/status.svg)](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c)
 [![DOI](https://zenodo.org/badge/641289155.svg)](https://zenodo.org/badge/latestdoi/641289155)
+[![Docker pulls](https://img.shields.io/docker/pulls/ivofilot/bramble)](https://hub.docker.com/r/ivofilot/bramble)
 
 ## Purpose
 
@@ -65,3 +66,36 @@ cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=sm_89
 where the value for `DCUDA_ARCH` should match the architecture of your graphical
 card. A nice overview is given [here](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/).
 For example, for a `RTX 4090`,  `-DCUDA_ARCH=sm_89`.
+
+## Docker container
+
+Rather than compiling Bramble yourself, you can also make direct use of the
+[Bramble docker container](https://hub.docker.com/r/ivofilot/bramble). This
+container is built on top of the [NVidia CUDA container](https://hub.docker.com/r/nvidia/cuda/)
+allowing you to use the CUDA-enabled version of Bramble.
+
+To use the Docker container, first download it from Docker Hub
+
+```bash
+docker pull ivofilot/bramble
+```
+
+Next, launch the container and link a volume on your hard drive to interact
+with. This folder should contain the files you wish to work with.
+
+```bash
+docker run --name bramble -v "D:/bramble-data":/home/bramble/data -d ivofilot/bramble:latest
+```
+
+This will launch the `bramble` image, which you check using
+
+```bash
+docker ps
+```
+
+To execute Bramble, simply log into the container and use the same kind of commands
+you would normally use for running Bramble.
+
+```bash
+docker exec -it bramble /bin/bash
+```
