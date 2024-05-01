@@ -10,7 +10,8 @@
 
 ## Purpose
 
-> [Go to the documentation](https://bramble.imc-tue.nl).
+> [!TIP]
+> Detailed documentation can be found [here](https://bramble.imc-tue.nl).
 
 Bramble is a single atom pattern recognition algorithm based on the Common
 Neighbor Analysis method. It can efficiently construct CNA fingerprints per
@@ -98,4 +99,14 @@ you would normally use for running Bramble.
 
 ```bash
 docker exec -it bramble /bin/bash
+```
+
+Go to the `/home/bramble/data` folder and make sure you have copied 
+`patterns.json` and `pa_fcc111.txt` to this folder. 
+Since the `bramble` executable is available from the path, you
+can directly invoke it. To perform a pattern identification, run
+
+```bash
+cd /home/bramble/data
+bramble -p patterns.json -i POSCAR_Rh111 -o pa_fcc111.txt
 ```
