@@ -11,7 +11,7 @@
 ## Purpose
 
 > [!TIP]
-> Detailed documentation can be found [here](https://bramble.imc-tue.nl).
+> Detailed documentation can be found [here](https://ifilot.github.io/bramble/).
 
 Bramble is a single atom pattern recognition algorithm based on the Common
 Neighbor Analysis method. It can efficiently construct CNA fingerprints per
