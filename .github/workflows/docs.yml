@@ -33,7 +33,7 @@ jobs:
               pydata-sphinx-theme \
               sphinx_design \
               sphinx_subfigure \
-              sphinxcontrib-video \
+              sphinxcontrib-youtube \
               myst_parser
     - name: Build Documentation
       run: |
