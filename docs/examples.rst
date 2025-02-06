@@ -211,8 +211,8 @@ acceleration, we refer to the Table as seen below.
    * - Intel(R) Core(TM) i5-8400 (6 threads) + RTX 2070
      - 2986s
    * - Intel(R) Xeon(R) Gold 6234 (16 threads) + A5000
-     - 3912
+     - 3912s
    * - Intel(R) Core(TM) i5-12400F (12 threads) + 1x GTX 1080 Ti
-     - 2759
+     - 2759s
    * - Intel(R) Core(TM) i5-12400F (12 threads) + 2x GTX 1080 Ti
      - 2067s
