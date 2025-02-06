@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; Bramble  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Background" href="background.html" />
+    <link rel="prev" title="Bramble: Fast Common Neighbor Analysis" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Bramble
+              <img src="_static/bramble_logo_128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cuda-support">CUDA support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#easybuild-installation">EasyBuild Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution_model.html">Execution model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_interface.html">User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pattern_library.html">Pattern Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_guidelines.html">Community guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bramble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div style="text-align: right;">
+<a href="https://github.com/ifilot/bramble" target="_blank"><i class="fa-brands fa-github"></i> Github</a>
+</div>
+<hr>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="index-0">
+<span id="installation"></span><span id="id1"></span><h1>Installation<a class="headerlink" href="#index-0" title="Link to this heading"></a></h1>
+<p><strong class="program">Bramble</strong> is developed for Linux operating systems. In order to compile
+<strong class="program">Bramble</strong> on your system, you need to ensure the following libraries are
+available to you:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://eigen.tuxfamily.org">Eigen3</a> (matrix algebra)</p></li>
+<li><p><a class="reference external" href="https://www.boost.org/">Boost</a> (common routines)</p></li>
+<li><p><a class="reference external" href="https://tclap.sourceforge.net/">TCLAP</a> (command line instruction library)</p></li>
+<li><p><a class="reference external" href="https://cmake.org/">CMake</a> (build tool)</p></li>
+</ul>
+<p>On Debian-based operating systems, one can run the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">build</span><span class="o">-</span><span class="n">essential</span> <span class="n">cmake</span> <span class="n">libboost</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">dev</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libeigen3</span><span class="o">-</span><span class="n">dev</span> <span class="n">libtclap</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are running Windows and would like to use <strong class="program">Bramble</strong>, one option
+is to use <a class="reference external" href="https://apps.microsoft.com/store/detail/debian/9MSVKQC78PK6">Debian for Windows Subsystem for Linux (WSL)</a>.
+The compilation instructions below can be readily used.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>In order to compile for GPU using CUDA, one needs Eigen3 version <strong>3.4.0</strong> or higher.</p></li>
+<li><p>Your GPU needs at least 8Gb of memory in order to use Bramble.</p></li>
+</ul>
+</div>
+<section id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h2>
+<p>Compilation of <strong class="program">Bramble</strong> is fairly straightforward and a typical procedure
+looks as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ifilot</span><span class="o">/</span><span class="n">bramble</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">bramble</span>
+<span class="n">mkdir</span> <span class="n">build</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">../</span><span class="n">src</span>
+<span class="n">make</span> <span class="o">-</span><span class="n">j</span>
+</pre></div>
+</div>
+<p>To install <strong class="program">Bramble</strong>, you can in addition run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>which will place a copy of the <code class="docutils literal notranslate"><span class="pre">bramble</span></code> executable in <code class="docutils literal notranslate"><span class="pre">/opt/bramble/bin/bramble</span></code>.</p>
+</section>
+<section id="cuda-support">
+<h2>CUDA support<a class="headerlink" href="#cuda-support" title="Link to this heading"></a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are running <strong class="program">Bramble</strong> under Windows Subsystems for Linux (WSL)
+version 2, you can use CUDA from the Linux environment under Windows.
+Detailed instructions are given <a class="reference external" href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html">here</a>.</p>
+</div>
+<p>The similarity analysis functionality of <strong class="program">Bramble</strong> can
+benefit from the availability of a graphical card. To compile <strong class="program">Bramble</strong>
+with CUDA support, run CMake with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">../</span><span class="n">src</span> <span class="o">-</span><span class="n">DMOD_CUDA</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>To test that <strong class="program">Bramble</strong> can use your GPU, you can run the <code class="docutils literal notranslate"><span class="pre">bramblecuda</span></code>
+tool whose sole function is to test for the availability of a GPU on the system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">bramblecuda</span>
+</pre></div>
+</div>
+<p>Typical output should look as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--------------------------------------------------------------</span>
+<span class="n">Running</span> <span class="n">bramble</span><span class="o">-</span><span class="n">tool</span> <span class="n">v</span><span class="mf">.0.3.0</span>
+<span class="n">Author</span><span class="p">:</span> <span class="n">Ivo</span> <span class="n">Filot</span> <span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">filot</span><span class="nd">@tue</span><span class="o">.</span><span class="n">nl</span><span class="o">&gt;</span>
+<span class="n">Documentation</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bramble</span><span class="o">.</span><span class="n">imc</span><span class="o">-</span><span class="n">tue</span><span class="o">.</span><span class="n">nl</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Compilation</span> <span class="n">time</span><span class="p">:</span> <span class="n">May</span> <span class="mi">19</span> <span class="mi">2023</span> <span class="mi">16</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">56</span>
+<span class="n">Git</span> <span class="n">Hash</span><span class="p">:</span> <span class="mi">64694</span><span class="n">c5</span>
+<span class="n">Modules</span><span class="p">:</span> <span class="n">CUDA</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Testing</span> <span class="n">CUDA</span><span class="o">...</span>
+<span class="n">Device</span> <span class="n">Number</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="n">Device</span> <span class="n">name</span><span class="p">:</span> <span class="n">NVIDIA</span> <span class="n">GeForce</span> <span class="n">RTX</span> <span class="mi">4090</span>
+  <span class="n">Memory</span> <span class="n">Clock</span> <span class="n">Rate</span> <span class="p">(</span><span class="n">KHz</span><span class="p">):</span> <span class="mi">10501000</span>
+  <span class="n">Memory</span> <span class="n">Bus</span> <span class="n">Width</span> <span class="p">(</span><span class="n">bits</span><span class="p">):</span> <span class="mi">384</span>
+  <span class="n">Peak</span> <span class="n">Memory</span> <span class="n">Bandwidth</span> <span class="p">(</span><span class="n">GB</span><span class="o">/</span><span class="n">s</span><span class="p">):</span> <span class="mf">1008.1</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>There is currently no support for using multiple GPUs. <strong class="program">Bramble</strong>
+automatically selects the first GPU available and executes the code on this
+GPU. Multi-GPU support is however in development.</p></li>
+<li><p>The functionality of <cite>bramblecuda</cite> is only for showing information on the
+GPUs available on your system. The actual GPU-accelerated calculation is
+still handled by the <cite>bramble</cite> executable.</p></li>
+</ul>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<p>To test <strong class="program">Bramble</strong>, one can run the following after compilation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>For verbose testing, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CTEST_OUTPUT_ON_FAILURE</span><span class="o">=</span><span class="n">TRUE</span> <span class="n">make</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>Typical output should look as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Running</span> <span class="n">tests</span><span class="o">...</span>
+<span class="n">Test</span> <span class="n">project</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">d</span><span class="o">/</span><span class="n">PROGRAMMING</span><span class="o">/</span><span class="n">CPP</span><span class="o">/</span><span class="n">bramble</span><span class="o">/</span><span class="n">build</span>
+    <span class="n">Start</span> <span class="mi">1</span><span class="p">:</span> <span class="n">test_basic</span>
+<span class="mi">1</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#1: test_basic .......................   Passed    0.05 sec</span>
+    <span class="n">Start</span> <span class="mi">2</span><span class="p">:</span> <span class="n">test_geo</span>
+<span class="mi">2</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#2: test_geo .........................   Passed    0.11 sec</span>
+    <span class="n">Start</span> <span class="mi">3</span><span class="p">:</span> <span class="n">test_xyz</span>
+<span class="mi">3</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#3: test_xyz .........................   Passed    0.06 sec</span>
+    <span class="n">Start</span> <span class="mi">4</span><span class="p">:</span> <span class="n">test_error</span>
+<span class="mi">4</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#4: test_error .......................   Passed    0.08 sec</span>
+    <span class="n">Start</span> <span class="mi">5</span><span class="p">:</span> <span class="n">test_poscar</span>
+<span class="mi">5</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#5: test_poscar ......................   Passed    0.08 sec</span>
+    <span class="n">Start</span> <span class="mi">6</span><span class="p">:</span> <span class="n">test_cna</span>
+<span class="mi">6</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#6: test_cna .........................   Passed    0.13 sec</span>
+    <span class="n">Start</span> <span class="mi">7</span><span class="p">:</span> <span class="n">test_fingerprint</span>
+<span class="mi">7</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#7: test_fingerprint .................   Passed    0.05 sec</span>
+    <span class="n">Start</span> <span class="mi">8</span><span class="p">:</span> <span class="n">test_pattern_library</span>
+<span class="mi">8</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#8: test_pattern_library .............   Passed    0.06 sec</span>
+    <span class="n">Start</span> <span class="mi">9</span><span class="p">:</span> <span class="n">test_similarity</span>
+<span class="mi">9</span><span class="o">/</span><span class="mi">9</span> <span class="n">Test</span> <span class="c1">#9: test_similarity ..................   Passed    1.02 sec</span>
+
+<span class="mi">100</span><span class="o">%</span> <span class="n">tests</span> <span class="n">passed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">tests</span> <span class="n">failed</span> <span class="n">out</span> <span class="n">of</span> <span class="mi">9</span>
+
+<span class="n">Total</span> <span class="n">Test</span> <span class="n">time</span> <span class="p">(</span><span class="n">real</span><span class="p">)</span> <span class="o">=</span>   <span class="mf">1.73</span> <span class="n">sec</span>
+</pre></div>
+</div>
+</section>
+<section id="easybuild-installation">
+<h2>EasyBuild Installation<a class="headerlink" href="#easybuild-installation" title="Link to this heading"></a></h2>
+<p>For HPC infrastructure, there is also the option to install <strong class="program">Bramble</strong>
+using <a class="reference external" href="https://easybuild.io/">EasyBuild</a>.
+Create a file called <cite>bramble-&lt;VERSION&gt;.eb</cite> and populate this file with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Bramble&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;&lt;VERSION&gt;&#39;</span>
+
+<span class="n">homepage</span> <span class="o">=</span> <span class="s1">&#39;https://bramble.imc-tue.nl&#39;</span>
+<span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Single atom pattern recognition algorithm based on the Common Neighbor Analysis method&quot;</span>
+
+<span class="n">toolchain</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;GCC&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;11.2.0&#39;</span><span class="p">}</span>
+
+<span class="n">sources</span> <span class="o">=</span> <span class="p">[{</span>
+    <span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="s1">&#39;bramble-</span><span class="si">%(version)s</span><span class="s1">.tar.gz&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;git_config&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://github.com/ifilot&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;repo_name&#39;</span><span class="p">:</span> <span class="s1">&#39;bramble&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;v</span><span class="si">%(version)s</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;keep_git_dir&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}]</span>
+
+<span class="n">dependencies</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Eigen&#39;</span><span class="p">,</span> <span class="s1">&#39;3.4.0&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;TCLAP&#39;</span><span class="p">,</span> <span class="s1">&#39;1.2.5&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;Boost&#39;</span><span class="p">,</span> <span class="s1">&#39;1.79.0&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;CUDA&#39;</span><span class="p">,</span> <span class="s1">&#39;12.1.0&#39;</span><span class="p">)]</span>
+
+<span class="n">builddependencies</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;CMake&#39;</span><span class="p">,</span> <span class="s1">&#39;3.22.1&#39;</span><span class="p">),</span>
+                     <span class="p">(</span><span class="s1">&#39;pkg-config&#39;</span><span class="p">,</span> <span class="s1">&#39;0.29.2&#39;</span><span class="p">)]</span>
+
+<span class="n">easyblock</span> <span class="o">=</span> <span class="s1">&#39;CMakeMake&#39;</span>
+
+<span class="n">srcdir</span> <span class="o">=</span> <span class="s1">&#39;src&#39;</span>
+<span class="n">separate_build_dir</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">runtest</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+<span class="n">configopts</span> <span class="o">=</span> <span class="s2">&quot;-DCMAKE_BUILD_TYPE=Release -DMOD_CUDA=1&quot;</span>
+
+<span class="n">sanity_check_paths</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;files&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;bin/bramble&quot;</span><span class="p">],</span>
+    <span class="s1">&#39;dirs&#39;</span><span class="p">:</span> <span class="p">[],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that you need to manually adjust the value of <cite>&lt;VERSION&gt;</cite> to the desired
+version (e.g. <cite>1.1.1</cite>). To install, run the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eb</span> <span class="n">bramble</span><span class="o">-&lt;</span><span class="n">VERSION</span><span class="o">&gt;.</span><span class="n">eb</span> <span class="o">--</span><span class="n">robot</span> <span class="o">--</span><span class="n">minimal</span><span class="o">-</span><span class="n">toolchains</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">minimal</span><span class="o">-</span><span class="n">toolchains</span>
+</pre></div>
+</div>
+<p>The <cite>–robot</cite> option aims to automatically resolve all dependencies. The
+<cite>–minimal-toolchains</cite> and <cite>–add-system-to-minimal-toolchains</cite> options are
+necessary to properly resolve the CUDA dependency.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Bramble: Fast Common Neighbor Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="background.html" class="btn btn-neutral float-right" title="Background" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Inorganic Materials and Catalysis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWE7555T57"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WWE7555T57', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

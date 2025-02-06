@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Interface &mdash; Bramble  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Gallery" href="gallery.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Bramble
+              <img src="_static/bramble_logo_128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution_model.html">Execution model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Gallery</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bramble">Bramble</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cna-pattern-recognition">CNA pattern recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#similarity-analysis">Similarity Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bramble-tool">Bramble Tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-pattern-library">Create a pattern library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-patterns">Adding patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#editing-patterns">Editing patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removing-patterns">Removing patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#listing-patterns">Listing patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validating-patterns">Validating patterns</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pattern_library.html">Pattern Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_guidelines.html">Community guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bramble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div style="text-align: right;">
+<a href="https://github.com/ifilot/bramble" target="_blank"><i class="fa-brands fa-github"></i> Github</a>
+</div>
+<hr>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-interface">
+<span id="index-0"></span><span id="userinterface"></span><h1>User Interface<a class="headerlink" href="#user-interface" title="Link to this heading"></a></h1>
+<p><strong class="program">Bramble</strong> is shipped with two executables, <code class="docutils literal notranslate"><span class="pre">bramble</span></code> and <code class="docutils literal notranslate"><span class="pre">brambletool</span></code>.
+The former is to perform the CNA analysis, the latter is to build, edit, and
+validate the pattern library.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong class="program">Bramble</strong> is quite flexible in terms of the order of the command
+line arguments as long as any instructions belonging to a specific
+argument are directly after that argument.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>Note that <strong class="program">Bramble</strong> uses roughly 8GB per execution thread, where
+the number of execution threads is <code class="docutils literal notranslate"><span class="pre">N+1</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the number of GPUs.
+See also <a class="reference internal" href="execution_model.html#memory-load"><span class="std std-ref">this page</span></a>.</p></li>
+<li><p>For systems having <strong>multiple</strong> GPUs, one needs to explicitly set
+<code class="docutils literal notranslate"><span class="pre">--ngpu</span> <span class="pre">&lt;number</span> <span class="pre">of</span> <span class="pre">gpus&gt;</span></code> to make use of all GPUs. If not, only one of
+the GPUs is being used.</p></li>
+</ul>
+</div>
+<section id="bramble">
+<h2>Bramble<a class="headerlink" href="#bramble" title="Link to this heading"></a></h2>
+<p>Bramble has two execution modes:</p>
+<ol class="arabic">
+<li><p><strong>CNA pattern recognition</strong></p>
+<p>To every atom a CNA fingerprint is assigned according to the
+<a class="reference internal" href="background.html#background"><span class="std std-ref">adaptive CNA algorithm</span></a>. If the CNA fingerprint is known
+from the pattern library, a label is given. These labels are based on known
+local atomic configurations of surface terminations.</p>
+</li>
+<li><p><strong>Similarity analysis</strong></p>
+<p>It is possible that a given local atomic configuration is not recognized. A
+common situation is when the local atomic environment is somewhat amorphous.
+In these cases, it is helpful to have a metric how much this atomic
+configuration differs from any of the known configurations. To this end,
+a similarity metric based on the minimized Hilbert-Schmidt norm is used.
+The lower this metric, the more alike the configurations are. In the limit
+that this norm is zero, the local environments are the same.</p>
+</li>
+</ol>
+<section id="cna-pattern-recognition">
+<h3>CNA pattern recognition<a class="headerlink" href="#cna-pattern-recognition" title="Link to this heading"></a></h3>
+<p>To perform the CNA analysis, launch <code class="docutils literal notranslate"><span class="pre">./bramble</span></code> with the following three
+mandatory command line arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">bramble</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">-</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">geometry</span><span class="o">-</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output</span><span class="o">-</span><span class="n">file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">--input</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;geometry-file&gt;</span></code></dt><dd><p>File containing the geometry of the system. <strong class="program">Bramble</strong> supports</p>
+<ul>
+<li><p>VASP <a class="reference external" href="https://www.vasp.at/wiki/index.php/POSCAR">POSCAR/CONTCAR</a> files</p></li>
+<li><p><a class="reference external" href="http://openbabel.org/wiki/XYZ_(format)">XYZ</a> files</p></li>
+<li><p><a class="reference external" href="https://www.scm.com/doc/plams/interfaces/reaxff.html">ReaxFF GEO</a> files</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-p</span></code>, <code class="docutils literal notranslate"><span class="pre">--pattern</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;pattern-file&gt;</span></code></dt><dd><p>Pattern library encoded in a JSON file. Details of the pattern library can
+be found <a class="reference internal" href="pattern_library.html#pattern-library"><span class="std std-ref">here</span></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-o</span></code>, <code class="docutils literal notranslate"><span class="pre">--output</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;output-file&gt;</span></code></dt><dd><p>Where to write the output to.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-g</span></code>, <code class="docutils literal notranslate"><span class="pre">--ngpu</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;number</span> <span class="pre">of</span> <span class="pre">gpus&gt;</span></code></dt><dd><p>Number of GPUs to use. This option is only available when <strong class="program">Bramble</strong>
+is compiled with the CUDA module. If more GPUs are allocated via this tag
+than the number of GPUs available, the number is automatically lowered to
+match the number of GPUs available. The default value is 1, so for multi-GPU
+systems, the user needs to manually adjust this value.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">./bramble</span> <span class="pre">-p</span> <span class="pre">../patterns/patterns.json</span> <span class="pre">-i</span> <span class="pre">../src/test/data/co_np.geo</span> <span class="pre">-o</span> <span class="pre">result.txt</span></code></p>
+<p>Typical output looks as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--------------------------------------------------------------</span>
+<span class="n">Executing</span> <span class="n">Bramble</span> <span class="n">v</span><span class="mf">.0.2.0</span>
+<span class="n">Author</span><span class="p">:</span> <span class="n">Ivo</span> <span class="n">Filot</span> <span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">filot</span><span class="nd">@tue</span><span class="o">.</span><span class="n">nl</span><span class="o">&gt;</span>
+<span class="n">Documentation</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bramble</span><span class="o">.</span><span class="n">imc</span><span class="o">-</span><span class="n">tue</span><span class="o">.</span><span class="n">nl</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Compilation</span> <span class="n">time</span><span class="p">:</span> <span class="n">May</span> <span class="mi">18</span> <span class="mi">2023</span> <span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">12</span>
+<span class="n">Git</span> <span class="n">Hash</span><span class="p">:</span> <span class="n">acfc9bc</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Loading</span> <span class="o">../</span><span class="n">src</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">co_np</span><span class="o">.</span><span class="n">geo</span> <span class="k">as</span> <span class="o">.</span><span class="n">geo</span> <span class="n">file</span><span class="o">.</span>
+<span class="n">Geometry</span> <span class="n">file</span> <span class="n">contains</span> <span class="mi">3375</span> <span class="n">atoms</span><span class="o">.</span>
+<span class="n">Calculating</span> <span class="n">interatomic</span> <span class="n">distances</span><span class="o">...</span>
+<span class="n">Completed</span> <span class="n">calculation</span> <span class="n">of</span> <span class="n">interatomic</span> <span class="n">distances</span><span class="o">.</span>
+<span class="n">Start</span> <span class="n">common</span> <span class="n">neighbor</span> <span class="n">analysis</span><span class="o">...</span>
+<span class="n">Common</span> <span class="n">neighbor</span> <span class="n">analysis</span> <span class="n">completed</span><span class="o">.</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Done</span> <span class="ow">in</span> <span class="mf">0.10766</span> <span class="n">seconds</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="similarity-analysis">
+<h3>Similarity Analysis<a class="headerlink" href="#similarity-analysis" title="Link to this heading"></a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The similarity analysis algorithm can easily takes several minutes up to
+several hours (and even days) to perform. Establishing the minimum
+Hilbert-Schmidt norm of two distance matrices is tied to the graph
+isomorphism problem. The algorithm “tackles” this by performing a brute
+force algorithm.</p>
+</div>
+<p>To perform the similarity analysis, launch <code class="docutils literal notranslate"><span class="pre">./bramble</span></code> with the following
+command line arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">bramble</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">geometry</span><span class="o">-</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output</span><span class="o">-</span><span class="n">file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-i</span></code>, <code class="docutils literal notranslate"><span class="pre">--input</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;geometry-file&gt;</span></code></dt><dd><p>File containing the geometry of the system. <strong class="program">Bramble</strong> supports</p>
+<ul>
+<li><p>VASP <a class="reference external" href="https://www.vasp.at/wiki/index.php/POSCAR">POSCAR/CONTCAR</a> files</p></li>
+<li><p><a class="reference external" href="http://openbabel.org/wiki/XYZ_(format)">XYZ</a> files</p></li>
+<li><p><a class="reference external" href="https://www.scm.com/doc/plams/interfaces/reaxff.html">ReaxFF GEO</a> files</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">--similarity</span></code></dt><dd><p>Perform a similarity analysis</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-o</span></code>, <code class="docutils literal notranslate"><span class="pre">--output</span></code> <code class="docutils literal notranslate"><span class="pre">&lt;output-file&gt;</span></code></dt><dd><p>Where to write the output to.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">./bramble</span> <span class="pre">-s</span> <span class="pre">-i</span> <span class="pre">../src/test/data/POSCAR_Rh111.geo</span> <span class="pre">-o</span> <span class="pre">sa.txt</span></code></p>
+</section>
+</section>
+<section id="bramble-tool">
+<h2>Bramble Tool<a class="headerlink" href="#bramble-tool" title="Link to this heading"></a></h2>
+<p>To create, edit or validate a pattern library, one can use <code class="docutils literal notranslate"><span class="pre">brambletool</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is recommended to always use the <code class="docutils literal notranslate"><span class="pre">.json</span></code> extension for the pattern
+library filename.</p>
+</div>
+<section id="create-a-pattern-library">
+<h3>Create a pattern library<a class="headerlink" href="#create-a-pattern-library" title="Link to this heading"></a></h3>
+<p>To create a new pattern library, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">brambletool</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">new_pattern_library</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-patterns">
+<h3>Adding patterns<a class="headerlink" href="#adding-patterns" title="Link to this heading"></a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is commended to enclose the full pattern description in quotation
+marks to ensure proper parsing. Also note that each element of the pattern
+entry should be separated by semicolons.</p>
+</div>
+<p>To add a new pattern entry to the library, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">brambletool</span> <span class="o">-</span><span class="n">a</span> <span class="s2">&quot;&lt;key&gt;;&lt;fingerprint&gt;;&lt;description&gt;;&lt;color&gt;&quot;</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pattern_library</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The entries for <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;fingerprint&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;color&gt;</span></code> are automatically
+validated. The entry <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> should only contain alphanumerical characters,
+underscores and dashes. The <code class="docutils literal notranslate"><span class="pre">&lt;fingerprint&gt;</span></code> entry should be a valid CNA
+fingerprint composed of a series of <code class="docutils literal notranslate"><span class="pre">n(x,y,z)</span></code> triplets. Finally, the
+<code class="docutils literal notranslate"><span class="pre">&lt;color&gt;</span></code> entry should be a valid hexadecimal color code. Do <strong>not</strong> start
+the color code with a leading <code class="docutils literal notranslate"><span class="pre">#</span></code>.</p>
+</section>
+<section id="editing-patterns">
+<h3>Editing patterns<a class="headerlink" href="#editing-patterns" title="Link to this heading"></a></h3>
+<p>Patterns are edited based on the entry key. To edit a pattern, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">brambletool</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;&lt;key&gt;;&lt;fingerprint&gt;;&lt;description&gt;;&lt;color&gt;&quot;</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pattern_library</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="removing-patterns">
+<h3>Removing patterns<a class="headerlink" href="#removing-patterns" title="Link to this heading"></a></h3>
+<p>Patterns are removed based on their entry key:</p>
+<blockquote>
+<div><p>./brambletool -d “&lt;key&gt;” -p &lt;pattern_library.json&gt;</p>
+</div></blockquote>
+</section>
+<section id="listing-patterns">
+<h3>Listing patterns<a class="headerlink" href="#listing-patterns" title="Link to this heading"></a></h3>
+<p>To list all patterns in the library, one can run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">brambletool</span> <span class="o">-</span><span class="n">l</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pattern_library</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Typical output looks as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--------------------------------------------------------------</span>
+<span class="n">Running</span> <span class="n">bramble</span><span class="o">-</span><span class="n">tool</span> <span class="n">v</span><span class="mf">.0.2.0</span>
+<span class="n">Author</span><span class="p">:</span> <span class="n">Ivo</span> <span class="n">Filot</span> <span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">filot</span><span class="nd">@tue</span><span class="o">.</span><span class="n">nl</span><span class="o">&gt;</span>
+<span class="n">Documentation</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bramble</span><span class="o">.</span><span class="n">imc</span><span class="o">-</span><span class="n">tue</span><span class="o">.</span><span class="n">nl</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Compilation</span> <span class="n">time</span><span class="p">:</span> <span class="n">May</span> <span class="mi">18</span> <span class="mi">2023</span> <span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">11</span>
+<span class="n">Git</span> <span class="n">Hash</span><span class="p">:</span> <span class="n">acfc9bc</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Printing</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">patterns</span><span class="p">:</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">4</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">3</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">135</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">4</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">2</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">4</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">112</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">3</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">112</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">1</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">4</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">011</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">001</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="mi">5</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+               <span class="n">SC</span> <span class="n">bulk</span>   <span class="n">ffffff</span> <span class="mi">6</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Done</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="validating-patterns">
+<h3>Validating patterns<a class="headerlink" href="#validating-patterns" title="Link to this heading"></a></h3>
+<p>When receiving a third-party JSON library, it is good practice to first validate
+all the entries before running <code class="docutils literal notranslate"><span class="pre">bramble</span></code>. To do so, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">brambletool</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pattern_library</span><span class="o">.</span><span class="n">json</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Typical output looks as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--------------------------------------------------------------</span>
+<span class="n">Running</span> <span class="n">bramble</span><span class="o">-</span><span class="n">tool</span> <span class="n">v</span><span class="mf">.0.2.0</span>
+<span class="n">Author</span><span class="p">:</span> <span class="n">Ivo</span> <span class="n">Filot</span> <span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">filot</span><span class="nd">@tue</span><span class="o">.</span><span class="n">nl</span><span class="o">&gt;</span>
+<span class="n">Documentation</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">bramble</span><span class="o">.</span><span class="n">imc</span><span class="o">-</span><span class="n">tue</span><span class="o">.</span><span class="n">nl</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Compilation</span> <span class="n">time</span><span class="p">:</span> <span class="n">May</span> <span class="mi">18</span> <span class="mi">2023</span> <span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">11</span>
+<span class="n">Git</span> <span class="n">Hash</span><span class="p">:</span> <span class="n">acfc9bc</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Validating</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">patterns</span><span class="p">:</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">4</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">3</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">135</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">4</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">2</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">4</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">112</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">3</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">112</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">1</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">4</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="mi">1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">011</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">4</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span><span class="p">(</span><span class="mi">001</span><span class="p">)</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">5</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+               <span class="n">SC</span> <span class="n">bulk</span>   <span class="n">ffffff</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span> <span class="mi">6</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">[</span><span class="n">V</span><span class="p">]</span>
+<span class="o">--------------------------------------------------------------</span>
+<span class="n">Done</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Observe that all valid entries are marked by <code class="docutils literal notranslate"><span class="pre">[V]</span></code>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gallery.html" class="btn btn-neutral float-left" title="Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Inorganic Materials and Catalysis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWE7555T57"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WWE7555T57', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

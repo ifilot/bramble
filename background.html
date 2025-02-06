@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background &mdash; Bramble  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Execution model" href="execution_model.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Bramble
+              <img src="_static/bramble_logo_128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#common-neighbor-analysis">Common Neighbor Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#similarity-analysis">Similarity Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="execution_model.html">Execution model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_interface.html">User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pattern_library.html">Pattern Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_guidelines.html">Community guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bramble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div style="text-align: right;">
+<a href="https://github.com/ifilot/bramble" target="_blank"><i class="fa-brands fa-github"></i> Github</a>
+</div>
+<hr>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="index-0">
+<span id="background"></span><span id="id1"></span><h1>Background<a class="headerlink" href="#index-0" title="Link to this heading"></a></h1>
+<section id="common-neighbor-analysis">
+<h2>Common Neighbor Analysis<a class="headerlink" href="#common-neighbor-analysis" title="Link to this heading"></a></h2>
+<p>The Common Neighbor Analysis (CNA) method is a pattern recognition algorithm for
+single atoms. [1] A unique fingerprint is assigned to each atom
+based on its atomic environment. It can act as an effective method to
+distinguish between active sites and/or facets for crystalline systems.
+[2] Various flavours of the CNA algorithm exist:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Conventional CNA</strong></dt><dd><p>Based on a pre-fixed cut-off distance the neighbors for
+each atom are collected. This cut-off distance depends on the type of
+crystal lattice that one studies.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Adaptive CNA</strong></dt><dd><p>Rather than specifying a fixed cut-off distance, in the
+adaptive algorithm the optimal cutoff radius is automatically determined
+for each individual particle. [3]</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Interval CNA</strong></dt><dd><p>When a suitable cutoff is challenging to determine using
+conventional or adaptive CNA, especially at high temperatures, the Interval
+Common Neighbor Analysis (i-CNA) method [4] can be
+employed. i-CNA examines all potential threshold choices for each particle,
+making it slower but achieving a higher recognition rate compared to other
+methods.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Bond-based CNA</strong></dt><dd><p>Within this flavour the CNA is on the particle network’s
+existing bonds, without considering particle distance or using a cutoff
+radius. To use this mode, particles must have pre-defined bonds.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong class="program">Bramble</strong> uses an <strong>adaptive CNA</strong> based on the implementation of
+Reinhart and coworkers [5]
+and first documented in the work of van Etten
+[6].</p>
+</div>
+<p>Within <strong class="program">Bramble</strong>, the cut-off distance for an atom is determined
+based on the distances with the six nearest neighbors according to the
+following equation</p>
+<div class="math notranslate nohighlight">
+\[r_{\text{cut}} = \left( \frac{1 + \sqrt{2}}{2} \right)
+\left( \frac{1}{6} \sum_{j=1}^{6} | \vec{r}_{ij} | \right).\]</div>
+<p>Based on this cut-off distance, all the neighbors of the atom are determined
+and based on these atoms a binary adjacency matrix is constructed wherein each
+element is a <code class="docutils literal notranslate"><span class="pre">1</span></code> if the distance between those atoms is smaller than
+<span class="math notranslate nohighlight">\(r_{\text{cut}}\)</span> or a <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. This adjacency matrix is essentially
+a representation of the neighborhood graph between the atoms. For each node in
+this neighborhood graph a triplet of values, i.e. the so-called CNA
+indices, is assigned. These indices are:</p>
+<ol class="arabic simple">
+<li><p>The number of nearest neighbor nodes.</p></li>
+<li><p>The number of edges connecting those nodes to each other.</p></li>
+<li><p>The length of the longest continuous path among those edges.</p></li>
+</ol>
+<p>Finally, the indices of each node are collected and a fingerprint is constructed
+based on how many times each CNA triplet is found within the graph.</p>
+<p>We here provide an example for a low-coordinated surface atom at the Co
+(11-21) interface. (see image below) This an atom has 6 neighbors based on
+the value of <span class="math notranslate nohighlight">\(r_{\text{cut}}\)</span>.</p>
+<figure class="align-center" id="id5">
+<img alt="_images/cna_explainer.png" src="_images/cna_explainer.png" />
+<figcaption>
+<p><span class="caption-text">Schematic depiction of the CNA algorithm. (1) Geometry of the Co
+(11-21) surface termination. For the highlighted atom, the CNA
+fingerprint is going to be determined. Based on the cutoff distance, this
+atom has six neighbors as indicated by the circles. (2) For these
+neighbors, an adjacency matrix is constructed. For each off-diagonal
+element in this matrix a value of one is assigned if the distance of the
+corresponding two neighbors is less than the cutoff distance. If not, the
+element has a value of zero.  (3) For each node in the adjacency matrix,
+a triplet of CNA indices is determined corresponding to (i) the number of
+nearest neighbor nodes, (ii) the number of edges connecting those nodes
+to each other, and (iii) the length of the longest continuous path among
+those edges.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>From the graph (image 3), we can readily see that for the six nearest neighbors
+there are five different types of nodes.</p>
+<ul class="simple">
+<li><p>Two of these nodes, colored in fuchsia, have the (2,0,0) CNA indices. As can
+be readily seen, these nodes only have two neighboring nodes and none of
+these neighboring nodes have any edges shared among them. Thus, the longest
+continuous path has to amount to zero edges.</p></li>
+<li><p>The teal node with the CNA indices (3,1,1) has three neighbors(fuchsia, blue
+and green), a single edge is shared among these neighbors (green-blue) and
+the longest continuous path thus amounts to one edge.</p></li>
+<li><p>The green node with the CNA indices (3,2,2) has three neighbors (teal, blue
+and yellow). There are two edges shared among these three neighbors
+(teal-blue and yellow-blue). The longest continuous path among these
+neighbors starts at the yellow node, going to the blue node and ending at
+the teal node, thus corresponding to two edges.</p></li>
+<li><p>The yellow node with the CNA indices (2,1,1) has two neighbors (green and
+blue) for which one edge (green-blue) is shared among these neighbors. The
+longest continuous path among these neighbors is 1.</p></li>
+<li><p>Finally the blue node with the CNA indices (4,2,2) has four neighbors
+(fuchsia, teal, green and yellow). Among these neighbors, two edges are
+shared (teal-green and green-yellow). The longest continuous path for these
+neighbors starts at the yellow node, goes to the green node and ends at the
+teal node.</p></li>
+</ul>
+<p>Counting the number of unique CNA triplets and collecting them into a single
+string representation yields <code class="docutils literal notranslate"><span class="pre">1(4,2,2)1(3,2,2)1(3,1,1)1(2,1,1)2(2,0,0)</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is no strict convention on how the multiplets of CNA indices are ordered
+in the fingerprint construction. <strong class="program">Bramble</strong> orders them in
+descending fashion based on the string representation of the CNA triplet.
+For example, <code class="docutils literal notranslate"><span class="pre">(4,2,2)</span></code> precedes <code class="docutils literal notranslate"><span class="pre">(4,2,1)</span></code>. In this ordering, the
+multiplicity, i.e. the number of atoms having a particular CNA triplet, is
+<strong>not</strong> used.</p>
+</div>
+<p>Below, a list of CNA patterns is given for very common
+surface terminations and bulk atoms is given.</p>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">CNA pattern for some common crystal motifs.</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Structure</p></th>
+<th class="head"><p>CNA pattern</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FCC bulk</p></td>
+<td><p>12(4,2,1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>HCP bulk</p></td>
+<td><p>6(4,2,2)6(4,2,1)</p></td>
+</tr>
+<tr class="row-even"><td><p>FCC(111)</p></td>
+<td><p>3(4,2,1)6(3,1,1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>FCC(100)</p></td>
+<td><p>4(4,2,1)4(2,1,1)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Different program might adopt different CNA triplet sorting routines and/or
+different cut-off distances. It is expected that CNA patterns are similar
+between different programs, but no such guarantee can be given. Always
+critically check upon the underlying algorithm when comparing the CNA
+patterns between different programs.</p>
+</div>
+</section>
+<section id="similarity-analysis">
+<h2>Similarity Analysis<a class="headerlink" href="#similarity-analysis" title="Link to this heading"></a></h2>
+<p>Similarity analysis is done in <strong class="program">Bramble</strong> by means of calculating
+the minimum <a class="reference external" href="https://mathworld.wolfram.com/Hilbert-SchmidtNorm.html">Hilbert-Schmidt norm</a>.
+Consider the distance matrix of the nearest
+neighbors of two atoms which are to be compared. These distance matrices are
+based on those neighboring atoms which have a distance less than the cutoff
+distance as defined above.</p>
+<p>To determine the similarity between the two atoms, the following value is
+calculated</p>
+<div class="math notranslate nohighlight">
+\[\mu_{kl} = \min_{P} \left( \sqrt{\sum_{ij} \left|\mathbf{D}_{ij}^{(k)} - \mathbf{D}_{ij}^{(l)}\right|^{2}} \right)\]</div>
+<p>wherein the minimum is determined for all permutations <span class="math notranslate nohighlight">\(P\)</span> for a given
+matrix and wherein <span class="math notranslate nohighlight">\(\mathbf{D}_{ij}^{(k)}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{D}_{ij}^{(l)}\)</span>
+are the distance matrices of the neighboring atoms of atoms <span class="math notranslate nohighlight">\(k\)</span> and
+<span class="math notranslate nohighlight">\(l\)</span>, respectively.</p>
+<p>Because establishing the minimum Hilbert-Schmidt norm is inherently tied to
+a graph isomorphism problem, <strong class="program">Bramble</strong> executes a brute-force technique
+to probe all possible permutations <span class="math notranslate nohighlight">\(P\)</span> to ensure that the minimum is found.</p>
+<p><strong>References</strong></p>
+<ol class="arabic simple">
+<li><p><em>Molecular dynamics study of melting and freezing of small Lennard-Jones
+clusters</em>, Honeycutt, J.D., Andersen, H.C., J. Phys. Chem., <strong>1987</strong>, 91, 19,
+4950-4963, DOI: <a class="reference external" href="https://doi.org/10.1021/j100303a014">10.1021/j100303a014</a>.</p></li>
+<li><p><em>Systematic analysis of local atomic structure combined with 3D computer
+graphics</em>, Faken, D., Jónsson, H., Comp. Mat. Sci., <strong>1994</strong>, 2, 2,
+279-286, DOI: <a class="reference external" href="https://doi.org/10.1016/0927-0256(94)90109-0">10.1016/0927-0256(94)90109-0</a></p></li>
+<li><p><em>Structure identification methods for atomistic simulations of crystalline materials</em>,
+Modelling Simul. Mater. Sci. Eng. , Stukowski, A., <strong>2012</strong>, 20, 045021,
+DOI: <a class="reference external" href="https://doi.org/10.1088/0965-0393/20/4/045021">10.1088/0965-0393/20/4/045021</a></p></li>
+<li><p><em>Revisiting the Common Neighbour Analysis and the Centrosymmetry Parameter</em>,
+arXiv, <a class="reference external" href="https://arxiv.org/abs/2003.08879">2003.08879</a></p></li>
+<li><p><em>Machine learning for autonomous crystal structure identification</em>,
+Reinhard, W.F., Long, A.W., Howard, M.P., Ferguson, A.L.,
+Panagiotopoulos, A.Z., Soft Mat., <strong>2017</strong>, 13, 27, 4733-4745,
+DOI: <a class="reference external" href="https://doi.org/10.1039/c7sm00957g">10.1039/c7sm00957g</a></p></li>
+<li><p><em>Enumerating Active Sites on Metal Nanoparticles: Understanding the Size
+Dependence of Cobalt Particles for CO Dissociation</em>, van Etten M.P.C.,
+Zijlstra B., Hensen E.J.M., Filot, I.A.W., ACS Catal., <strong>2021</strong>, 11, 14,
+8484-8492, DOI: <a class="reference external" href="https://doi.org/10.1021/acscatal.1c00651">10.1021/acscatal.1c00651</a>.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="execution_model.html" class="btn btn-neutral float-right" title="Execution model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Inorganic Materials and Catalysis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWE7555T57"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WWE7555T57', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

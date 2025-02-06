@@ -1,0 +1,174 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Execution model &mdash; Bramble  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gallery" href="gallery.html" />
+    <link rel="prev" title="Background" href="background.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Bramble
+              <img src="_static/bramble_logo_128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Execution model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#memory-load">Memory load</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_interface.html">User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pattern_library.html">Pattern Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_guidelines.html">Community guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bramble</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div style="text-align: right;">
+<a href="https://github.com/ifilot/bramble" target="_blank"><i class="fa-brands fa-github"></i> Github</a>
+</div>
+<hr>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="index-0">
+<span id="execution-model"></span><span id="id1"></span><h1>Execution model<a class="headerlink" href="#index-0" title="Link to this heading"></a></h1>
+<p>When <strong class="program">Bramble</strong> is compiled with the CUDA module, one can use GPU
+acceleration to speed up the execution. This is especially beneficial when
+performing a similarity analysis. <strong class="program">Bramble</strong> supports multi-GPU
+setups, so one can use multiple GPUs if more than one GPU is available.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong class="program">Bramble</strong> requires a GPU with at least 8Gb of memory. <strong class="program">Bramble</strong>
+will check whether the GPU supports the calculation prior to execution and throws
+an error when the GPU is not supported. You can also check the memory available
+on your GPU by running <code class="docutils literal notranslate"><span class="pre">bramblecuda</span></code>.</p>
+</div>
+<p>When performing the similarity analysis, an inventory of all the jobs is made.
+<code class="docutils literal notranslate"><span class="pre">N+1</span></code> OpenMP threads are being spawned where <code class="docutils literal notranslate"><span class="pre">N</span></code> equals the number of GPUs.
+Each GPU gets assigned a CPU thread and jobs are relayed to the GPU via the CPU
+thread. The remaining OpenMP thread employs so-called nested parallellism and
+executes another OpenMP parallel environment which uses all CPUs.</p>
+<p>Obviously, this implies that the <code class="docutils literal notranslate"><span class="pre">N</span></code> CPU threads which are involved in
+managing the GPUs are also used for other parts of the calculation. Since the
+computational load of managing the GPUs is however relatively minimal, this does
+come at a huge impact on performance. In fact, not using these CPUs is worse
+than partially also using them to manage the GPUs.</p>
+<p>When no GPUs are available, <strong class="program">Bramble</strong> uses no nested parallelism and
+simply executes all jobs concurrently wherein each job uses OpenMP parallelism
+on a per-job basis.</p>
+<section id="memory-load">
+<span id="id2"></span><h2>Memory load<a class="headerlink" href="#memory-load" title="Link to this heading"></a></h2>
+<p>Performing calculations is quite memory expensive and as a rule of thumb, one
+needs roughly 8GB of memory per execution thread. For example, if one uses
+two GPUs, one needs roughly 24GB of memory. If memory is limited, one option
+is to use swapping, however this comes at a great cost on performance. Nevertheless,
+it might still be beneficial.</p>
+<p>Assuming the user has root privileges, one can use the following instructions
+to increase the amount of swap memory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mkswap</span> <span class="o">/</span><span class="n">swapfile</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="mi">600</span> <span class="o">/</span><span class="n">swapfile</span>
+<span class="n">sudo</span> <span class="n">swapon</span> <span class="o">/</span><span class="n">swapfile</span>
+<span class="n">sudo</span> <span class="n">swapon</span> <span class="o">--</span><span class="n">show</span>
+</pre></div>
+</div>
+<p>Typical output would yield:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span>      <span class="n">TYPE</span>      <span class="n">SIZE</span>   <span class="n">USED</span> <span class="n">PRIO</span>
+<span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">sdb3</span> <span class="n">partition</span> <span class="mi">976</span><span class="n">M</span>   <span class="mi">976</span><span class="n">M</span>   <span class="o">-</span><span class="mi">2</span>
+<span class="o">/</span><span class="n">swapfile</span> <span class="n">file</span>        <span class="mi">8</span><span class="n">G</span> <span class="mf">196.3</span><span class="n">M</span>   <span class="o">-</span><span class="mi">3</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="background.html" class="btn btn-neutral float-left" title="Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gallery.html" class="btn btn-neutral float-right" title="Gallery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Inorganic Materials and Catalysis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWE7555T57"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WWE7555T57', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
