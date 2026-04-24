@@ -30,7 +30,7 @@
 
 int main(int argc, char* argv[]) {
     try {
-        TCLAP::CmdLine cmd("CNA algorithm");
+        TCLAP::CmdLine cmd("CNA algorithm", ' ', PROGRAM_VERSION);
 
         // pattern file
         TCLAP::ValueArg<std::string> arg_fingerprint("p", "pattern", "Pattern file (i.e. fingerprints.json)", true, "", "path");

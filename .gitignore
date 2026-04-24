@@ -1,5 +1,11 @@
 # Build folder
 build/
+.codex
+.codex/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
 
 # Compiled Object files
 *.slo

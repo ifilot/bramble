@@ -36,6 +36,10 @@ SET(TESTS
     test_similarity
 )
 
+if(MOD_CUDA)
+    list(APPEND TESTS test_card_manager)
+endif()
+
 foreach(testexec ${TESTS})
     add_executable(${testexec} ${testexec}.cpp)
     target_link_libraries(${testexec}
@@ -52,6 +56,11 @@ endforeach()
 if(MOD_CUDA)
     target_link_libraries(test_similarity
                           bramblesources
+                          cuda_files
+                          ${Boost_LIBRARIES}
+                          ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+                          )
+    target_link_libraries(test_card_manager
                           cuda_files
                           ${Boost_LIBRARIES}
                           ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}

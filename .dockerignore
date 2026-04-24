@@ -1,0 +1,9 @@
+.git
+.codex
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+build/
+docs/_build/
+src/config.h

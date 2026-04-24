@@ -29,7 +29,7 @@
 
 int main(int argc, char* argv[]) {
     try {
-        TCLAP::CmdLine cmd("CNA algorithm");
+        TCLAP::CmdLine cmd("CNA algorithm", ' ', PROGRAM_VERSION);
 
         // input file
         TCLAP::ValueArg<std::string> arg_input_filename("i", "input", "Input file (i.e. POSCAR)", true, "", "path");

@@ -77,7 +77,7 @@ mandatory command line arguments::
 Typical output looks as follows::
 
     --------------------------------------------------------------
-    Executing Bramble v.0.2.0
+    Executing Bramble v.1.2.0
     Author: Ivo Filot <i.a.w.filot@tue.nl>
     Documentation: https://bramble.imc-tue.nl
     --------------------------------------------------------------
@@ -182,7 +182,7 @@ To list all patterns in the library, one can run::
 Typical output looks as follows::
 
     --------------------------------------------------------------
-    Running bramble-tool v.0.2.0
+    Running bramble-tool v.1.2.0
     Author: Ivo Filot <i.a.w.filot@tue.nl>
     Documentation: https://bramble.imc-tue.nl
     --------------------------------------------------------------
@@ -213,7 +213,7 @@ all the entries before running ``bramble``. To do so, run::
 Typical output looks as follows::
 
     --------------------------------------------------------------
-    Running bramble-tool v.0.2.0
+    Running bramble-tool v.1.2.0
     Author: Ivo Filot <i.a.w.filot@tue.nl>
     Documentation: https://bramble.imc-tue.nl
     --------------------------------------------------------------

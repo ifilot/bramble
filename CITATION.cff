@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use Bramble in your research, please cite the Journal of Open Source Software article."
 type: software
 title: "Bramble: adaptive common neighbor analysis (CNA) for the recognition of surface topologies in nanoparticles"
-version: "1.1.5"
+version: "1.2.0"
 repository-code: "https://github.com/ifilot/bramble"
 url: "https://ifilot.github.io/bramble/"
 license: GPL-3.0-or-later

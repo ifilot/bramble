@@ -18,25 +18,23 @@
  *                                                                        *
  **************************************************************************/
 
-#define BOOST_TEST_MODULE test_basic
+#define BOOST_TEST_MODULE test_card_manager
 #include <boost/test/unit_test.hpp>
 
-#include "config.h"
+#include "card_manager.h"
 
-// basic check to see if the test module works
-BOOST_AUTO_TEST_CASE(test_basic) {
-    BOOST_TEST_MESSAGE( "Testing test framework..." );
-    BOOST_CHECK((2 + 2) == 4);
-    BOOST_CHECK((2 + 2) != 3);
-}
+BOOST_AUTO_TEST_CASE(test_card_manager) {
+    BOOST_TEST_MESSAGE( "Testing CUDA card manager..." );
 
-BOOST_AUTO_TEST_CASE(test_version) {
-    BOOST_TEST_MESSAGE( "Testing version configuration..." );
-    BOOST_CHECK_EQUAL(PROGRAM_VERSION_MAJOR, 1);
-    BOOST_CHECK_EQUAL(PROGRAM_VERSION_MINOR, 2);
-    BOOST_CHECK_EQUAL(PROGRAM_VERSION_PATCH, 0);
-    const std::string expected_version = std::to_string(PROGRAM_VERSION_MAJOR) + "." +
-                                         std::to_string(PROGRAM_VERSION_MINOR) + "." +
-                                         std::to_string(PROGRAM_VERSION_PATCH);
-    BOOST_CHECK_EQUAL(PROGRAM_VERSION, expected_version);
+    CardManager cm;
+    const int num_gpus = cm.get_num_gpus();
+    BOOST_CHECK_GE(num_gpus, 0);
+
+    if(num_gpus > 0) {
+        BOOST_CHECK_GT(cm.get_memory_device(0), 0);
+    } else {
+        BOOST_CHECK_EQUAL(cm.get_memory_device(0), -1);
+    }
+
+    BOOST_CHECK_EQUAL(cm.get_memory_device(static_cast<unsigned int>(num_gpus)), -1);
 }

@@ -42,7 +42,12 @@ To install :program:`Bramble`, you can in addition run::
 
     sudo make install
 
-which will place a copy of the ``bramble`` executable in ``/opt/bramble/bin/bramble``.
+which will place a copy of the ``bramble`` executable in ``/usr/local/bin/bramble``
+unless another install prefix was passed to CMake.
+
+By default, binaries are built without CPU-specific instruction selection so
+that they remain portable across machines. To optimize for the CPU on the build
+machine, pass ``-DBRAMBLE_NATIVE=ON`` to CMake.
 
 CUDA support
 ------------
@@ -58,6 +63,14 @@ with CUDA support, run CMake with::
 
     cmake ../src -DMOD_CUDA=1
 
+By default, :program:`Bramble` builds CUDA code for a broad set of supported GPU
+architectures. To target a specific architecture, pass ``CUDA_ARCH``; for
+example, for an RTX 4090, use ``-DCUDA_ARCH=sm_89``.
+
+The official Docker image is based on NVIDIA CUDA 13.0.2 and Ubuntu 24.04. When
+using GPU acceleration through Docker, the host NVIDIA driver must support CUDA
+13.0 or newer.
+
 To test that :program:`Bramble` can use your GPU, you can run the ``bramblecuda``
 tool whose sole function is to test for the availability of a GPU on the system::
 
@@ -66,7 +79,7 @@ tool whose sole function is to test for the availability of a GPU on the system:
 Typical output should look as follows::
 
     --------------------------------------------------------------
-    Running bramble-tool v.0.3.0
+    Running bramble-tool v.1.2.0
     Author: Ivo Filot <i.a.w.filot@tue.nl>
     Documentation: https://bramble.imc-tue.nl
     --------------------------------------------------------------
@@ -82,12 +95,11 @@ Typical output should look as follows::
       Peak Memory Bandwidth (GB/s): 1008.1
 
 .. note::
-   * There is currently no support for using multiple GPUs. :program:`Bramble`
-     automatically selects the first GPU available and executes the code on this
-     GPU. Multi-GPU support is however in development.
-   * The functionality of `bramblecuda` is only for showing information on the
+   * :program:`Bramble` uses one GPU by default. To use more than one GPU, pass
+     ``--ngpu``/``-g`` to the ``bramble`` executable.
+   * The functionality of ``bramblecuda`` is only for showing information on the
      GPUs available on your system. The actual GPU-accelerated calculation is
-     still handled by the `bramble` executable.
+     still handled by the ``bramble`` executable.
 
 Testing
 -------
@@ -155,7 +167,7 @@ Create a file called `bramble-<VERSION>.eb` and populate this file with::
     dependencies = [('Eigen', '3.4.0'),
                     ('TCLAP', '1.2.5'),
                     ('Boost', '1.79.0'),
-                    ('CUDA', '12.1.0')]
+                    ('CUDA', '13.0.2')]
 
     builddependencies = [('CMake', '3.22.1'),
                          ('pkg-config', '0.29.2')]
@@ -172,8 +184,8 @@ Create a file called `bramble-<VERSION>.eb` and populate this file with::
         'dirs': [],
     }
 
-Note that you need to manually adjust the value of `<VERSION>` to the desired
-version (e.g. `1.1.1`). To install, run the following::
+Note that you need to manually adjust the value of ``<VERSION>`` to the desired
+version (e.g. ``1.2.0``). To install, run the following::
 
     eb bramble-<VERSION>.eb --robot --minimal-toolchains --add-system-to-minimal-toolchains
 

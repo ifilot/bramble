@@ -22,6 +22,12 @@
 cmake_minimum_required(VERSION 3.18)
 project (bramble)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+option(BRAMBLE_NATIVE "Build with native CPU optimizations" OFF)
+
 # change compiler directives when code coverage is required
 if(USE_GCOV)
   set(CMAKE_BUILD_TYPE "Debug")
@@ -53,10 +59,10 @@ endif()
 
 # prepare configuration file
 SET(VERSION_MAJOR "1")
-SET(VERSION_MINOR "1")
-SET(VERSION_PATCH "5")
-message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_SOURCE_DIR}/config.h")
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h @ONLY)
+SET(VERSION_MINOR "2")
+SET(VERSION_PATCH "0")
+message(STATUS "Writing configuration file in: ${CMAKE_CURRENT_BINARY_DIR}/config.h")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 
 # Enable release build
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -91,31 +97,47 @@ pkg_check_modules(TCLAP tclap REQUIRED)
 pkg_check_modules(EIGEN eigen3 REQUIRED)
 
 # Set include folders
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}
+include_directories(${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_BINARY_DIR}
+                    ${CMAKE_CURRENT_SOURCE_DIR}
                     ${TCLAP_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS}
                     ${EIGEN_INCLUDE_DIRS})
 
 # enable CUDA support
 if(MOD_CUDA)
-    set(CUDA_VERBOSE_BUILD ON)
-    find_package(CUDA 11.0 REQUIRED)
-    set(CUDA_SEPARABLE_COMPILATION ON)
-    set(CUDA_PROPAGATE_HOST_FLAGS OFF)
-    set(CUDA_HOST_COMPILER g++)
-    file(GLOB CUDA_FILES "src/" *.cu)
-    cuda_select_nvcc_arch_flags(ARCH_FLAGS Common)
-    message("Using: ${ARCH_FLAGS}")
-    list(APPEND CUDA_NVCC_FLAGS ${ARCH_FLAGS})
-    cuda_add_library(cuda_files ${CUDA_FILES})
+    if(DEFINED CUDA_ARCH AND NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+        string(REPLACE "sm_" "" CUDA_ARCHITECTURES "${CUDA_ARCH}")
+        string(REPLACE "compute_" "" CUDA_ARCHITECTURES "${CUDA_ARCHITECTURES}")
+        string(REPLACE "," ";" CUDA_ARCHITECTURES "${CUDA_ARCHITECTURES}")
+        set(CMAKE_CUDA_ARCHITECTURES "${CUDA_ARCHITECTURES}")
+    elseif(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+        if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.23)
+            set(CMAKE_CUDA_ARCHITECTURES "all-major")
+        else()
+            set(CMAKE_CUDA_ARCHITECTURES "75;80;90")
+        endif()
+    endif()
+
+    enable_language(CUDA)
+    find_package(CUDAToolkit 11.0 REQUIRED)
+
+    message(STATUS "CUDA architectures: ${CMAKE_CUDA_ARCHITECTURES}")
+
+    file(GLOB CUDA_FILES "*.cu")
+    add_library(cuda_files STATIC ${CUDA_FILES})
+    set_target_properties(cuda_files PROPERTIES
+                          CUDA_SEPARABLE_COMPILATION ON
+                          CUDA_STANDARD 17
+                          CUDA_STANDARD_REQUIRED ON)
+    target_link_libraries(cuda_files PUBLIC CUDA::cudart)
 
     # create cuda test executable for probing cards
     add_executable(bramblecuda ${CMAKE_CURRENT_SOURCE_DIR}/bramblecuda.cpp)
     target_link_libraries(bramblecuda cuda_files)
 
     # set compile directive
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMOD_CUDA")
+    add_compile_definitions(MOD_CUDA)
 endif()
 
 # Add sources
@@ -131,8 +153,17 @@ add_library(bramblesources STATIC ${SOURCES})
 add_executable(bramble ${CMAKE_CURRENT_SOURCE_DIR}/bramble.cpp)
 add_executable(brambletool ${CMAKE_CURRENT_SOURCE_DIR}/brambletool.cpp)
 
-# set C++17 standard
-add_definitions(-std=c++17 -march=native)
+set(BRAMBLE_TARGETS bramblesources bramble brambletool)
+if(MOD_CUDA)
+    list(APPEND BRAMBLE_TARGETS bramblecuda)
+endif()
+
+foreach(BRAMBLE_TARGET ${BRAMBLE_TARGETS})
+    target_compile_features(${BRAMBLE_TARGET} PRIVATE cxx_std_17)
+    if(BRAMBLE_NATIVE)
+        target_compile_options(${BRAMBLE_TARGET} PRIVATE -march=native)
+    endif()
+endforeach()
 
 # Link libraries
 if(MOD_CUDA)

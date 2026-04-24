@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/ifilot/bramble/graph/badge.svg?token=25GK2ME5ZV)](https://codecov.io/gh/ifilot/bramble)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![status](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c/status.svg)](https://joss.theoj.org/papers/f6493d619d92bb6d993713b9d1abb38c)
-[![DOI](https://zenodo.org/badge/641289155.svg)](https://zenodo.org/badge/latestdoi/641289155)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11097083.svg)](https://doi.org/10.5281/zenodo.11097083)
 [![Docker pulls](https://img.shields.io/docker/pulls/ivofilot/bramble)](https://hub.docker.com/r/ivofilot/bramble)
 
 ## Purpose
@@ -68,6 +68,10 @@ cmake ../src
 make -j
 ```
 
+To build binaries optimized for the CPU on the build machine, pass
+`-DBRAMBLE_NATIVE=ON` to CMake. This is disabled by default so release and
+container builds remain portable across different CPUs.
+
 To test that Bramble is working, run the test suite
 
 ```bash
@@ -85,19 +89,20 @@ CTEST_OUTPUT_ON_FAILURE=TRUE make test
 To compile `bramble` with CUDA support, run
 
 ```bash
-cmake ../src -DMOD_CUDA=1 -DCUDA_ARCH=sm_89
+cmake ../src -DMOD_CUDA=1
 ```
 
-where the value for `DCUDA_ARCH` should match the architecture of your graphical
-card. A nice overview is given [here](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/).
-For example, for a `RTX 4090`,  `-DCUDA_ARCH=sm_89`.
+By default, Bramble builds CUDA code for a broad set of supported GPU
+architectures. To target a specific architecture, pass `CUDA_ARCH`; for example,
+for an `RTX 4090`, use `-DCUDA_ARCH=sm_89`.
 
 ## Docker container
 
 Rather than compiling Bramble yourself, you can also make direct use of the
 [Bramble docker container](https://hub.docker.com/r/ivofilot/bramble). This
-container is built on top of the [NVidia CUDA container](https://hub.docker.com/r/nvidia/cuda/)
-allowing you to use the CUDA-enabled version of Bramble.
+container is built on top of the [NVIDIA CUDA 13.0.2 Ubuntu 24.04 image](https://hub.docker.com/r/nvidia/cuda/)
+allowing you to use the CUDA-enabled version of Bramble. GPU execution requires
+a host NVIDIA driver that supports CUDA 13.0 or newer.
 
 To use the Docker container, first download it from Docker Hub
 
@@ -109,7 +114,7 @@ Next, launch the container and link a volume on your hard drive to interact
 with. This folder should contain the files you wish to work with.
 
 ```bash
-docker run --name bramble -v "D:/bramble-data":/home/bramble/data -d ivofilot/bramble:latest
+docker run --gpus all --name bramble -v "D:/bramble-data":/home/bramble/data -d ivofilot/bramble:latest
 ```
 
 This will launch the `bramble` image, which you check using
