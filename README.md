@@ -28,6 +28,30 @@ environments are the same can be probed.
 
 ![Nanoparticle](./docs/_static/img/similarity_analysis_co1121.png)
 
+## Citation
+
+If you use Bramble in your research, please cite the Journal of Open Source
+Software article:
+
+> Filot et al., (2023). Bramble: adaptive common neighbor analysis (CNA) for
+> the recognition of surface topologies in nanoparticles. Journal of Open
+> Source Software, 8(89), 5710. https://doi.org/10.21105/joss.05710
+
+```bibtex
+@article{Filot2023,
+  doi = {10.21105/joss.05710},
+  url = {https://doi.org/10.21105/joss.05710},
+  year = {2023},
+  publisher = {The Open Journal},
+  volume = {8},
+  number = {89},
+  pages = {5710},
+  author = {Filot, I.A.W. and van Etten, M.P.C. and Trommelen, D.W.J.G. and Hensen, E.J.M.},
+  title = {Bramble: adaptive common neighbor analysis (CNA) for the recognition of surface topologies in nanoparticles},
+  journal = {Journal of Open Source Software}
+}
+```
+
 ## Compilation
 
 Ensure you have the necessary dependencies installed on your system.

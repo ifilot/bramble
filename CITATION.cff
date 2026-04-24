@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use Bramble in your research, please cite the Journal of Open Source Software article."
+type: software
+title: "Bramble: adaptive common neighbor analysis (CNA) for the recognition of surface topologies in nanoparticles"
+version: "1.1.5"
+repository-code: "https://github.com/ifilot/bramble"
+url: "https://ifilot.github.io/bramble/"
+license: GPL-3.0-or-later
+authors:
+  - family-names: Filot
+    given-names: I.A.W.
+    orcid: "https://orcid.org/0000-0003-1403-8379"
+  - family-names: van Etten
+    given-names: M.P.C.
+    orcid: "https://orcid.org/0000-0003-4789-5924"
+  - family-names: Trommelen
+    given-names: D.W.J.G.
+    orcid: "https://orcid.org/0000-0009-0007-0946-2112"
+  - family-names: Hensen
+    given-names: E.J.M.
+    orcid: "https://orcid.org/0000-0002-9754-2417"
+preferred-citation:
+  type: article
+  title: "Bramble: adaptive common neighbor analysis (CNA) for the recognition of surface topologies in nanoparticles"
+  authors:
+    - family-names: Filot
+      given-names: I.A.W.
+      orcid: "https://orcid.org/0000-0003-1403-8379"
+    - family-names: van Etten
+      given-names: M.P.C.
+      orcid: "https://orcid.org/0000-0003-4789-5924"
+    - family-names: Trommelen
+      given-names: D.W.J.G.
+      orcid: "https://orcid.org/0000-0009-0007-0946-2112"
+    - family-names: Hensen
+      given-names: E.J.M.
+      orcid: "https://orcid.org/0000-0002-9754-2417"
+  doi: "10.21105/joss.05710"
+  url: "https://doi.org/10.21105/joss.05710"
+  journal: "Journal of Open Source Software"
+  year: 2023
+  volume: 8
+  issue: 89
+  pages: "5710"
